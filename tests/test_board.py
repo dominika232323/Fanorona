@@ -1,7 +1,5 @@
-from classes.board import Board
+from classes.board import Board, BoardSizeError
 import pytest
-# import sys
-# sys.path.append('.')
 
 
 # -------------------------------- __init__()
@@ -26,25 +24,25 @@ def test_create_board_convertable_string():
 
 
 def test_create_board_float():
-    with pytest.raises(ValueError):
+    with pytest.raises(BoardSizeError):
         Board(5.5, 3.4)
 
 
 def test_create_board_less_than_min():
-    with pytest.raises(ValueError):
+    with pytest.raises(BoardSizeError):
         Board(1, 1)
 
 
 def test_create_board_more_than_max():
-    with pytest.raises(ValueError):
+    with pytest.raises(BoardSizeError):
         Board(17, 19)
 
 
 def test_create_board_even_numbers():
-    with pytest.raises(ValueError):
+    with pytest.raises(BoardSizeError):
         Board(6, 6)
 
 
 def test_create_board_invalid_string():
-    with pytest.raises(ValueError):
+    with pytest.raises(BoardSizeError):
         Board('fvgbhnj', 'dfgh')
