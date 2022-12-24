@@ -1,4 +1,9 @@
 from classes.board import Board
+from configuration import (
+    FIRST_COLOR,
+    SECOND_COLOR,
+    EMPTY_COLOR
+)
 
 
 class Pawns():
@@ -9,7 +14,7 @@ class Pawns():
         self._board_width = board.width
 
         for i in range(self._board_width):
-            empty_row = self._create_row_one_color('E')
+            empty_row = self._create_row_one_color(EMPTY_COLOR)
             self._empty_pawns.append(empty_row)
 
     def _validate(self, board):
@@ -34,9 +39,31 @@ class Pawns():
             row.append(color)
         return row
 
+    def _append_one_color_half(self, color):
+        for i in range(self._board_width // 2):
+            empty_row = self._create_row_one_color(color)
+            self._starting_pawns.append(empty_row)
+
+    def _create_starting_middle_row(self):
+        row = []
+        for i in range(self._board_length // 4):
+            row.append(SECOND_COLOR)
+            row.append(FIRST_COLOR)
+        row.append(EMPTY_COLOR)
+        for i in range(self._board_length // 4):
+            row.append(SECOND_COLOR)
+            row.append(FIRST_COLOR)
+        return row
+
+    def set_starting_pawns(self):
+        self._starting_pawns = []
+        self._append_one_color_half(SECOND_COLOR)
+        self._starting_pawns.append(self._create_starting_middle_row())
+        self._append_one_color_half(FIRST_COLOR)
+
+    @property
     def starting_pawns(self):
-        # ustawia pionki na początek gry
-        pass
+        return self._starting_pawns
 
     def pawns_after_move(self):
         # aktualizuje tablice pionkow po ruchu gracza

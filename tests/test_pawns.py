@@ -23,3 +23,19 @@ def test_create_empty_pawns():
 def test_create_empty_pawns_board_typeerror():
     with pytest.raises(TypeError):
         Pawns((9, 5))
+
+
+# -------------------------------- set_starting_pawns()
+
+
+def test_starting_pawns():
+    pawns = Pawns(Board())
+    pawns.set_starting_pawns()
+    expected = [
+        ['B', 'B', 'B', 'B', 'B', 'B', 'B', 'B', 'B'],
+        ['B', 'B', 'B', 'B', 'B', 'B', 'B', 'B', 'B'],
+        ['B', 'W', 'B', 'W', 'E', 'B', 'W', 'B', 'W'],
+        ['W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W'],
+        ['W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W']
+    ]
+    assert pawns.starting_pawns == expected
