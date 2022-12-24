@@ -39,10 +39,10 @@ class Pawns():
             row.append(color)
         return row
 
-    def _append_one_color_half(self, color):
+    def _append_one_color_half(self, color, where):
         for i in range(self._board_width // 2):
             empty_row = self._create_row_one_color(color)
-            self._starting_pawns.append(empty_row)
+            where.append(empty_row)
 
     def _create_starting_middle_row(self):
         row = []
@@ -57,9 +57,9 @@ class Pawns():
 
     def set_starting_pawns(self):
         self._starting_pawns = []
-        self._append_one_color_half(SECOND_COLOR)
+        self._append_one_color_half(SECOND_COLOR, self._starting_pawns)
         self._starting_pawns.append(self._create_starting_middle_row())
-        self._append_one_color_half(FIRST_COLOR)
+        self._append_one_color_half(FIRST_COLOR, self._starting_pawns)
 
     @property
     def starting_pawns(self):
