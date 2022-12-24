@@ -9,9 +9,7 @@ class Pawns():
         self._board_width = board.width
 
         for i in range(self._board_width):
-            empty_row = []
-            for j in range(self._board_length):
-                empty_row.append('E')
+            empty_row = self._create_row_one_color('E')
             self._empty_pawns.append(empty_row)
 
     def _validate(self, board):
@@ -29,6 +27,12 @@ class Pawns():
     @property
     def board_width(self):
         return self._board_width
+
+    def _create_row_one_color(self, color):
+        row = []
+        for i in range(self._board_length):
+            row.append(color)
+        return row
 
     def starting_pawns(self):
         # ustawia pionki na początek gry
