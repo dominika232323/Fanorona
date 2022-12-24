@@ -56,14 +56,14 @@ class Pawns():
         return row
 
     def set_starting_pawns(self):
-        self._starting_pawns = []
-        self._append_one_color_half(SECOND_COLOR, self._starting_pawns)
-        self._starting_pawns.append(self._create_starting_middle_row())
-        self._append_one_color_half(FIRST_COLOR, self._starting_pawns)
+        self._actual_pawns = []
+        self._append_one_color_half(SECOND_COLOR, self._actual_pawns)
+        self._actual_pawns.append(self._create_starting_middle_row())
+        self._append_one_color_half(FIRST_COLOR, self._actual_pawns)
 
     @property
-    def starting_pawns(self):
-        return self._starting_pawns
+    def actual_pawns(self):
+        return self._actual_pawns
 
     def pawns_after_move(self):
         # aktualizuje tablice pionkow po ruchu gracza

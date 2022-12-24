@@ -38,4 +38,4 @@ def test_starting_pawns():
         ['W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W'],
         ['W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W']
     ]
-    assert pawns.starting_pawns == expected
+    assert pawns.actual_pawns == expected
