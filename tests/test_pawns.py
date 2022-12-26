@@ -1,5 +1,5 @@
-from classes.board import Board
-from classes.pawns import Pawns
+from source.board import Board
+from source.pawns import Pawns
 from configuration import (
     FIRST_COLOR,
     SECOND_COLOR,

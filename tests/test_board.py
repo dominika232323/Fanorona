@@ -1,4 +1,4 @@
-from classes.board import Board, BoardSizeError
+from source.board import Board, BoardSizeError
 import pytest
 
 
