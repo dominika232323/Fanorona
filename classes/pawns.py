@@ -9,23 +9,13 @@ from configuration import (
 class Pawns():
     def __init__(self, board):
         self._validate(board)
-        self._empty_pawns = []
         self._board_length = board.length
         self._board_width = board.width
-
-        for i in range(self._board_width):
-            empty_row = self._create_row_one_color(EMPTY_COLOR)
-            self._empty_pawns.append(empty_row)
-
         self.set_starting_pawns()
 
     def _validate(self, board):
         if not isinstance(board, Board):
             raise TypeError('Given board is not an instance of class Board')
-
-    @property
-    def empty_pawns(self):
-        return self._empty_pawns
 
     @property
     def board_length(self):

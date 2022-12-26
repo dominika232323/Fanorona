@@ -1,5 +1,10 @@
 from classes.board import Board
 from classes.pawns import Pawns
+from configuration import (
+    FIRST_COLOR,
+    SECOND_COLOR,
+    EMPTY_COLOR
+)
 import pytest
 
 
@@ -24,10 +29,10 @@ def test_starting_pawns():
     pawns = Pawns(Board())
     pawns.set_starting_pawns()
     expected = [
-        ['B', 'B', 'B', 'B', 'B', 'B', 'B', 'B', 'B'],
-        ['B', 'B', 'B', 'B', 'B', 'B', 'B', 'B', 'B'],
-        ['B', 'W', 'B', 'W', 'E', 'B', 'W', 'B', 'W'],
-        ['W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W'],
-        ['W', 'W', 'W', 'W', 'W', 'W', 'W', 'W', 'W']
+        [SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR],
+        [SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR],
+        [SECOND_COLOR, FIRST_COLOR, SECOND_COLOR, FIRST_COLOR, EMPTY_COLOR, SECOND_COLOR, FIRST_COLOR, SECOND_COLOR, FIRST_COLOR],
+        [FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR],
+        [FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR]
     ]
     assert pawns.actual_pawns == expected
