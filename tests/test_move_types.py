@@ -1,4 +1,4 @@
-from move_types import (
+from source.move_types import (
     check_for_max_to_left_or_up,
     check_for_max_to_right_or_down,
     diagonal_movement_to_left_up,
