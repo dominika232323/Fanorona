@@ -73,27 +73,34 @@ class Move():
         return result_pawns
 
     def where_can_move(self):
+        """
+        Returns a list of lists where the first element is co-ordinates of pawn that can move and
+        other elements are co-ordinates of empty spaces around it.
+        """
         which = self.which_can_move()
         where = []
 
         for indexs in which:
-            where_for_pawn = [indexs]
-            if indexs[0] == 0:
-                if indexs[1] == 0:
-                    if self._pawns[indexs[0]+1][indexs[1]] == EMPTY_COLOR:
-                        where_for_pawn.append((indexs[0]+1, indexs[1]))
-                    if self._pawns[indexs[0]+1][indexs[1]+1] == EMPTY_COLOR:
-                        where_for_pawn.append((indexs[0]+1, indexs[1]+1))
-                    if self._pawns[indexs[0]][indexs[1]+1] == EMPTY_COLOR:
-                        where_for_pawn.append((indexs[0], indexs[1]+1))
-                elif indexs[1] == self._width:
-                    if self._pawns[indexs[0]+1][indexs[1]] == EMPTY_COLOR:
-                        where_for_pawn.append((indexs[0]+1, indexs[1]))
-                    if self._pawns[indexs[0]+1][indexs[1]-1] == EMPTY_COLOR:
-                        where_for_pawn.append((indexs[0]+1, indexs[1]+1))
-                    if self._pawns[indexs[0]][indexs[1]-1] == EMPTY_COLOR:
-                        where_for_pawn.append((indexs[0], indexs[1]+1))
-
+            where_for_pawn = []
+            where_for_pawn.append(indexs)
+            if diagonal_movement_to_left_up(self._pawns, indexs[0], indexs[1], EMPTY_COLOR):
+                where_for_pawn.append((indexs[0]-1, indexs[1]-1))
+            if up_movement(self._pawns, indexs[0], indexs[1], EMPTY_COLOR):
+                where_for_pawn.append((indexs[0]-1, indexs[1]))
+            if diagonal_movement_to_right_up(self._pawns, indexs[0], indexs[1], EMPTY_COLOR):
+                where_for_pawn.append((indexs[0]-1, indexs[1]+1))
+            if sideways_movement_to_right(self._pawns, indexs[0], indexs[1], EMPTY_COLOR):
+                where_for_pawn.append((indexs[0], indexs[1]+1))
+            if diagonal_movement_to_right_down(self._pawns, indexs[0], indexs[1], EMPTY_COLOR):
+                where_for_pawn.append((indexs[0]+1, indexs[1]+1))
+            if down_movement(self._pawns, indexs[0], indexs[1], EMPTY_COLOR):
+                where_for_pawn.append((indexs[0]+1, indexs[1]))
+            if diagonal_movement_to_left_down(self._pawns, indexs[0], indexs[1], EMPTY_COLOR):
+                where_for_pawn.append((indexs[0]+1, indexs[1]-1))
+            if sideways_movement_to_left(self._pawns, indexs[0], indexs[1], EMPTY_COLOR):
+                where_for_pawn.append((indexs[0], indexs[1]-1))
+            where.append(where_for_pawn)
+        return where
 
     def which_can_hit(self):
         # sprawdza, ktore pionki z tych co mogą się ruszyć mają bicie

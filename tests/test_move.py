@@ -49,3 +49,60 @@ def test_which_can_move_start():
     move = Move(Pawns(Board()), FIRST_COLOR)
     expected = [(2, 3), (3, 3), (3, 4), (3, 5)]
     assert move.which_can_move() == expected
+
+
+def test_which_can_move_():
+    pawns = Pawns(Board())
+    new_pawns = [
+        [SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, EMPTY_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR],
+        [SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, EMPTY_COLOR, FIRST_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR],
+        [EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, FIRST_COLOR, FIRST_COLOR, SECOND_COLOR, FIRST_COLOR],
+        [FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, SECOND_COLOR, EMPTY_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR],
+        [FIRST_COLOR, FIRST_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR]
+    ]
+    pawns.set_actual_pawns(new_pawns)
+
+    move = Move(pawns, SECOND_COLOR)
+    assert move.which_can_move() == [(0, 2), (0, 3), (0, 5), (0, 6), (0, 7), (0, 8), (1, 0), (1, 1), (1, 2), (2, 7), (3, 3)]
+
+
+# ---------------------------------------- where_can_move()
+
+
+def test_where_can_move_starting():
+    move = Move(Pawns(Board()), FIRST_COLOR)
+    expected = [
+        [(2, 3), (2, 4)],
+        [(3, 3), (2, 4)],
+        [(3, 4), (2, 4)],
+        [(3, 5), (2, 4)]
+        ]
+    assert move.where_can_move() == expected
+
+
+def test_where_can_move_():
+    pawns = Pawns(Board())
+    new_pawns = [
+        [SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, EMPTY_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR],
+        [SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, EMPTY_COLOR, FIRST_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR],
+        [EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, FIRST_COLOR, FIRST_COLOR, SECOND_COLOR, FIRST_COLOR],
+        [FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, SECOND_COLOR, EMPTY_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR],
+        [FIRST_COLOR, FIRST_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR]
+    ]
+    pawns.set_actual_pawns(new_pawns)
+
+    move = Move(pawns, SECOND_COLOR)
+    expected = [
+        [(0, 2), (1, 3)],
+        [(0, 3), (0, 4), (1, 3)],
+        [(0, 5), (1, 6), (1, 5), (0, 4)],
+        [(0, 6), (1, 7), (1, 6), (1, 5)],
+        [(0, 7), (1, 8), (1, 7), (1, 6)],
+        [(0, 8), (1, 8), (1, 7)],
+        [(1, 0), (2, 1), (2, 0)],
+        [(1, 1), (2, 2), (2, 1), (2, 0)],
+        [(1, 2), (1, 3), (2, 3), (2, 2), (2, 1)],
+        [(2, 7), (1, 6), (1, 7), (1, 8)],
+        [(3, 3), (2, 2), (2, 3), (2, 4), (3, 4), (4, 4), (4, 3), (4, 2)]
+        ]
+    assert move.where_can_move() == expected
