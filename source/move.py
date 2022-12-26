@@ -4,6 +4,16 @@ from configuration import (
     SECOND_COLOR,
     EMPTY_COLOR
 )
+from source.move_types import (
+    diagonal_movement_to_left_up,
+    up_movement,
+    diagonal_movement_to_right_up,
+    sideways_movement_to_right,
+    diagonal_movement_to_right_down,
+    down_movement,
+    diagonal_movement_to_left_down,
+    sideways_movement_to_left
+)
 
 
 class Move():
@@ -36,26 +46,6 @@ class Move():
     def width(self):
         return self._width
 
-    def _if_can_move_to_right_down(self, index_row, index):
-        if self._pawns[index_row+1][index] == EMPTY_COLOR or self._pawns[index_row+1][index+1] == EMPTY_COLOR or self._pawns[index_row][index+1] == EMPTY_COLOR:
-            return True
-        return False
-
-    def _if_can_move_to_left_down(self, index_row, index):
-        if self._pawns[index_row+1][index] == EMPTY_COLOR or self._pawns[index_row+1][index-1] == EMPTY_COLOR or self._pawns[index_row][index-1] == EMPTY_COLOR:
-            return True
-        return False
-
-    def _if_can_move_to_right_up(self, index_row, index):
-        if self._pawns[index_row-1][index] == EMPTY_COLOR or self._pawns[index_row-1][index+1] == EMPTY_COLOR or self._pawns[index_row][index+1] == EMPTY_COLOR:
-            return True
-        return False
-
-    def _if_can_move_to_left_up(self, index_row, index):
-        if self._pawns[index_row-1][index] == EMPTY_COLOR or self._pawns[index_row-1][index-1] == EMPTY_COLOR or self._pawns[index_row][index-1] == EMPTY_COLOR:
-            return True
-        return False
-
     def which_can_move(self):
         """
         Returns a list of co-ordinates of pawns that can move, because they have an empty space near them.
@@ -64,34 +54,22 @@ class Move():
         for index_row, row in enumerate(self._pawns):
             for index, pawn in enumerate(row):
                 if pawn == self._turn:
-                    if index_row == 0:
-                        if index == 0:
-                            if self._if_can_move_to_right_down(index_row, index):
-                                result_pawns.append((index_row, index))
-                        elif index == self._length-1:
-                            if self._if_can_move_to_left_down(index_row, index):
-                                result_pawns.append((index_row, index))
-                        elif self._if_can_move_to_left_down(index_row, index) or self._if_can_move_to_right_down(index_row, index):
-                            result_pawns.append((index_row, index))
-                    elif index_row == self._width-1:
-                        if index == 0:
-                            if self._if_can_move_to_right_up(index_row, index):
-                                result_pawns.append((index_row, index))
-                        elif index == self._length-1:
-                            if self._if_can_move_to_left_up(index_row, index):
-                                result_pawns.append((index_row, index))
-                        elif self._if_can_move_to_left_up(index_row, index) or self._if_can_move_to_right_up(index_row, index):
-                            result_pawns.append((index_row, index))
-                    else:
-                        if index == 0:
-                            if self._if_can_move_to_right_up(index_row, index) or self._if_can_move_to_right_down(index_row, index):
-                                result_pawns.append((index_row, index))
-                        elif index == self._length-1:
-                            if self._if_can_move_to_left_up(index_row, index) or self._if_can_move_to_left_down(index_row, index):
-                                result_pawns.append((index_row, index))
-                        elif (self._if_can_move_to_right_down(index_row, index) or self._if_can_move_to_left_down(index_row, index)
-                              or self._if_can_move_to_right_up(index_row, index) or self._if_can_move_to_left_up(index_row, index)):
-                            result_pawns.append((index_row, index))
+                    if diagonal_movement_to_left_up(self._pawns, index_row, index, EMPTY_COLOR):
+                        result_pawns.append((index_row, index))
+                    elif up_movement(self._pawns, index_row, index, EMPTY_COLOR):
+                        result_pawns.append((index_row, index))
+                    elif diagonal_movement_to_right_up(self._pawns, index_row, index, EMPTY_COLOR):
+                        result_pawns.append((index_row, index))
+                    elif sideways_movement_to_right(self._pawns, index_row, index, EMPTY_COLOR):
+                        result_pawns.append((index_row, index))
+                    elif diagonal_movement_to_right_down(self._pawns, index_row, index, EMPTY_COLOR):
+                        result_pawns.append((index_row, index))
+                    elif down_movement(self._pawns, index_row, index, EMPTY_COLOR):
+                        result_pawns.append((index_row, index))
+                    elif diagonal_movement_to_left_down(self._pawns, index_row, index, EMPTY_COLOR):
+                        result_pawns.append((index_row, index))
+                    elif sideways_movement_to_left(self._pawns, index_row, index, EMPTY_COLOR):
+                        result_pawns.append((index_row, index))
         return result_pawns
 
     def where_can_move(self):
