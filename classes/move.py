@@ -7,17 +7,24 @@ from configuration import (
 
 
 class Move():
-    def __init__(self, pawns):
-        self._validate(pawns)
+    def __init__(self, pawns, turn):
+        self._validate(pawns, turn)
         self._pawns = pawns.actual_pawns
+        self._turn = turn
 
-    def _validate(self, pawns):
+    def _validate(self, pawns, turn):
         if not isinstance(pawns, Pawns):
             raise TypeError
+        if turn != FIRST_COLOR and turn != SECOND_COLOR:
+            raise ValueError('This type of pawn does not exist.')
 
     @property
     def pawns(self):
         return self._pawns
+
+    @property
+    def turn(self):
+        return self._turn
 
     def _if_can_move_to_right_down(self, index_row, index):
         if self._pawns[index_row+1][index] == EMPTY_COLOR or self._pawns[index_row+1][index+1] == EMPTY_COLOR or self._pawns[index_row][index+1] == EMPTY_COLOR:
@@ -39,12 +46,11 @@ class Move():
             return True
         return False
 
-    def which_can_move(self, turn):
-        self._validate_turn(turn)
+    def which_can_move(self):
         result_pawns = []
         for index_row, row in enumerate(self._pawns):
             for index, pawn in enumerate(row):
-                if pawn == turn:
+                if pawn == self._turn:
                     if index_row == 0:
                         if index == 0:
                             if self._if_can_move_to_right_down(index_row, index):
@@ -75,11 +81,7 @@ class Move():
                             result_pawns.append((index_row, index))
         return result_pawns
 
-    def _validate_turn(self, turn):
-        if turn != FIRST_COLOR and turn != SECOND_COLOR:
-            raise ValueError('This type of pawn does not exist.')
-
-    def which_can_hit(self, turn):
+    def which_can_hit(self):
         # sprawdza, ktore pionki z tych co mogą się ruszyć mają bicie
         pass
 
