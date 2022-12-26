@@ -17,6 +17,8 @@ class Pawns():
             empty_row = self._create_row_one_color(EMPTY_COLOR)
             self._empty_pawns.append(empty_row)
 
+        self.set_starting_pawns()
+
     def _validate(self, board):
         if not isinstance(board, Board):
             raise TypeError('Given board is not an instance of class Board')
