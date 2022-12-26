@@ -45,7 +45,7 @@ def test_diagonal_movement_to_left_up():
         [FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR]
     ]
     assert diagonal_movement_to_left_up(pawns, 2, 3, EMPTY_COLOR) is False
-    assert diagonal_movement_to_left_up(pawns, 3, 3, EMPTY_COLOR) is True
+    assert diagonal_movement_to_left_up(pawns, 3, 5, EMPTY_COLOR) is True
 
 
 # --------------------------------------- up_movement()
@@ -75,7 +75,7 @@ def test_diagonal_movement_to_right_up():
         [FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR]
     ]
     assert diagonal_movement_to_right_up(pawns, 2, 3, EMPTY_COLOR) is False
-    assert diagonal_movement_to_right_up(pawns, 3, 5, EMPTY_COLOR) is True
+    assert diagonal_movement_to_right_up(pawns, 3, 3, EMPTY_COLOR) is True
 
 
 # --------------------------------------- sideways_movement_to_right()

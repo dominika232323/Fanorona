@@ -15,7 +15,7 @@ def diagonal_movement_to_left_up(pawns, row_index, index, wanted_pawn):
         return False
     if check_for_max_to_left_or_up(index):
         return False
-    if pawns[row_index-1][index+1] == wanted_pawn:
+    if pawns[row_index-1][index-1] == wanted_pawn:
         return True
     return False
 
@@ -33,7 +33,7 @@ def diagonal_movement_to_right_up(pawns, row_index, index, wanted_pawn):
         return False
     if check_for_max_to_right_or_down(index, len(pawns[0])):
         return False
-    if pawns[row_index-1][index-1] == wanted_pawn:
+    if pawns[row_index-1][index+1] == wanted_pawn:
         return True
     return False
 
