@@ -57,6 +57,10 @@ class Pawns():
     def actual_pawns(self):
         return self._actual_pawns
 
+    def set_actual_pawns(self, new_pawns):
+        for index, (actual, new) in enumerate(zip(self._actual_pawns, new_pawns)):
+            self._actual_pawns[index] = new
+
     def pawns_after_move(self):
         # aktualizuje tablice pionkow po ruchu gracza
         pass
