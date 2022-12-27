@@ -58,8 +58,20 @@ class Pawns():
         return self._actual_pawns
 
     def set_actual_pawns(self, new_pawns):
+        self._validate_new_pawns(new_pawns)
         for index, (actual, new) in enumerate(zip(self._actual_pawns, new_pawns)):
             self._actual_pawns[index] = new
+
+    def _validate_new_pawns(self, new_pawns):
+        if len(new_pawns) != self._board_width:
+            raise PawnsError('Given pawns will not fit on the board')
+
+        for row in new_pawns:
+            if len(row) != self._board_length:
+                raise PawnsError('Given pawns will not fit on the board')
+            for pawn in row:
+                if pawn not in (FIRST_COLOR, SECOND_COLOR, EMPTY_COLOR):
+                    raise PawnsError('This type of pawn does not exist')
 
     def pawns_after_move(self):
         # aktualizuje tablice pionkow po ruchu gracza
@@ -68,3 +80,7 @@ class Pawns():
     def check_for_winner(self):
         # sprawdza czy wszystkie pionki jednego z graczy zostaly juz zbite
         pass
+
+
+class PawnsError(Exception):
+    pass
