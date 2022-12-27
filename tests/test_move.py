@@ -23,6 +23,8 @@ def test_create_move():
     ]
     assert move.pawns == expected
     assert move.turn == FIRST_COLOR
+    assert move.length == 9
+    assert move.width == 5
 
 
 def test_create_move_invalid_pawns():
