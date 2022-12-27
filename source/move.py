@@ -73,10 +73,6 @@ class Move():
         return result_pawns
 
     def where_can_move(self):
-        """
-        Returns a list of lists where the first element is co-ordinates of pawn that can move and
-        other elements are co-ordinates of empty spaces around it.
-        """
         which = self.which_can_move()
         where = {}
 

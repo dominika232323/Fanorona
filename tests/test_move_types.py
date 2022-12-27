@@ -1,6 +1,7 @@
 from source.move_types import (
     check_for_max_to_left_or_up,
     check_for_max_to_right_or_down,
+    check_for_diagonal_connections,
     diagonal_movement_to_left_up,
     up_movement,
     diagonal_movement_to_right_up,
@@ -31,6 +32,16 @@ def test_check_for_max_to_left_or_up():
 def test_check_for_max_to_right_or_down():
     assert check_for_max_to_right_or_down(6, 7) is True
     assert check_for_max_to_right_or_down(3, 5) is False
+
+
+# --------------------------------------- check_for_diagonal_connections()
+
+
+def test_check_for_diagonal_connections():
+    assert check_for_diagonal_connections(0, 1) is False
+    assert check_for_diagonal_connections(1, 0) is False
+    assert check_for_diagonal_connections(3, 3) is True
+    assert check_for_diagonal_connections(4, 4) is True
 
 
 # --------------------------------------- diagonal_movement_to_left_up()
