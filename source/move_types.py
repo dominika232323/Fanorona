@@ -1,3 +1,11 @@
+from source.pawns import PawnsError
+from configuration import (
+    FIRST_COLOR,
+    SECOND_COLOR,
+    EMPTY_COLOR
+)
+
+
 def check_for_max_to_left_or_up(index):
     if index == 0:
         return True
@@ -18,7 +26,13 @@ def check_for_diagonal_connections(row_index, index):
     return True
 
 
+def validate_wanted_pawn(pawn):
+    if pawn not in (FIRST_COLOR, SECOND_COLOR, EMPTY_COLOR):
+        raise PawnsError('This type of pawn does not exist')
+
+
 def diagonal_movement_to_left_up(pawns, row_index, index, wanted_pawn):
+    validate_wanted_pawn(wanted_pawn)
     if check_for_max_to_left_or_up(row_index):
         return False
     if check_for_max_to_left_or_up(index):
@@ -31,6 +45,7 @@ def diagonal_movement_to_left_up(pawns, row_index, index, wanted_pawn):
 
 
 def up_movement(pawns, row_index, index, wanted_pawn):
+    validate_wanted_pawn(wanted_pawn)
     if check_for_max_to_left_or_up(row_index):
         return False
     if pawns[row_index-1][index] == wanted_pawn:
@@ -39,6 +54,7 @@ def up_movement(pawns, row_index, index, wanted_pawn):
 
 
 def diagonal_movement_to_right_up(pawns, row_index, index, wanted_pawn):
+    validate_wanted_pawn(wanted_pawn)
     if check_for_max_to_left_or_up(row_index):
         return False
     if check_for_max_to_right_or_down(index, len(pawns[0])):
@@ -51,6 +67,7 @@ def diagonal_movement_to_right_up(pawns, row_index, index, wanted_pawn):
 
 
 def sideways_movement_to_right(pawns, row_index, index, wanted_pawn):
+    validate_wanted_pawn(wanted_pawn)
     if check_for_max_to_right_or_down(index, len(pawns[0])):
         return False
     if pawns[row_index][index+1] == wanted_pawn:
@@ -59,6 +76,7 @@ def sideways_movement_to_right(pawns, row_index, index, wanted_pawn):
 
 
 def diagonal_movement_to_right_down(pawns, row_index, index, wanted_pawn):
+    validate_wanted_pawn(wanted_pawn)
     if check_for_max_to_right_or_down(row_index, len(pawns)):
         return False
     if check_for_max_to_right_or_down(index, len(pawns[0])):
@@ -71,6 +89,7 @@ def diagonal_movement_to_right_down(pawns, row_index, index, wanted_pawn):
 
 
 def down_movement(pawns, row_index, index, wanted_pawn):
+    validate_wanted_pawn(wanted_pawn)
     if check_for_max_to_right_or_down(row_index, len(pawns)):
         return False
     if pawns[row_index+1][index] == wanted_pawn:
@@ -79,6 +98,7 @@ def down_movement(pawns, row_index, index, wanted_pawn):
 
 
 def diagonal_movement_to_left_down(pawns, row_index, index, wanted_pawn):
+    validate_wanted_pawn(wanted_pawn)
     if check_for_max_to_right_or_down(row_index, len(pawns)):
         return False
     if check_for_max_to_left_or_up(index):
@@ -91,6 +111,7 @@ def diagonal_movement_to_left_down(pawns, row_index, index, wanted_pawn):
 
 
 def sideways_movement_to_left(pawns, row_index, index, wanted_pawn):
+    validate_wanted_pawn(wanted_pawn)
     if check_for_max_to_left_or_up(index):
         return False
     if pawns[row_index][index-1] == wanted_pawn:

@@ -2,6 +2,7 @@ from source.move_types import (
     check_for_max_to_left_or_up,
     check_for_max_to_right_or_down,
     check_for_diagonal_connections,
+    validate_wanted_pawn,
     diagonal_movement_to_left_up,
     up_movement,
     diagonal_movement_to_right_up,
@@ -16,6 +17,8 @@ from configuration import (
     SECOND_COLOR,
     EMPTY_COLOR
 )
+from source.pawns import PawnsError
+import pytest
 
 
 # --------------------------------------- check_for_max_to_left_or_up()
@@ -42,6 +45,14 @@ def test_check_for_diagonal_connections():
     assert check_for_diagonal_connections(1, 0) is False
     assert check_for_diagonal_connections(3, 3) is True
     assert check_for_diagonal_connections(4, 4) is True
+
+
+# --------------------------------------- validate_wanted_pawn()
+
+
+def test_validate_wanted_pawn():
+    with pytest.raises(PawnsError):
+        validate_wanted_pawn('fvghjk')
 
 
 # --------------------------------------- diagonal_movement_to_left_up()
