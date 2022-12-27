@@ -78,11 +78,10 @@ class Move():
         other elements are co-ordinates of empty spaces around it.
         """
         which = self.which_can_move()
-        where = []
+        where = {}
 
         for indexs in which:
             where_for_pawn = []
-            where_for_pawn.append(indexs)
             if diagonal_movement_to_left_up(self._pawns, indexs[0], indexs[1], EMPTY_COLOR):
                 where_for_pawn.append((indexs[0]-1, indexs[1]-1))
             if up_movement(self._pawns, indexs[0], indexs[1], EMPTY_COLOR):
@@ -99,7 +98,7 @@ class Move():
                 where_for_pawn.append((indexs[0]+1, indexs[1]-1))
             if sideways_movement_to_left(self._pawns, indexs[0], indexs[1], EMPTY_COLOR):
                 where_for_pawn.append((indexs[0], indexs[1]-1))
-            where.append(where_for_pawn)
+            where[indexs] = where_for_pawn
         return where
 
     def which_can_hit(self):
