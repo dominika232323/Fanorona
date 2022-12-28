@@ -179,7 +179,21 @@ class Move():
         return None
 
     def where_can_hit(self):
-        pass
+        by_withdrawl = self.where_can_hit_by_withdrawl()
+        by_approach = self.where_can_hit_by_approach()
+        where = {}
+
+        for pawn in by_withdrawl:
+            where[pawn] = by_withdrawl[pawn]
+
+        for pawn in by_approach:
+            if pawn in where:
+                for element in by_approach[pawn]:
+                    where[pawn].append(element)
+            else:
+                where[pawn] = by_approach[pawn]
+
+        return where
 
     def where_can_hit_by_approach(self):
         hitting_pawns = self.which_can_hit_by_approach()
