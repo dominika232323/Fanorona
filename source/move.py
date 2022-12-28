@@ -189,7 +189,8 @@ class Move():
         for pawn in by_approach:
             if pawn in where:
                 for element in by_approach[pawn]:
-                    where[pawn].append(element)
+                    if element not in where[pawn]:
+                        where[pawn].append(element)
             else:
                 where[pawn] = by_approach[pawn]
 
