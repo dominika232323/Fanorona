@@ -13,8 +13,6 @@ from source.move_types import (
     down_movement,
     diagonal_movement_to_left_down,
     sideways_movement_to_left,
-    check_for_max_to_left_or_up,
-    check_for_max_to_right_or_down
 )
 
 
@@ -105,11 +103,15 @@ class Move():
         return where
 
     def which_can_hit(self):
-        which_withdrawl = self.which_can_hit_by_withdrawl
-        which_approach = self.which_can_hit_by_approach
         which = []
-        which.append(which_withdrawl)
-        which.append(which_approach)
+        which_withdrawl = self.which_can_hit_by_withdrawl()
+        for element in which_withdrawl:
+            which.append(element)
+
+        which_approach = self.which_can_hit_by_approach()
+        for element in which_approach:
+            which.append(element)
+
         return set(which)
 
     def which_can_hit_by_approach(self):
@@ -118,32 +120,26 @@ class Move():
 
         for pawn in moving_pawns:
             for empty in moving_pawns[pawn]:
-                if empty[0] < pawn[0] and not check_for_max_to_left_or_up(empty[0]):
-                    if empty[1] < pawn[1] and not check_for_max_to_left_or_up(empty[1]):
-                        if diagonal_movement_to_left_up(self._pawns, pawn[0]-1, pawn[1]-1, self._pawn_to_hit):
-                            which.append(pawn)
-                    elif empty[1] == pawn[1] and up_movement(self._pawns, pawn[0]-1, pawn[1], self._pawn_to_hit):
+                if empty[0] < pawn[0]:
+                    if empty[1] < pawn[1] and diagonal_movement_to_left_up(self._pawns, empty[0], empty[1], self._pawn_to_hit):
                         which.append(pawn)
-                    elif empty[1] > pawn[1] and not check_for_max_to_right_or_down(empty[1], self._length):
-                        if diagonal_movement_to_right_up(self._pawns, pawn[0]-1, pawn[1]+1, self._pawn_to_hit):
-                            which.append(pawn)
-                elif empty[0] == pawn[0]:
-                    if empty[1] < pawn[1] and not check_for_max_to_left_or_up(empty[1]):
-                        if sideways_movement_to_left(self._pawns, pawn[0], pawn[1]-1, self._pawn_to_hit):
-                            which.append(pawn)
-                    elif empty[1] > pawn[1] and not check_for_max_to_right_or_down(empty[1], self._length):
-                        if sideways_movement_to_right(self._pawns, pawn[0], pawn[1]+1, self._pawn_to_hit):
-                            which.append(pawn)
-                elif empty[0] > pawn[0] and not check_for_max_to_right_or_down(empty[0], self._width):
-                    if empty[1] < pawn[1] and not check_for_max_to_left_or_up(empty[1]):
-                        if diagonal_movement_to_left_down(self._pawns, pawn[0]+1, pawn[1]-1, self._pawn_to_hit):
-                            which.append(pawn)
-                    elif empty[1] == pawn[1] and down_movement(self._pawns, pawn[0]+1, pawn[1], self._pawn_to_hit):
+                    if empty[1] == pawn[1] and up_movement(self._pawns, empty[0], empty[1], self._pawn_to_hit):
                         which.append(pawn)
-                    elif empty[1] > pawn[1] and not check_for_max_to_right_or_down(empty[1], self._length):
-                        if diagonal_movement_to_right_down(self._pawns, pawn[0]+1, pawn[1]+1, self._pawn_to_hit):
-                            which.append(pawn)
-        return which
+                    if empty[1] > pawn[1] and diagonal_movement_to_right_up(self._pawns, empty[0], empty[1], self._pawn_to_hit):
+                        which.append(pawn)
+                if empty[0] == pawn[0]:
+                    if empty[1] < pawn[1] and sideways_movement_to_left(self._pawns, empty[0], empty[1], self._pawn_to_hit):
+                        which.append(pawn)
+                    if empty[1] > pawn[1] and sideways_movement_to_right(self._pawns, empty[0], empty[1], self._pawn_to_hit):
+                        which.append(pawn)
+                if empty[0] > pawn[0]:
+                    if empty[1] < pawn[1] and diagonal_movement_to_left_down(self._pawns, empty[0], empty[1], self._pawn_to_hit):
+                        which.append(pawn)
+                    if empty[1] == pawn[1] and down_movement(self._pawns, empty[0], empty[1], self._pawn_to_hit):
+                        which.append(pawn)
+                    if empty[1] > pawn[1] and diagonal_movement_to_right_up(self._pawns, empty[0], empty[1], self._pawn_to_hit):
+                        which.append(pawn)
+        return set(which)
 
     def which_can_hit_by_withdrawl(self):
         moving_pawns = self.where_can_move()
@@ -154,23 +150,23 @@ class Move():
                 if empty[0] < pawn[0]:
                     if empty[1] < pawn[1] and diagonal_movement_to_right_down(self._pawns, pawn[0], pawn[1], self._pawn_to_hit):
                         which.append(pawn)
-                    elif empty[1] == pawn[1] and down_movement(self._pawns, pawn[0], pawn[1], self._pawn_to_hit):
+                    if empty[1] == pawn[1] and down_movement(self._pawns, pawn[0], pawn[1], self._pawn_to_hit):
                         which.append(pawn)
-                    elif empty[1] > pawn[1] and diagonal_movement_to_left_down(self._pawns, pawn[0], pawn[1], self._pawn_to_hit):
+                    if empty[1] > pawn[1] and diagonal_movement_to_left_down(self._pawns, pawn[0], pawn[1], self._pawn_to_hit):
                         which.append(pawn)
-                elif empty[0] == pawn[0]:
+                if empty[0] == pawn[0]:
                     if empty[1] < pawn[1] and sideways_movement_to_right(self._pawns, pawn[0], pawn[1], self._pawn_to_hit):
                         which.append(pawn)
-                    elif empty[1] > pawn[1] and sideways_movement_to_left(self._pawns, pawn[0], pawn[1], self._pawn_to_hit):
+                    if empty[1] > pawn[1] and sideways_movement_to_left(self._pawns, pawn[0], pawn[1], self._pawn_to_hit):
                         which.append(pawn)
-                elif empty[0] > pawn[0]:
+                if empty[0] > pawn[0]:
                     if empty[1] < pawn[1] and diagonal_movement_to_right_up(self._pawns, pawn[0], pawn[1], self._pawn_to_hit):
                         which.append(pawn)
-                    elif empty[1] == pawn[1] and up_movement(self._pawns, pawn[0], pawn[1], self._pawn_to_hit):
+                    if empty[1] == pawn[1] and up_movement(self._pawns, pawn[0], pawn[1], self._pawn_to_hit):
                         which.append(pawn)
-                    elif empty[1] > pawn[1] and diagonal_movement_to_left_up(self._pawns, pawn[0], pawn[1], self._pawn_to_hit):
+                    if empty[1] > pawn[1] and diagonal_movement_to_left_up(self._pawns, pawn[0], pawn[1], self._pawn_to_hit):
                         which.append(pawn)
-        return which
+        return set(which)
 
     def possible_combo(self, previous_move_type):
         # sprawdza czy mozna zrobic kombo

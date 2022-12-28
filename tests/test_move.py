@@ -126,7 +126,7 @@ def test_which_can_hit_by_withdrawl():
     pawns.set_actual_pawns(new_pawns)
 
     move = Move(pawns, SECOND_COLOR)
-    expected = [(2, 7), (3, 3)]
+    expected = {(2, 7), (3, 3)}
     assert move.which_can_hit_by_withdrawl() == expected
 
 
@@ -145,7 +145,7 @@ def test_which_can_hit_by_approach():
     pawns.set_actual_pawns(new_pawns)
 
     move = Move(pawns, SECOND_COLOR)
-    expected = [(0, 5), (0, 6), (0, 8), (1, 0), (1, 1), (1, 2), (3, 3)]
+    expected = {(0, 5), (0, 6), (0, 8), (1, 0), (1, 1), (1, 2), (3, 3)}
     assert move.which_can_hit_by_approach() == expected
 
 
@@ -164,5 +164,5 @@ def test_which_can_hit():
     pawns.set_actual_pawns(new_pawns)
 
     move = Move(pawns, SECOND_COLOR)
-    expected = [(0, 5), (0, 6), (0, 8), (1, 0), (1, 1), (1, 2), (2, 7), (3, 3)]
+    expected = {(0, 5), (0, 6), (0, 8), (1, 0), (1, 1), (1, 2), (2, 7), (3, 3)}
     assert move.which_can_hit() == expected
