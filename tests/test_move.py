@@ -4,7 +4,11 @@ from source.pawns import Pawns
 from configuration import (
     FIRST_COLOR,
     SECOND_COLOR,
-    EMPTY_COLOR
+    EMPTY_COLOR,
+    MOVEMENT_DIAGONAL_LEFT_UP_RIGTH_DOWN,
+    MOVEMENT_UP_DOWN,
+    MOVEMENT_DIAGONAL_RIGHT_UP_LEFT_DOWN,
+    MOVEMENT_SIDEWAYS
 )
 import pytest
 
@@ -43,6 +47,21 @@ def test_create_move_invalid_pawns():
 def test_create_move_invalid_turn():
     with pytest.raises(ValueError):
         Move(Pawns(Board()), 'fgh')
+
+
+# ---------------------------------------- recognize_move()
+
+
+def test_recognize_move():
+    move = Move(Pawns(Board()), FIRST_COLOR)
+    assert move.recognize_move((1, 1), (0, 0)) == MOVEMENT_DIAGONAL_LEFT_UP_RIGTH_DOWN
+    assert move.recognize_move((1, 1), (0, 1)) == MOVEMENT_UP_DOWN
+    assert move.recognize_move((1, 1), (0, 2)) == MOVEMENT_DIAGONAL_RIGHT_UP_LEFT_DOWN
+    assert move.recognize_move((1, 1), (1, 2)) == MOVEMENT_SIDEWAYS
+    assert move.recognize_move((1, 1), (2, 2)) == MOVEMENT_DIAGONAL_LEFT_UP_RIGTH_DOWN
+    assert move.recognize_move((1, 1), (2, 1)) == MOVEMENT_UP_DOWN
+    assert move.recognize_move((1, 1), (2, 0)) == MOVEMENT_DIAGONAL_RIGHT_UP_LEFT_DOWN
+    assert move.recognize_move((1, 1), (1, 0)) == MOVEMENT_SIDEWAYS
 
 
 # ---------------------------------------- which_can_move()

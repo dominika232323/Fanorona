@@ -2,7 +2,11 @@ from source.pawns import Pawns
 from configuration import (
     FIRST_COLOR,
     SECOND_COLOR,
-    EMPTY_COLOR
+    EMPTY_COLOR,
+    MOVEMENT_DIAGONAL_LEFT_UP_RIGTH_DOWN,
+    MOVEMENT_DIAGONAL_RIGHT_UP_LEFT_DOWN,
+    MOVEMENT_SIDEWAYS,
+    MOVEMENT_UP_DOWN
 )
 from source.move_types import (
     diagonal_movement_to_left_up,
@@ -230,6 +234,14 @@ class Move():
         # dic = {[(pawns cords), (empty cords)]: [cords of each pawn that hits]}
         pass
 
+    def which_hits_by_withdrawl(self):
+        hitting_pawns = self.where_can_hit_by_withdrawl()
+        which_hits = {}
+
+        for pawn in hitting_pawns:
+            for empty in hitting_pawns[pawn]:
+                hits = []
+
     def possible_combo(self, previous_move_type):
         # sprawdza czy mozna zrobic kombo
         pass
@@ -237,3 +249,21 @@ class Move():
     def move_without_hits(self):
         # jeśli nie ma żadnych bić, to to zachodzi
         pass
+
+    def recognize_move(self, pawn, where_moves):
+        if where_moves[0] < pawn[0]:
+            if where_moves[1] < pawn[1]:
+                return MOVEMENT_DIAGONAL_LEFT_UP_RIGTH_DOWN
+            if where_moves[1] == pawn[1]:
+                return MOVEMENT_UP_DOWN
+            if where_moves[1] > pawn[1]:
+                return MOVEMENT_DIAGONAL_RIGHT_UP_LEFT_DOWN
+        if where_moves[0] == pawn[0]:
+            return MOVEMENT_SIDEWAYS
+        if where_moves[0] > pawn[0]:
+            if where_moves[1] < pawn[1]:
+                return MOVEMENT_DIAGONAL_RIGHT_UP_LEFT_DOWN
+            if where_moves[1] == pawn[1]:
+                return MOVEMENT_UP_DOWN
+            if where_moves[1] > pawn[1]:
+                return MOVEMENT_DIAGONAL_LEFT_UP_RIGTH_DOWN
