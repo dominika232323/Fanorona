@@ -247,7 +247,55 @@ class Move():
                 hits = []
                 move_type = self.recognize_move(pawn, empty)
                 if move_type == MOVEMENT_DIAGONAL_LEFT_UP:
-                    pass
+                    for i in range(0, self._width+1):
+                        if diagonal_movement_to_right_down(self._pawns, pawn[0]+i, pawn[1]+i, self._pawn_to_hit):
+                            hits.append((pawn[0]+i+1, pawn[1]+i+1))
+                        else:
+                            break
+                elif move_type == MOVEMENT_UP:
+                    for i in range(0, self._width+1):
+                        if down_movement(self._pawns, pawn[0]+i, pawn[1], self._pawn_to_hit):
+                            hits.append((pawn[0]+i+1, pawn[1]))
+                        else:
+                            break
+                elif move_type == MOVEMENT_DIAGONAL_RIGHT_UP:
+                    for i in range(0, self._width+1):
+                        if diagonal_movement_to_left_down(self._pawns, pawn[0]+i, pawn[1]-i, self._pawn_to_hit):
+                            hits.append((pawn[0]+i+1, pawn[1]-i-1))
+                        else:
+                            break
+                elif move_type == MOVEMENT_SIDEWAYS_RIGTH:
+                    for i in range(0, self._width+1):
+                        if sideways_movement_to_left(self._pawns, pawn[0], pawn[1]-i, self._pawn_to_hit):
+                            hits.append((pawn[0], pawn[1]-i-1))
+                        else:
+                            break
+                elif move_type == MOVEMENT_DIAGONAL_RIGTH_DOWN:
+                    for i in range(0, self._width+1):
+                        if diagonal_movement_to_left_up(self._pawns, pawn[0]-i, pawn[1]-i, self._pawn_to_hit):
+                            hits.append((pawn[0]-i-1, pawn[1]-i-1))
+                        else:
+                            break
+                elif move_type == MOVEMENT_DOWN:
+                    for i in range(0, self._width+1):
+                        if up_movement(self._pawns, pawn[0]-i, pawn[1], self._pawn_to_hit):
+                            hits.append((pawn[0]-i-1, pawn[1]))
+                        else:
+                            break
+                elif move_type == MOVEMENT_DIAGONAL_LEFT_DOWN:
+                    for i in range(0, self._width+1):
+                        if diagonal_movement_to_right_up(self._pawns, pawn[0]-i, pawn[1]+i, self._pawn_to_hit):
+                            hits.append((pawn[0]-i-1, pawn[1]+i+1))
+                        else:
+                            break
+                elif move_type == MOVEMENT_SIDEWAYS_LEFT:
+                    for i in range(0, self._width+1):
+                        if sideways_movement_to_right(self._pawns, pawn[0], pawn[1]+i, self._pawn_to_hit):
+                            hits.append((pawn[0], pawn[1]+i+1))
+                        else:
+                            break
+                which_hits[(pawn, empty)] = hits
+        return which_hits
 
     def possible_combo(self, previous_move_type):
         # sprawdza czy mozna zrobic kombo

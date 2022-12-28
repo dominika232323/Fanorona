@@ -266,3 +266,25 @@ def test_where_can_hit():
         (3, 3): [(3, 4)]
         }
     assert move.where_can_hit() == expected
+
+
+# ---------------------------------------- which_hits_by_withdrawl()
+
+
+def test_which_hits_by_withdrawl():
+    pawns = Pawns(Board())
+    new_pawns = [
+        [SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, EMPTY_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR],
+        [SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, EMPTY_COLOR, FIRST_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR],
+        [EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, FIRST_COLOR, FIRST_COLOR, SECOND_COLOR, FIRST_COLOR],
+        [FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, SECOND_COLOR, EMPTY_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR],
+        [FIRST_COLOR, FIRST_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR]
+    ]
+    pawns.set_actual_pawns(new_pawns)
+
+    move = Move(pawns, SECOND_COLOR)
+    expected = {
+        ((2, 7), (1, 7)): [(3, 7), (4, 7)],
+        ((3, 3), (3, 4)): [(3, 2), (3, 1), (3, 0)]
+        }
+    assert move.which_hits_by_withdrawl() == expected
