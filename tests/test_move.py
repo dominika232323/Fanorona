@@ -288,3 +288,33 @@ def test_which_hits_by_withdrawl():
         ((3, 3), (3, 4)): [(3, 2), (3, 1), (3, 0)]
         }
     assert move.which_hits_by_withdrawl() == expected
+
+
+# ---------------------------------------- which_hits_by_approach()
+
+
+def test_which_hits_by_approach():
+    pawns = Pawns(Board())
+    new_pawns = [
+        [SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, EMPTY_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR],
+        [SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, EMPTY_COLOR, FIRST_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR],
+        [EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, FIRST_COLOR, FIRST_COLOR, SECOND_COLOR, FIRST_COLOR],
+        [FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, SECOND_COLOR, EMPTY_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR],
+        [FIRST_COLOR, FIRST_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR]
+    ]
+    pawns.set_actual_pawns(new_pawns)
+
+    move = Move(pawns, SECOND_COLOR)
+    expected = {
+        ((0, 5), (1, 5)): [(2, 5), (3, 5), (4, 5)],
+        ((0, 6), (1, 7)): [(2, 8)],
+        ((0, 6), (1, 6)): [(2, 6), (3, 6), (4, 6)],
+        ((0, 8), (1, 8)): [(2, 8), (3, 8), (4, 8)],
+        ((0, 8), (1, 7)): [(2, 6), (3, 5)],
+        ((1, 0), (2, 0)): [(3, 0), (4, 0)],
+        ((1, 1), (2, 1)): [(3, 1), (4, 1)],
+        ((1, 2), (1, 3)): [(1, 4)],
+        ((1, 2), (2, 2)): [(3, 2)],
+        ((3, 3), (3, 4)): [(3, 5), (3, 6), (3, 7), (3, 8)]
+        }
+    assert move.which_hits_by_approach() == expected
