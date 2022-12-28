@@ -167,6 +167,19 @@ class Move():
                     if empty[1] > pawn[1] and diagonal_movement_to_left_up(self._pawns, pawn[0], pawn[1], self._pawn_to_hit):
                         which.append(pawn)
         return set(which)
+    
+    def where_can_hit(self):
+        pass
+
+    def where_can_hit_by_approach(self):
+        pass
+
+    def where_can_hit_by_withdrawl(self):
+        pass
+
+    def which_hits(self):
+        # dic = {[(pawns cords), (empty cords)]: [cords of each pawn that hits]}
+        pass
 
     def possible_combo(self, previous_move_type):
         # sprawdza czy mozna zrobic kombo
