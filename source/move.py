@@ -147,27 +147,32 @@ class Move():
 
         for pawn in moving_pawns:
             for empty in moving_pawns[pawn]:
-                if empty[0] < pawn[0]:
-                    if empty[1] < pawn[1] and diagonal_movement_to_right_down(self._pawns, pawn[0], pawn[1], self._pawn_to_hit):
-                        which.append(pawn)
-                    if empty[1] == pawn[1] and down_movement(self._pawns, pawn[0], pawn[1], self._pawn_to_hit):
-                        which.append(pawn)
-                    if empty[1] > pawn[1] and diagonal_movement_to_left_down(self._pawns, pawn[0], pawn[1], self._pawn_to_hit):
-                        which.append(pawn)
-                if empty[0] == pawn[0]:
-                    if empty[1] < pawn[1] and sideways_movement_to_right(self._pawns, pawn[0], pawn[1], self._pawn_to_hit):
-                        which.append(pawn)
-                    if empty[1] > pawn[1] and sideways_movement_to_left(self._pawns, pawn[0], pawn[1], self._pawn_to_hit):
-                        which.append(pawn)
-                if empty[0] > pawn[0]:
-                    if empty[1] < pawn[1] and diagonal_movement_to_right_up(self._pawns, pawn[0], pawn[1], self._pawn_to_hit):
-                        which.append(pawn)
-                    if empty[1] == pawn[1] and up_movement(self._pawns, pawn[0], pawn[1], self._pawn_to_hit):
-                        which.append(pawn)
-                    if empty[1] > pawn[1] and diagonal_movement_to_left_up(self._pawns, pawn[0], pawn[1], self._pawn_to_hit):
-                        which.append(pawn)
+                if self._check_by_withdrawl(pawn, empty, pawn) is not None:
+                    which.append(self._check_by_withdrawl(pawn, empty, pawn))
         return set(which)
-    
+
+    def _check_by_withdrawl(self, pawn, empty, what_append):
+        if empty[0] < pawn[0]:
+            if empty[1] < pawn[1] and diagonal_movement_to_right_down(self._pawns, pawn[0], pawn[1], self._pawn_to_hit):
+                return what_append
+            if empty[1] == pawn[1] and down_movement(self._pawns, pawn[0], pawn[1], self._pawn_to_hit):
+                return what_append
+            if empty[1] > pawn[1] and diagonal_movement_to_left_down(self._pawns, pawn[0], pawn[1], self._pawn_to_hit):
+                return what_append
+        if empty[0] == pawn[0]:
+            if empty[1] < pawn[1] and sideways_movement_to_right(self._pawns, pawn[0], pawn[1], self._pawn_to_hit):
+                return what_append
+            if empty[1] > pawn[1] and sideways_movement_to_left(self._pawns, pawn[0], pawn[1], self._pawn_to_hit):
+                return what_append
+        if empty[0] > pawn[0]:
+            if empty[1] < pawn[1] and diagonal_movement_to_right_up(self._pawns, pawn[0], pawn[1], self._pawn_to_hit):
+                return what_append
+            if empty[1] == pawn[1] and up_movement(self._pawns, pawn[0], pawn[1], self._pawn_to_hit):
+                return what_append
+            if empty[1] > pawn[1] and diagonal_movement_to_left_up(self._pawns, pawn[0], pawn[1], self._pawn_to_hit):
+                return what_append
+        return None
+
     def where_can_hit(self):
         pass
 
@@ -175,7 +180,19 @@ class Move():
         pass
 
     def where_can_hit_by_withdrawl(self):
-        pass
+        hitting_pawns = self.which_can_hit_by_withdrawl()
+        possible_move = self.where_can_move()
+        where = {}
+
+        for pawn in possible_move:
+            if pawn not in hitting_pawns:
+                continue
+            for empty in possible_move[pawn]:
+                where_for_pawn = []
+                if self._check_by_withdrawl(pawn, empty, empty) is not None:
+                    where_for_pawn.append(self._check_by_withdrawl(pawn, empty, empty))
+                    where[pawn] = where_for_pawn
+        return where
 
     def which_hits(self):
         # dic = {[(pawns cords), (empty cords)]: [cords of each pawn that hits]}
