@@ -5,10 +5,14 @@ from configuration import (
     FIRST_COLOR,
     SECOND_COLOR,
     EMPTY_COLOR,
-    MOVEMENT_DIAGONAL_LEFT_UP_RIGTH_DOWN,
-    MOVEMENT_UP_DOWN,
-    MOVEMENT_DIAGONAL_RIGHT_UP_LEFT_DOWN,
-    MOVEMENT_SIDEWAYS
+    MOVEMENT_DIAGONAL_LEFT_UP,
+    MOVEMENT_UP,
+    MOVEMENT_DIAGONAL_RIGHT_UP,
+    MOVEMENT_SIDEWAYS_RIGTH,
+    MOVEMENT_DIAGONAL_RIGTH_DOWN,
+    MOVEMENT_DOWN,
+    MOVEMENT_DIAGONAL_LEFT_DOWN,
+    MOVEMENT_SIDEWAYS_LEFT
 )
 import pytest
 
@@ -54,14 +58,14 @@ def test_create_move_invalid_turn():
 
 def test_recognize_move():
     move = Move(Pawns(Board()), FIRST_COLOR)
-    assert move.recognize_move((1, 1), (0, 0)) == MOVEMENT_DIAGONAL_LEFT_UP_RIGTH_DOWN
-    assert move.recognize_move((1, 1), (0, 1)) == MOVEMENT_UP_DOWN
-    assert move.recognize_move((1, 1), (0, 2)) == MOVEMENT_DIAGONAL_RIGHT_UP_LEFT_DOWN
-    assert move.recognize_move((1, 1), (1, 2)) == MOVEMENT_SIDEWAYS
-    assert move.recognize_move((1, 1), (2, 2)) == MOVEMENT_DIAGONAL_LEFT_UP_RIGTH_DOWN
-    assert move.recognize_move((1, 1), (2, 1)) == MOVEMENT_UP_DOWN
-    assert move.recognize_move((1, 1), (2, 0)) == MOVEMENT_DIAGONAL_RIGHT_UP_LEFT_DOWN
-    assert move.recognize_move((1, 1), (1, 0)) == MOVEMENT_SIDEWAYS
+    assert move.recognize_move((1, 1), (0, 0)) == MOVEMENT_DIAGONAL_LEFT_UP
+    assert move.recognize_move((1, 1), (0, 1)) == MOVEMENT_UP
+    assert move.recognize_move((1, 1), (0, 2)) == MOVEMENT_DIAGONAL_RIGHT_UP
+    assert move.recognize_move((1, 1), (1, 2)) == MOVEMENT_SIDEWAYS_RIGTH
+    assert move.recognize_move((1, 1), (2, 2)) == MOVEMENT_DIAGONAL_RIGTH_DOWN
+    assert move.recognize_move((1, 1), (2, 1)) == MOVEMENT_DOWN
+    assert move.recognize_move((1, 1), (2, 0)) == MOVEMENT_DIAGONAL_LEFT_DOWN
+    assert move.recognize_move((1, 1), (1, 0)) == MOVEMENT_SIDEWAYS_LEFT
 
 
 # ---------------------------------------- which_can_move()

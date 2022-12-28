@@ -3,10 +3,14 @@ from configuration import (
     FIRST_COLOR,
     SECOND_COLOR,
     EMPTY_COLOR,
-    MOVEMENT_DIAGONAL_LEFT_UP_RIGTH_DOWN,
-    MOVEMENT_DIAGONAL_RIGHT_UP_LEFT_DOWN,
-    MOVEMENT_SIDEWAYS,
-    MOVEMENT_UP_DOWN
+    MOVEMENT_DIAGONAL_LEFT_UP,
+    MOVEMENT_UP,
+    MOVEMENT_DIAGONAL_RIGHT_UP,
+    MOVEMENT_SIDEWAYS_RIGTH,
+    MOVEMENT_DIAGONAL_RIGTH_DOWN,
+    MOVEMENT_DOWN,
+    MOVEMENT_DIAGONAL_LEFT_DOWN,
+    MOVEMENT_SIDEWAYS_LEFT
 )
 from source.move_types import (
     diagonal_movement_to_left_up,
@@ -241,6 +245,9 @@ class Move():
         for pawn in hitting_pawns:
             for empty in hitting_pawns[pawn]:
                 hits = []
+                move_type = self.recognize_move(pawn, empty)
+                if move_type == MOVEMENT_DIAGONAL_LEFT_UP:
+                    pass
 
     def possible_combo(self, previous_move_type):
         # sprawdza czy mozna zrobic kombo
@@ -253,17 +260,20 @@ class Move():
     def recognize_move(self, pawn, where_moves):
         if where_moves[0] < pawn[0]:
             if where_moves[1] < pawn[1]:
-                return MOVEMENT_DIAGONAL_LEFT_UP_RIGTH_DOWN
+                return MOVEMENT_DIAGONAL_LEFT_UP
             if where_moves[1] == pawn[1]:
-                return MOVEMENT_UP_DOWN
+                return MOVEMENT_UP
             if where_moves[1] > pawn[1]:
-                return MOVEMENT_DIAGONAL_RIGHT_UP_LEFT_DOWN
+                return MOVEMENT_DIAGONAL_RIGHT_UP
         if where_moves[0] == pawn[0]:
-            return MOVEMENT_SIDEWAYS
+            if where_moves[1] < pawn[1]:
+                return MOVEMENT_SIDEWAYS_LEFT
+            if where_moves[1] > pawn[1]:
+                return MOVEMENT_SIDEWAYS_RIGTH
         if where_moves[0] > pawn[0]:
             if where_moves[1] < pawn[1]:
-                return MOVEMENT_DIAGONAL_RIGHT_UP_LEFT_DOWN
+                return MOVEMENT_DIAGONAL_LEFT_DOWN
             if where_moves[1] == pawn[1]:
-                return MOVEMENT_UP_DOWN
+                return MOVEMENT_DOWN
             if where_moves[1] > pawn[1]:
-                return MOVEMENT_DIAGONAL_LEFT_UP_RIGTH_DOWN
+                return MOVEMENT_DIAGONAL_RIGTH_DOWN
