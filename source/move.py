@@ -142,7 +142,7 @@ class Move():
                 return what_append
             if empty[1] == pawn[1] and down_movement(self._pawns, empty[0], empty[1], self._pawn_to_hit):
                 return what_append
-            if empty[1] > pawn[1] and diagonal_movement_to_right_up(self._pawns, empty[0], empty[1], self._pawn_to_hit):
+            if empty[1] > pawn[1] and diagonal_movement_to_right_down(self._pawns, empty[0], empty[1], self._pawn_to_hit):
                 return what_append
         return None
 
@@ -182,7 +182,19 @@ class Move():
         pass
 
     def where_can_hit_by_approach(self):
-        pass
+        hitting_pawns = self.which_can_hit_by_approach()
+        possible_move = self.where_can_move()
+        where = {}
+
+        for pawn in possible_move:
+            if pawn not in hitting_pawns:
+                continue
+            where_for_pawn = []
+            for empty in possible_move[pawn]:
+                if self._check_by_approach(pawn, empty, empty) is not None:
+                    where_for_pawn.append(self._check_by_approach(pawn, empty, empty))
+            where[pawn] = where_for_pawn
+        return where
 
     def where_can_hit_by_withdrawl(self):
         hitting_pawns = self.which_can_hit_by_withdrawl()
