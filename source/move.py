@@ -384,20 +384,20 @@ class Move():
     #     group_withdrawl = self.which_hits_by_withdrawl()[(pawn, empty)]
     #     group_approach = self.which_hits_by_approach()[(pawn, empty)]
 
-    def move_with_hits_by_withdrawl(self, pawn, empty):
-        pawns_after_move = self.move_without_hits(pawn, empty)
+    def move_with_hits_by_withdrawl(self, pawn_67, empty_789):
         by_withdrawl_dic = self.which_hits_by_withdrawl()
-        dead_pawns = by_withdrawl_dic[(pawn, empty)]
+        dead_pawns = by_withdrawl_dic[(pawn_67, empty_789)]
+        pawns_after_move = self.move_without_hits(pawn_67, empty_789)
 
         for dead in dead_pawns:
             pawns_after_move[dead[0]][dead[1]] = EMPTY_COLOR
         
         return pawns_after_move
 
-    def move_with_hits_by_approach(self, pawn, empty):
-        pawns_after_move = self.move_without_hits(pawn, empty)
+    def move_with_hits_by_approach(self, pawn_222, empty_2232):
         by_approach_dic = self.which_hits_by_approach()
-        dead_pawns = by_approach_dic[(pawn, empty)]
+        dead_pawns = by_approach_dic[(pawn_222, empty_2232)]
+        pawns_after_move = self.move_without_hits(pawn_222, empty_2232)
 
         for dead in dead_pawns:
             pawns_after_move[dead[0]][dead[1]] = EMPTY_COLOR
