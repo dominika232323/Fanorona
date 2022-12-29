@@ -120,7 +120,7 @@ class Move():
         for element in which_approach:
             which.append(element)
 
-        return set(which)
+        return [] if not which else set(which)
 
     def which_can_hit_by_approach(self):
         moving_pawns = self.where_can_move()
@@ -130,7 +130,8 @@ class Move():
             for empty in moving_pawns[pawn]:
                 if self._check_by_approach(pawn, empty, pawn) is not None:
                     which.append(self._check_by_approach(pawn, empty, pawn))
-        return set(which)
+        
+        return [] if not which else set(which)
 
     def _check_by_approach(self, pawn, empty, what_append):
         move_type = self.recognize_move(pawn, empty)
@@ -160,7 +161,7 @@ class Move():
             for empty in moving_pawns[pawn]:
                 if self._check_by_withdrawl(pawn, empty, pawn) is not None:
                     which.append(self._check_by_withdrawl(pawn, empty, pawn))
-        return set(which)
+        return [] if not which else set(which)
 
     def _check_by_withdrawl(self, pawn, empty, what_append):
         move_type = self.recognize_move(pawn, empty)
@@ -360,10 +361,16 @@ class Move():
         # jeśli nie ma żadnych bić, to to zachodzi
         pass
 
+    def move_with_hits(self):
+        pass
+
     def move_maker(self, pawn, empty):
         if pawn not in self.which_can_move():
             raise MoveError('This pawn cannot move')
-        
+        if not self.where_can_hit():
+            self.move_without_hits()
+        else:
+            self.move_with_hits()
 
     def recognize_move(self, pawn, where_moves):
         if where_moves[0] < pawn[0]:
