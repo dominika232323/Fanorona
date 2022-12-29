@@ -357,20 +357,53 @@ class Move():
         # sprawdza czy mozna zrobic kombo
         pass
 
-    def move_without_hits(self):
-        # jeśli nie ma żadnych bić, to to zachodzi
+    def move_without_hits(self, pawn, empty):
+        pawns_after_move = []
+
+        for row_index, row in enumerate(self._pawns):
+            if row != empty[0]:
+                pawns_after_move[row_index] = row
+            else:
+                for index, space in enumerate(self._pawns):
+                    if index == empty[1]:
+                        pawns_after_move[index] = self._turn
+                    elif index == pawn[1]:
+                        pawns_after_move[index] = EMPTY_COLOR
+                    else:
+                        pawns_after_move[index] = space
+        return pawns_after_move
+
+
+    def move_with_hits(self, pawn, empty):
+        withdrawl = self.which_hits_by_withdrawl()
+        approach = self.which_hits_by_approach()
+
+        if (pawn, empty) in withdrawl and (pawn, empty) in approach:
+            self.choose_move_with_hits()
+
+    def choose_move_with_hits(self, pawn, empty):
         pass
 
-    def move_with_hits(self):
+    def move_with_hits_by_withdrawl(self, pawn, empty):
+        pass
+
+    def move_with_hits_by_approach(self, pawn, empty):
         pass
 
     def move_maker(self, pawn, empty):
         if pawn not in self.which_can_move():
             raise MoveError('This pawn cannot move')
-        if not self.where_can_hit():
-            self.move_without_hits()
+        if empty not in self.where_can_move()[pawn]:
+            raise MoveError('This pawn cannot move here')
+
+        if not self.which_can_hit():
+            return self.move_without_hits(pawn, empty)
         else:
-            self.move_with_hits()
+            if pawn not in self.which_can_hit():
+                raise MoveError('This pawn does not have any hits')
+            if empty not in self.where_can_hit()[pawn]:
+                raise MoveError('This pawn does not have any hits here')
+            return self.move_with_hits(pawn, empty)
 
     def recognize_move(self, pawn, where_moves):
         if where_moves[0] < pawn[0]:
