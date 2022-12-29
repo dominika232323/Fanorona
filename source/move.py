@@ -358,19 +358,9 @@ class Move():
         pass
 
     def move_without_hits(self, pawn, empty):
-        pawns_after_move = []
-
-        for row_index, row in enumerate(self._pawns):
-            if row != empty[0]:
-                pawns_after_move[row_index] = row
-            else:
-                for index, space in enumerate(self._pawns):
-                    if index == empty[1]:
-                        pawns_after_move[index] = self._turn
-                    elif index == pawn[1]:
-                        pawns_after_move[index] = EMPTY_COLOR
-                    else:
-                        pawns_after_move[index] = space
+        pawns_after_move = self.copy_pawns()
+        pawns_after_move[pawn[0]][pawn[1]] == EMPTY_COLOR
+        pawns_after_move[empty[0]][empty[1]] == self._turn
         return pawns_after_move
 
 
@@ -379,13 +369,13 @@ class Move():
         approach = self.which_hits_by_approach()
 
         if (pawn, empty) in withdrawl and (pawn, empty) in approach:
-            self.choose_move_with_hits()
+            choice = self.choose_move_with_hits()
 
     def choose_move_with_hits(self, pawn, empty):
         pass
 
     def move_with_hits_by_withdrawl(self, pawn, empty):
-        pass
+        pawns_after_move = self.copy_pawns()
 
     def move_with_hits_by_approach(self, pawn, empty):
         pass
@@ -425,6 +415,14 @@ class Move():
                 return MOVEMENT_DOWN
             if where_moves[1] > pawn[1]:
                 return MOVEMENT_DIAGONAL_RIGTH_DOWN
+
+    def copy_pawns(self):
+        pawns_after_move = []
+
+        for row in self._pawns:
+            pawns_after_move.append(row)
+        
+        return pawns_after_move
 
 
 class MoveError(Exception):
