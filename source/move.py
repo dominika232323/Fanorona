@@ -10,7 +10,9 @@ from configuration import (
     MOVEMENT_DIAGONAL_RIGTH_DOWN,
     MOVEMENT_DOWN,
     MOVEMENT_DIAGONAL_LEFT_DOWN,
-    MOVEMENT_SIDEWAYS_LEFT
+    MOVEMENT_SIDEWAYS_LEFT,
+    CHOICE_WITHDRAWL,
+    CHOICE_APPROACH
 )
 from source.move_types import (
     diagonal_movement_to_left_up,
@@ -370,6 +372,14 @@ class Move():
 
         if (pawn, empty) in withdrawl and (pawn, empty) in approach:
             choice = self.choose_move_with_hits()
+            if choice == CHOICE_WITHDRAWL:
+                return self.move_with_hits_by_withdrawl(pawn, empty)
+            if choice == CHOICE_APPROACH:
+                return self.move_with_hits_by_approach(pawn, empty)
+        elif (pawn, empty) in withdrawl:
+            return self.move_with_hits_by_withdrawl(pawn, empty)
+        elif (pawn, empty) in approach:
+            return self.move_with_hits_by_approach(pawn, empty)
 
     def choose_move_with_hits(self, pawn, empty):
         pass
