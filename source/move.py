@@ -361,8 +361,8 @@ class Move():
 
     def move_without_hits(self, pawn, empty):
         pawns_after_move = self.copy_pawns()
-        pawns_after_move[pawn[0]][pawn[1]] == EMPTY_COLOR
-        pawns_after_move[empty[0]][empty[1]] == self._turn
+        pawns_after_move[pawn[0]][pawn[1]] = EMPTY_COLOR
+        pawns_after_move[empty[0]][empty[1]] = self._turn
         return pawns_after_move
 
 
@@ -382,13 +382,28 @@ class Move():
             return self.move_with_hits_by_approach(pawn, empty)
 
     def choose_move_with_hits(self, pawn, empty):
-        pass
+        group_withdrawl = self.which_hits_by_withdrawl()[(pawn, empty)]
+        group_approach = self.which_hits_by_approach()[(pawn, empty)]
 
     def move_with_hits_by_withdrawl(self, pawn, empty):
-        pawns_after_move = self.copy_pawns()
+        pawns_after_move = self.move_without_hits(pawn, empty)
+        by_withdrawl_dic = self.which_hits_by_withdrawl()
+        dead_pawns = by_withdrawl_dic[(pawn, empty)]
+
+        for dead in dead_pawns:
+            pawns_after_move[dead[0]][dead[1]] = EMPTY_COLOR
+        
+        return pawns_after_move
 
     def move_with_hits_by_approach(self, pawn, empty):
-        pass
+        pawns_after_move = self.move_without_hits(pawn, empty)
+        by_approach_dic = self.which_hits_by_approach()
+        dead_pawns = by_approach_dic[(pawn, empty)]
+
+        for dead in dead_pawns:
+            pawns_after_move[dead[0]][dead[1]] = EMPTY_COLOR
+        
+        return pawns_after_move
 
     def move_maker(self, pawn, empty):
         if pawn not in self.which_can_move():
