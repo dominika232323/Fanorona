@@ -365,25 +365,24 @@ class Move():
         pawns_after_move[empty[0]][empty[1]] = self._turn
         return pawns_after_move
 
+    # def move_with_hits(self, pawn, empty):
+    #     withdrawl = self.which_hits_by_withdrawl()
+    #     approach = self.which_hits_by_approach()
 
-    def move_with_hits(self, pawn, empty):
-        withdrawl = self.which_hits_by_withdrawl()
-        approach = self.which_hits_by_approach()
+    #     if (pawn, empty) in withdrawl and (pawn, empty) in approach:
+    #         choice = self.choose_move_with_hits()
+    #         if choice == CHOICE_WITHDRAWL:
+    #             return self.move_with_hits_by_withdrawl(pawn, empty)
+    #         if choice == CHOICE_APPROACH:
+    #             return self.move_with_hits_by_approach(pawn, empty)
+    #     elif (pawn, empty) in withdrawl:
+    #         return self.move_with_hits_by_withdrawl(pawn, empty)
+    #     elif (pawn, empty) in approach:
+    #         return self.move_with_hits_by_approach(pawn, empty)
 
-        if (pawn, empty) in withdrawl and (pawn, empty) in approach:
-            choice = self.choose_move_with_hits()
-            if choice == CHOICE_WITHDRAWL:
-                return self.move_with_hits_by_withdrawl(pawn, empty)
-            if choice == CHOICE_APPROACH:
-                return self.move_with_hits_by_approach(pawn, empty)
-        elif (pawn, empty) in withdrawl:
-            return self.move_with_hits_by_withdrawl(pawn, empty)
-        elif (pawn, empty) in approach:
-            return self.move_with_hits_by_approach(pawn, empty)
-
-    def choose_move_with_hits(self, pawn, empty):
-        group_withdrawl = self.which_hits_by_withdrawl()[(pawn, empty)]
-        group_approach = self.which_hits_by_approach()[(pawn, empty)]
+    # def choose_move_with_hits(self, pawn, empty):
+    #     group_withdrawl = self.which_hits_by_withdrawl()[(pawn, empty)]
+    #     group_approach = self.which_hits_by_approach()[(pawn, empty)]
 
     def move_with_hits_by_withdrawl(self, pawn, empty):
         pawns_after_move = self.move_without_hits(pawn, empty)
