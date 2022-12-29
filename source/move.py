@@ -360,6 +360,11 @@ class Move():
         # jeśli nie ma żadnych bić, to to zachodzi
         pass
 
+    def move_maker(self, pawn, empty):
+        if pawn not in self.which_can_move():
+            raise MoveError('This pawn cannot move')
+        
+
     def recognize_move(self, pawn, where_moves):
         if where_moves[0] < pawn[0]:
             if where_moves[1] < pawn[1]:
@@ -380,3 +385,7 @@ class Move():
                 return MOVEMENT_DOWN
             if where_moves[1] > pawn[1]:
                 return MOVEMENT_DIAGONAL_RIGTH_DOWN
+
+
+class MoveError(Exception):
+    pass
