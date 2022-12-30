@@ -444,7 +444,10 @@ class Move():
         pawns_after_move = []
 
         for row in self._pawns:
-            pawns_after_move.append(row)
+            row_after_move = []
+            for pawn in row:
+                row_after_move.append(pawn)
+            pawns_after_move.append(row_after_move)
         
         return pawns_after_move
 
