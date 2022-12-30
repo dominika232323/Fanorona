@@ -406,19 +406,22 @@ class Move():
         return pawns_after_move
 
     def move_maker(self, pawn, empty):
-        if pawn not in self.which_can_move():
-            raise MoveError('This pawn cannot move')
-        if empty not in self.where_can_move()[pawn]:
-            raise MoveError('This pawn cannot move here')
+        self._validate_move_maker(empty, pawn)
 
         if not self.which_can_hit():
             return self.move_without_hits(pawn, empty)
         else:
-            if pawn not in self.which_can_hit():
-                raise MoveError('This pawn does not have any hits')
-            if empty not in self.where_can_hit()[pawn]:
-                raise MoveError('This pawn does not have any hits here')
             return self.move_with_hits(pawn, empty)
+
+    def _validate_move_maker(self, empty, pawn):
+        if pawn not in self.which_can_move():
+            raise MoveError('This pawn cannot move')
+        if empty not in self.where_can_move()[pawn]:
+            raise MoveError('This pawn cannot move here')
+        if pawn not in self.which_can_hit():
+            raise MoveError('This pawn does not have any hits')
+        if empty not in self.where_can_hit()[pawn]:
+            raise MoveError('This pawn does not have any hits here')
 
     @staticmethod
     def recognize_move(pawn, where_moves):
