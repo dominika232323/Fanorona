@@ -420,9 +420,9 @@ class Move():
             raise MoveError('This pawn cannot move')
         if empty not in self.where_can_move()[pawn]:
             raise MoveError('This pawn cannot move here')
-        if pawn not in self.which_can_hit():
+        if self.which_can_hit() and pawn not in self.which_can_hit():
             raise MoveError('This pawn does not have any hits')
-        if empty not in self.where_can_hit()[pawn]:
+        if self.which_can_hit() and empty not in self.where_can_hit()[pawn]:
             raise MoveError('This pawn does not have any hits here')
 
     @staticmethod
