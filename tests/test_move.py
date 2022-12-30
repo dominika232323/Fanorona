@@ -8,12 +8,12 @@ from configuration import (
     MOVEMENT_DIAGONAL_LEFT_UP,
     MOVEMENT_UP,
     MOVEMENT_DIAGONAL_RIGHT_UP,
-    MOVEMENT_SIDEWAYS_RIGTH,
-    MOVEMENT_DIAGONAL_RIGTH_DOWN,
+    MOVEMENT_SIDEWAYS_RIGHT,
+    MOVEMENT_DIAGONAL_RIGHT_DOWN,
     MOVEMENT_DOWN,
     MOVEMENT_DIAGONAL_LEFT_DOWN,
     MOVEMENT_SIDEWAYS_LEFT,
-    CHOICE_WITHDRAWL,
+    CHOICE_WITHDRAWAL,
     CHOICE_APPROACH
 )
 import pytest
@@ -63,8 +63,8 @@ def test_recognize_move():
     assert move.recognize_move((1, 1), (0, 0)) == MOVEMENT_DIAGONAL_LEFT_UP
     assert move.recognize_move((1, 1), (0, 1)) == MOVEMENT_UP
     assert move.recognize_move((1, 1), (0, 2)) == MOVEMENT_DIAGONAL_RIGHT_UP
-    assert move.recognize_move((1, 1), (1, 2)) == MOVEMENT_SIDEWAYS_RIGTH
-    assert move.recognize_move((1, 1), (2, 2)) == MOVEMENT_DIAGONAL_RIGTH_DOWN
+    assert move.recognize_move((1, 1), (1, 2)) == MOVEMENT_SIDEWAYS_RIGHT
+    assert move.recognize_move((1, 1), (2, 2)) == MOVEMENT_DIAGONAL_RIGHT_DOWN
     assert move.recognize_move((1, 1), (2, 1)) == MOVEMENT_DOWN
     assert move.recognize_move((1, 1), (2, 0)) == MOVEMENT_DIAGONAL_LEFT_DOWN
     assert move.recognize_move((1, 1), (1, 0)) == MOVEMENT_SIDEWAYS_LEFT
@@ -172,10 +172,10 @@ def test_where_can_move_without_hits():
     assert move.where_can_move() == expected
 
 
-# ---------------------------------------- which_can_hit_by_withdrawl()
+# ---------------------------------------- which_can_hit_by_withdrawal()
 
 
-def test_which_can_hit_by_withdrawl():
+def test_which_can_hit_by_withdrawal():
     pawns = Pawns(Board())
     new_pawns = [
         [SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, EMPTY_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR],
@@ -191,7 +191,7 @@ def test_which_can_hit_by_withdrawl():
     assert move.which_can_hit_by_withdrawal() == expected
 
 
-def test_which_can_hit_by_withdrawl_without_hits():
+def test_which_can_hit_by_withdrawal_without_hits():
     pawns = Pawns(Board())
     new_pawns = [
         [SECOND_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, SECOND_COLOR, EMPTY_COLOR],
@@ -274,10 +274,10 @@ def test_which_can_hit_without_hits():
     assert move.which_can_hit() == []
 
 
-# ---------------------------------------- where_can_hit_by_withdrawl()
+# ---------------------------------------- where_can_hit_by_withdrawal()
 
 
-def test_where_can_hit_by_withdrawl():
+def test_where_can_hit_by_withdrawal():
     pawns = Pawns(Board())
     new_pawns = [
         [SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, EMPTY_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR],
@@ -296,7 +296,7 @@ def test_where_can_hit_by_withdrawl():
     assert move.where_can_hit_by_withdrawal() == expected
 
 
-def test_where_can_hit_by_withdrawl_without_hits():
+def test_where_can_hit_by_withdrawal_without_hits():
     pawns = Pawns(Board())
     new_pawns = [
         [SECOND_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, SECOND_COLOR, EMPTY_COLOR],
@@ -396,10 +396,10 @@ def test_where_can_hit_without_hits():
     assert move.where_can_hit() == {}
 
 
-# ---------------------------------------- which_hits_by_withdrawl()
+# ---------------------------------------- which_hits_by_withdrawal()
 
 
-def test_which_hits_by_withdrawl():
+def test_which_hits_by_withdrawal():
     pawns = Pawns(Board())
     new_pawns = [
         [SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, EMPTY_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR],
@@ -646,7 +646,7 @@ def test_choose_move_with_hits_withdrawal():
     pawns.set_actual_pawns(new_pawns)
 
     move = Move(pawns, SECOND_COLOR)
-    assert move.choose_move_with_hits((3, 3), (3, 4), [(3, 2), (3, 1), (3, 0)]) == CHOICE_WITHDRAWL
+    assert move.choose_move_with_hits((3, 3), (3, 4), [(3, 2), (3, 1), (3, 0)]) == CHOICE_WITHDRAWAL
 
 
 def test_choose_move_with_hits_approach():

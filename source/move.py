@@ -6,12 +6,12 @@ from configuration import (
     MOVEMENT_DIAGONAL_LEFT_UP,
     MOVEMENT_UP,
     MOVEMENT_DIAGONAL_RIGHT_UP,
-    MOVEMENT_SIDEWAYS_RIGTH,
-    MOVEMENT_DIAGONAL_RIGTH_DOWN,
+    MOVEMENT_SIDEWAYS_RIGHT,
+    MOVEMENT_DIAGONAL_RIGHT_DOWN,
     MOVEMENT_DOWN,
     MOVEMENT_DIAGONAL_LEFT_DOWN,
     MOVEMENT_SIDEWAYS_LEFT,
-    CHOICE_WITHDRAWL,
+    CHOICE_WITHDRAWAL,
     CHOICE_APPROACH
 )
 from source.move_types import (
@@ -144,9 +144,9 @@ class Move():
             return what_append
         if move_type == MOVEMENT_DIAGONAL_RIGHT_UP and diagonal_movement_to_right_up(self._pawns, empty[0], empty[1], self._pawn_to_hit):
             return what_append
-        if move_type == MOVEMENT_SIDEWAYS_RIGTH and sideways_movement_to_right(self._pawns, empty[0], empty[1], self._pawn_to_hit):
+        if move_type == MOVEMENT_SIDEWAYS_RIGHT and sideways_movement_to_right(self._pawns, empty[0], empty[1], self._pawn_to_hit):
             return what_append
-        if move_type == MOVEMENT_DIAGONAL_RIGTH_DOWN and diagonal_movement_to_right_down(self._pawns, empty[0], empty[1], self._pawn_to_hit):
+        if move_type == MOVEMENT_DIAGONAL_RIGHT_DOWN and diagonal_movement_to_right_down(self._pawns, empty[0], empty[1], self._pawn_to_hit):
             return what_append
         if move_type == MOVEMENT_DOWN and down_movement(self._pawns, empty[0], empty[1], self._pawn_to_hit):
             return what_append
@@ -174,9 +174,9 @@ class Move():
             return what_append
         if move_type == MOVEMENT_DIAGONAL_RIGHT_UP and diagonal_movement_to_left_down(self._pawns, pawn[0], pawn[1], self._pawn_to_hit):
             return what_append
-        if move_type == MOVEMENT_SIDEWAYS_RIGTH and sideways_movement_to_left(self._pawns, pawn[0], pawn[1], self._pawn_to_hit):
+        if move_type == MOVEMENT_SIDEWAYS_RIGHT and sideways_movement_to_left(self._pawns, pawn[0], pawn[1], self._pawn_to_hit):
             return what_append
-        if move_type == MOVEMENT_DIAGONAL_RIGTH_DOWN and diagonal_movement_to_left_up(self._pawns, pawn[0], pawn[1], self._pawn_to_hit):
+        if move_type == MOVEMENT_DIAGONAL_RIGHT_DOWN and diagonal_movement_to_left_up(self._pawns, pawn[0], pawn[1], self._pawn_to_hit):
             return what_append
         if move_type == MOVEMENT_DOWN and up_movement(self._pawns, pawn[0], pawn[1], self._pawn_to_hit):
             return what_append
@@ -264,13 +264,13 @@ class Move():
                             hits.append((pawn[0]+i+1, pawn[1]-i-1))
                         else:
                             break
-                elif move_type == MOVEMENT_SIDEWAYS_RIGTH:
+                elif move_type == MOVEMENT_SIDEWAYS_RIGHT:
                     for i in range(0, self._width+1):
                         if sideways_movement_to_left(self._pawns, pawn[0], pawn[1]-i, self._pawn_to_hit):
                             hits.append((pawn[0], pawn[1]-i-1))
                         else:
                             break
-                elif move_type == MOVEMENT_DIAGONAL_RIGTH_DOWN:
+                elif move_type == MOVEMENT_DIAGONAL_RIGHT_DOWN:
                     for i in range(0, self._width+1):
                         if diagonal_movement_to_left_up(self._pawns, pawn[0]-i, pawn[1]-i, self._pawn_to_hit):
                             hits.append((pawn[0]-i-1, pawn[1]-i-1))
@@ -323,13 +323,13 @@ class Move():
                             hits.append((empty[0]-i-1, empty[1]+i+1))
                         else:
                             break
-                elif move_type == MOVEMENT_SIDEWAYS_RIGTH:
+                elif move_type == MOVEMENT_SIDEWAYS_RIGHT:
                     for i in range(0, self._width+1):
                         if sideways_movement_to_right(self._pawns, empty[0], empty[1]+i, self._pawn_to_hit):
                             hits.append((empty[0], empty[1]+i+1))
                         else:
                             break
-                elif move_type == MOVEMENT_DIAGONAL_RIGTH_DOWN:
+                elif move_type == MOVEMENT_DIAGONAL_RIGHT_DOWN:
                     for i in range(0, self._width+1):
                         if diagonal_movement_to_right_down(self._pawns, empty[0]+i, empty[1]+i, self._pawn_to_hit):
                             hits.append((empty[0]+i+1, empty[1]+i+1))
@@ -373,7 +373,7 @@ class Move():
         if (pawn, empty) in withdrawal and (pawn, empty) in approach:
             chosen_group = self.choose_group_to_kill(pawn, empty)
             choice = self.choose_move_with_hits(pawn, empty, chosen_group)
-            if choice == CHOICE_WITHDRAWL:
+            if choice == CHOICE_WITHDRAWAL:
                 dead_pawns = withdrawal[(pawn, empty)]
             if choice == CHOICE_APPROACH:
                 dead_pawns = approach[(pawn, empty)]
@@ -393,7 +393,7 @@ class Move():
         group_withdrawal = self.which_hits_by_withdrawal()[(pawn, empty)]
         group_approach = self.which_hits_by_approach()[(pawn, empty)]
         if chosen_group == group_withdrawal:
-            return CHOICE_WITHDRAWL
+            return CHOICE_WITHDRAWAL
         elif chosen_group == group_approach:
             return CHOICE_APPROACH
         else:
@@ -438,14 +438,14 @@ class Move():
             if where_moves[1] < pawn[1]:
                 return MOVEMENT_SIDEWAYS_LEFT
             if where_moves[1] > pawn[1]:
-                return MOVEMENT_SIDEWAYS_RIGTH
+                return MOVEMENT_SIDEWAYS_RIGHT
         if where_moves[0] > pawn[0]:
             if where_moves[1] < pawn[1]:
                 return MOVEMENT_DIAGONAL_LEFT_DOWN
             if where_moves[1] == pawn[1]:
                 return MOVEMENT_DOWN
             if where_moves[1] > pawn[1]:
-                return MOVEMENT_DIAGONAL_RIGTH_DOWN
+                return MOVEMENT_DIAGONAL_RIGHT_DOWN
 
     def copy_pawns(self):
         pawns_after_move = []
