@@ -35,7 +35,8 @@ class Move():
         self._length = pawns.board_length
         self._width = pawns.board_width
 
-    def _validate(self, pawns, turn):
+    @staticmethod
+    def _validate(pawns, turn):
         if not isinstance(pawns, Pawns):
             raise TypeError
         if turn != FIRST_COLOR and turn != SECOND_COLOR:
@@ -114,7 +115,7 @@ class Move():
 
     def which_can_hit(self):
         which = []
-        which_withdrawl = self.which_can_hit_by_withdrawl()
+        which_withdrawl = self.which_can_hit_by_withdrawal()
         for element in which_withdrawl:
             which.append(element)
 
@@ -155,17 +156,17 @@ class Move():
             return what_append
         return None
 
-    def which_can_hit_by_withdrawl(self):
+    def which_can_hit_by_withdrawal(self):
         moving_pawns = self.where_can_move()
         which = []
 
         for pawn in moving_pawns:
             for empty in moving_pawns[pawn]:
-                if self._check_by_withdrawl(pawn, empty, pawn) is not None:
-                    which.append(self._check_by_withdrawl(pawn, empty, pawn))
+                if self._check_by_withdrawal(pawn, empty, pawn) is not None:
+                    which.append(self._check_by_withdrawal(pawn, empty, pawn))
         return [] if not which else set(which)
 
-    def _check_by_withdrawl(self, pawn, empty, what_append):
+    def _check_by_withdrawal(self, pawn, empty, what_append):
         move_type = self.recognize_move(pawn, empty)
         if move_type == MOVEMENT_DIAGONAL_LEFT_UP and diagonal_movement_to_right_down(self._pawns, pawn[0], pawn[1], self._pawn_to_hit):
             return what_append
@@ -186,12 +187,12 @@ class Move():
         return None
 
     def where_can_hit(self):
-        by_withdrawl = self.where_can_hit_by_withdrawl()
+        by_withdrawal = self.where_can_hit_by_withdrawal()
         by_approach = self.where_can_hit_by_approach()
         where = {}
 
-        for pawn in by_withdrawl:
-            where[pawn] = by_withdrawl[pawn]
+        for pawn in by_withdrawal:
+            where[pawn] = by_withdrawal[pawn]
 
         for pawn in by_approach:
             if pawn in where:
@@ -218,8 +219,8 @@ class Move():
             where[pawn] = where_for_pawn
         return where
 
-    def where_can_hit_by_withdrawl(self):
-        hitting_pawns = self.which_can_hit_by_withdrawl()
+    def where_can_hit_by_withdrawal(self):
+        hitting_pawns = self.which_can_hit_by_withdrawal()
         possible_move = self.where_can_move()
         where = {}
 
@@ -228,8 +229,8 @@ class Move():
                 continue
             for empty in possible_move[pawn]:
                 where_for_pawn = []
-                if self._check_by_withdrawl(pawn, empty, empty) is not None:
-                    where_for_pawn.append(self._check_by_withdrawl(pawn, empty, empty))
+                if self._check_by_withdrawal(pawn, empty, empty) is not None:
+                    where_for_pawn.append(self._check_by_withdrawal(pawn, empty, empty))
                     where[pawn] = where_for_pawn
         return where
 
@@ -237,8 +238,8 @@ class Move():
         # dic = {[(pawns cords), (empty cords)]: [cords of each pawn that hits]}
         pass
 
-    def which_hits_by_withdrawl(self):
-        hitting_pawns = self.where_can_hit_by_withdrawl()
+    def which_hits_by_withdrawal(self):
+        hitting_pawns = self.where_can_hit_by_withdrawal()
         which_hits = {}
 
         for pawn in hitting_pawns:
@@ -384,9 +385,9 @@ class Move():
     #     group_withdrawl = self.which_hits_by_withdrawl()[(pawn, empty)]
     #     group_approach = self.which_hits_by_approach()[(pawn, empty)]
 
-    def move_with_hits_by_withdrawl(self, pawn_67, empty_789):
-        by_withdrawl_dic = self.which_hits_by_withdrawl()
-        dead_pawns = by_withdrawl_dic[(pawn_67, empty_789)]
+    def move_with_hits_by_withdrawal(self, pawn_67, empty_789):
+        by_withdrawal_dic = self.which_hits_by_withdrawal()
+        dead_pawns = by_withdrawal_dic[(pawn_67, empty_789)]
         pawns_after_move = self.move_without_hits(pawn_67, empty_789)
 
         for dead in dead_pawns:
@@ -419,7 +420,8 @@ class Move():
                 raise MoveError('This pawn does not have any hits here')
             return self.move_with_hits(pawn, empty)
 
-    def recognize_move(self, pawn, where_moves):
+    @staticmethod
+    def recognize_move(pawn, where_moves):
         if where_moves[0] < pawn[0]:
             if where_moves[1] < pawn[1]:
                 return MOVEMENT_DIAGONAL_LEFT_UP

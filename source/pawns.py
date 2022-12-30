@@ -13,7 +13,8 @@ class Pawns():
         self._board_width = board.width
         self.set_starting_pawns()
 
-    def _validate(self, board):
+    @staticmethod
+    def _validate(board):
         if not isinstance(board, Board):
             raise TypeError('Given board is not an instance of class Board')
 

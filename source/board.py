@@ -15,7 +15,8 @@ class Board():
         self._width = int(width)
         pass
 
-    def _validate(self, length, width):
+    @staticmethod
+    def _validate(length, width):
         try:
             if int(length) != float(length):
                 raise BoardSizeError('Length cannot be a floating point number')
