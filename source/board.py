@@ -1,10 +1,11 @@
-from configuration import (MIN_BOARD_LENGTH, MIN_BOARD_WIDTH,
-                           DEFAULTS_BOARD_LENGTH, DEFAULTS_BOARD_WIDTH,
-                           MAX_BOARD_LENGTH, MAX_BOARD_WIDTH)
-
-
-class BoardSizeError(ValueError):
-    pass
+from configuration import (
+    MIN_BOARD_LENGTH,
+    MIN_BOARD_WIDTH,
+    DEFAULTS_BOARD_LENGTH,
+    DEFAULTS_BOARD_WIDTH,
+    MAX_BOARD_LENGTH,
+    MAX_BOARD_WIDTH
+)
 
 
 class Board():
@@ -38,3 +39,7 @@ class Board():
     @property
     def width(self):
         return self._width
+
+
+class BoardSizeError(ValueError):
+    pass
