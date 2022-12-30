@@ -416,7 +416,7 @@ def test_which_hits_by_withdrawl():
     assert move.which_hits_by_withdrawal() == expected
 
 
-def test_which_hits_by_withdrawl_without_hits():
+def test_which_hits_by_withdrawal_without_hits():
     pawns = Pawns(Board())
     new_pawns = [
         [SECOND_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, SECOND_COLOR, EMPTY_COLOR],
@@ -539,10 +539,10 @@ def test_move_without_hits():
     ]
 
 
-# ---------------------------------------- move_with_hits_by_withdrawl()
+# ---------------------------------------- move_with_hits_kill_pawns()
 
 
-def test_move_with_hits_by_withdrawl():
+def test_move_with_hits_kill_pawns_by_withdrawal():
     pawns = Pawns(Board())
     new_pawns = [
         [SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, EMPTY_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR],
@@ -561,7 +561,7 @@ def test_move_with_hits_by_withdrawl():
         [FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, SECOND_COLOR, EMPTY_COLOR, FIRST_COLOR, FIRST_COLOR, EMPTY_COLOR, FIRST_COLOR],
         [FIRST_COLOR, FIRST_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, FIRST_COLOR, FIRST_COLOR, EMPTY_COLOR, FIRST_COLOR]
     ]
-    assert move.move_with_hits_by_withdrawal((2, 7), (1, 7)) == expected
+    assert move.move_with_hits_kill_pawns((2, 7), (1, 7), [(3, 7), (4, 7)]) == expected
     assert move.pawns == [
         [SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, EMPTY_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR],
         [SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, EMPTY_COLOR, FIRST_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR],
@@ -571,7 +571,7 @@ def test_move_with_hits_by_withdrawl():
     ]
 
 
-def test_move_with_hits_by_withdrawl_2():
+def test_move_with_hits_kill_pawns_by_withdrawal_2():
     pawns = Pawns(Board())
     new_pawns = [
         [SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, EMPTY_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR],
@@ -590,7 +590,7 @@ def test_move_with_hits_by_withdrawl_2():
         [EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, SECOND_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR],
         [FIRST_COLOR, FIRST_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR]
     ]
-    assert move.move_with_hits_by_withdrawal((3, 3), (3, 4)) == expected
+    assert move.move_with_hits_kill_pawns((3, 3), (3, 4), [(3, 2), (3, 1), (3, 0)]) == expected
     assert move.pawns == [
         [SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, EMPTY_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR],
         [SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, EMPTY_COLOR, FIRST_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR],
@@ -600,10 +600,7 @@ def test_move_with_hits_by_withdrawl_2():
     ]
 
 
-# ---------------------------------------- move_with_hits_by_approach()
-
-
-def test_move_with_hits_by_approach():
+def test_move_with_hits_kill_pawns_by_approach():
     pawns = Pawns(Board())
     new_pawns = [
         [SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, EMPTY_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR],
@@ -622,7 +619,7 @@ def test_move_with_hits_by_approach():
         [FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, SECOND_COLOR, EMPTY_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, EMPTY_COLOR],
         [FIRST_COLOR, FIRST_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, EMPTY_COLOR]
     ]
-    assert move.move_with_hits_by_approach((0, 8), (1, 8)) == expected
+    assert move.move_with_hits_kill_pawns((0, 8), (1, 8), [(2, 8), (3, 8), (4, 8)]) == expected
     assert move.pawns == [
         [SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, EMPTY_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR],
         [SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, EMPTY_COLOR, FIRST_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR],
