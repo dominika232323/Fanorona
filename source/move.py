@@ -367,11 +367,12 @@ class Move():
         return pawns_after_move
 
     def move_with_hits(self, pawn, empty):
-        withdrawal = self.which_hits_by_withdrawl()
+        withdrawal = self.which_hits_by_withdrawal()
         approach = self.which_hits_by_approach()
 
         if (pawn, empty) in withdrawal and (pawn, empty) in approach:
-            choice = self.choose_move_with_hits()
+            chosen_group = self.choose_group_to_kill(pawn, empty)
+            choice = self.choose_move_with_hits(pawn, empty, chosen_group)
             if choice == CHOICE_WITHDRAWL:
                 dead_pawns = withdrawal[(pawn, empty)]
             if choice == CHOICE_APPROACH:
@@ -383,8 +384,13 @@ class Move():
 
         return self.move_with_hits_kill_pawns(pawn, empty, dead_pawns)
 
+    def choose_group_to_kill(self, pawn, empty):
+        # NOT READY FUNCTION
+        group = []
+        return group
+
     def choose_move_with_hits(self, pawn, empty, chosen_group):
-        group_withdrawal = self.which_hits_by_withdrawl()[(pawn, empty)]
+        group_withdrawal = self.which_hits_by_withdrawal()[(pawn, empty)]
         group_approach = self.which_hits_by_approach()[(pawn, empty)]
         if chosen_group == group_withdrawal:
             return CHOICE_WITHDRAWL
