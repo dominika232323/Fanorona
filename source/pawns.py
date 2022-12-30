@@ -78,8 +78,20 @@ class Pawns():
         pass
 
     def check_for_winner(self):
-        # sprawdza czy wszystkie pionki jednego z graczy zostaly juz zbite
-        pass
+        first_color_count, second_color_count = self.count_pawns()
+
+        if first_color_count == 0 or second_color_count == 0:
+            return True
+        else:
+            return False
+
+    def count_pawns(self):
+        first_color_count = 0
+        second_color_count = 0
+        for row in self._actual_pawns:
+            first_color_count += row.count(FIRST_COLOR)
+            second_color_count += row.count(SECOND_COLOR)
+        return first_color_count, second_color_count
 
 
 class PawnsError(Exception):
