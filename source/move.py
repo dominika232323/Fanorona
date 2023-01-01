@@ -70,23 +70,21 @@ class Move():
         for index_row, row in enumerate(self._pawns):
             for index, pawn in enumerate(row):
                 if pawn == self._turn:
-                    if diagonal_movement_to_left_up(self._pawns, index_row, index, EMPTY_COLOR):
-                        result_pawns.append((index_row, index))
-                    elif up_movement(self._pawns, index_row, index, EMPTY_COLOR):
-                        result_pawns.append((index_row, index))
-                    elif diagonal_movement_to_right_up(self._pawns, index_row, index, EMPTY_COLOR):
-                        result_pawns.append((index_row, index))
-                    elif sideways_movement_to_right(self._pawns, index_row, index, EMPTY_COLOR):
-                        result_pawns.append((index_row, index))
-                    elif diagonal_movement_to_right_down(self._pawns, index_row, index, EMPTY_COLOR):
-                        result_pawns.append((index_row, index))
-                    elif down_movement(self._pawns, index_row, index, EMPTY_COLOR):
-                        result_pawns.append((index_row, index))
-                    elif diagonal_movement_to_left_down(self._pawns, index_row, index, EMPTY_COLOR):
-                        result_pawns.append((index_row, index))
-                    elif sideways_movement_to_left(self._pawns, index_row, index, EMPTY_COLOR):
+                    if self._can_move(index, index_row):
                         result_pawns.append((index_row, index))
         return result_pawns
+
+    def _can_move(self, index, index_row):
+        return (
+                diagonal_movement_to_left_up(self._pawns, index_row, index, EMPTY_COLOR) or
+                up_movement(self._pawns, index_row, index, EMPTY_COLOR) or
+                diagonal_movement_to_right_up(self._pawns, index_row, index, EMPTY_COLOR) or
+                down_movement(self._pawns, index_row, index, EMPTY_COLOR) or
+                diagonal_movement_to_left_down(self._pawns, index_row, index, EMPTY_COLOR) or
+                diagonal_movement_to_right_down(self._pawns, index_row, index, EMPTY_COLOR) or
+                sideways_movement_to_left(self._pawns, index_row, index, EMPTY_COLOR) or
+                sideways_movement_to_right(self._pawns, index_row, index, EMPTY_COLOR)
+        )
 
     def where_can_move(self):
         which = self.which_can_move()
@@ -94,23 +92,21 @@ class Move():
 
         for indexs in which:
             where_for_pawn = []
-            if diagonal_movement_to_left_up(self._pawns, indexs[0], indexs[1], EMPTY_COLOR):
-                where_for_pawn.append((indexs[0]-1, indexs[1]-1))
-            if up_movement(self._pawns, indexs[0], indexs[1], EMPTY_COLOR):
-                where_for_pawn.append((indexs[0]-1, indexs[1]))
-            if diagonal_movement_to_right_up(self._pawns, indexs[0], indexs[1], EMPTY_COLOR):
-                where_for_pawn.append((indexs[0]-1, indexs[1]+1))
-            if sideways_movement_to_right(self._pawns, indexs[0], indexs[1], EMPTY_COLOR):
-                where_for_pawn.append((indexs[0], indexs[1]+1))
-            if diagonal_movement_to_right_down(self._pawns, indexs[0], indexs[1], EMPTY_COLOR):
-                where_for_pawn.append((indexs[0]+1, indexs[1]+1))
-            if down_movement(self._pawns, indexs[0], indexs[1], EMPTY_COLOR):
-                where_for_pawn.append((indexs[0]+1, indexs[1]))
-            if diagonal_movement_to_left_down(self._pawns, indexs[0], indexs[1], EMPTY_COLOR):
-                where_for_pawn.append((indexs[0]+1, indexs[1]-1))
-            if sideways_movement_to_left(self._pawns, indexs[0], indexs[1], EMPTY_COLOR):
-                where_for_pawn.append((indexs[0], indexs[1]-1))
+            tab = [
+                (diagonal_movement_to_left_up(self._pawns, indexs[0], indexs[1], EMPTY_COLOR), -1, -1),
+                (up_movement(self._pawns, indexs[0], indexs[1], EMPTY_COLOR), -1, 0),
+                (diagonal_movement_to_right_up(self._pawns, indexs[0], indexs[1], EMPTY_COLOR), -1, 1),
+                (sideways_movement_to_right(self._pawns, indexs[0], indexs[1], EMPTY_COLOR), 0, 1),
+                (diagonal_movement_to_right_down(self._pawns, indexs[0], indexs[1], EMPTY_COLOR), 1, 1),
+                (down_movement(self._pawns, indexs[0], indexs[1], EMPTY_COLOR), 1, 0),
+                (diagonal_movement_to_left_down(self._pawns, indexs[0], indexs[1], EMPTY_COLOR), 1, -1),
+                (sideways_movement_to_left(self._pawns, indexs[0], indexs[1], EMPTY_COLOR), 0, -1),
+            ]
+            for t in tab:
+                if t[0]:
+                    where_for_pawn.append((indexs[0] + t[1], indexs[1] + t[2]))
             where[indexs] = where_for_pawn
+
         return where
 
     def which_can_hit(self):
