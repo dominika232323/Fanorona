@@ -1,17 +1,7 @@
-from source.move_types import (
-    check_for_max_to_left_or_up,
-    check_for_max_to_right_or_down,
-    check_for_diagonal_connections,
-    validate_wanted_pawn,
-    diagonal_movement_to_left_up,
-    up_movement,
-    diagonal_movement_to_right_up,
-    sideways_movement_to_right,
-    diagonal_movement_to_right_down,
-    down_movement,
-    diagonal_movement_to_left_down,
+from source.movement import check_for_max_to_left_or_up, check_for_max_to_right_or_down, check_for_diagonal_connections, \
+    validate_wanted_pawn, diagonal_movement_to_left_up, up_movement, diagonal_movement_to_right_up, \
+    sideways_movement_to_right, diagonal_movement_to_right_down, down_movement, diagonal_movement_to_left_down, \
     sideways_movement_to_left
-)
 from configuration import (
     FIRST_COLOR,
     SECOND_COLOR,

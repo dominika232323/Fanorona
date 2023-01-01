@@ -14,16 +14,9 @@ from configuration import (
     CHOICE_WITHDRAWAL,
     CHOICE_APPROACH
 )
-from source.move_types import (
-    diagonal_movement_to_left_up,
-    up_movement,
-    diagonal_movement_to_right_up,
-    sideways_movement_to_right,
-    diagonal_movement_to_right_down,
-    down_movement,
-    diagonal_movement_to_left_down,
-    sideways_movement_to_left,
-)
+from source.movement import diagonal_movement_to_left_up, up_movement, diagonal_movement_to_right_up, \
+    sideways_movement_to_right, diagonal_movement_to_right_down, down_movement, diagonal_movement_to_left_down, \
+    sideways_movement_to_left
 
 
 class Move():
@@ -420,28 +413,6 @@ class Move():
             raise MoveError('This pawn does not have any hits')
         if self.which_can_hit() and empty not in self.where_can_hit()[pawn]:
             raise MoveError('This pawn does not have any hits here')
-
-    @staticmethod
-    def recognize_move(pawn, where_moves):
-        if where_moves[0] < pawn[0]:
-            if where_moves[1] < pawn[1]:
-                return MOVEMENT_DIAGONAL_LEFT_UP
-            if where_moves[1] == pawn[1]:
-                return MOVEMENT_UP
-            if where_moves[1] > pawn[1]:
-                return MOVEMENT_DIAGONAL_RIGHT_UP
-        if where_moves[0] == pawn[0]:
-            if where_moves[1] < pawn[1]:
-                return MOVEMENT_SIDEWAYS_LEFT
-            if where_moves[1] > pawn[1]:
-                return MOVEMENT_SIDEWAYS_RIGHT
-        if where_moves[0] > pawn[0]:
-            if where_moves[1] < pawn[1]:
-                return MOVEMENT_DIAGONAL_LEFT_DOWN
-            if where_moves[1] == pawn[1]:
-                return MOVEMENT_DOWN
-            if where_moves[1] > pawn[1]:
-                return MOVEMENT_DIAGONAL_RIGHT_DOWN
 
     def copy_pawns(self):
         pawns_after_move = []
