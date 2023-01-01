@@ -40,81 +40,89 @@ class Movement:
         if pawn not in (FIRST_COLOR, SECOND_COLOR, EMPTY_COLOR):
             raise PawnsError('This type of pawn does not exist')
 
-    def diagonal_movement_to_left_up(self, pawns, row_index, index, wanted_pawn):
-        self.validate_wanted_pawn(wanted_pawn)
-        if self.check_for_max_to_left_or_up(row_index):
+    @staticmethod
+    def diagonal_movement_to_left_up(pawns, row_index, index, wanted_pawn):
+        Movement.validate_wanted_pawn(wanted_pawn)
+        if Movement.check_for_max_to_left_or_up(row_index):
             return False
-        if self.check_for_max_to_left_or_up(index):
+        if Movement.check_for_max_to_left_or_up(index):
             return False
-        if not self.check_for_diagonal_connections(row_index, index):
+        if not Movement.check_for_diagonal_connections(row_index, index):
             return False
         if pawns[row_index-1][index-1] == wanted_pawn:
             return True
         return False
 
-    def up_movement(self, pawns, row_index, index, wanted_pawn):
-        self.validate_wanted_pawn(wanted_pawn)
-        if self.check_for_max_to_left_or_up(row_index):
+    @staticmethod
+    def up_movement(pawns, row_index, index, wanted_pawn):
+        Movement.validate_wanted_pawn(wanted_pawn)
+        if Movement.check_for_max_to_left_or_up(row_index):
             return False
         if pawns[row_index-1][index] == wanted_pawn:
             return True
         return False
 
-    def diagonal_movement_to_right_up(self, pawns, row_index, index, wanted_pawn):
-        self.validate_wanted_pawn(wanted_pawn)
-        if self.check_for_max_to_left_or_up(row_index):
+    @staticmethod
+    def diagonal_movement_to_right_up(pawns, row_index, index, wanted_pawn):
+        Movement.validate_wanted_pawn(wanted_pawn)
+        if Movement.check_for_max_to_left_or_up(row_index):
             return False
-        if self.check_for_max_to_right_or_down(index, len(pawns[0])):
+        if Movement.check_for_max_to_right_or_down(index, len(pawns[0])):
             return False
-        if not self.check_for_diagonal_connections(row_index, index):
+        if not Movement.check_for_diagonal_connections(row_index, index):
             return False
         if pawns[row_index-1][index+1] == wanted_pawn:
             return True
         return False
 
-    def sideways_movement_to_right(self, pawns, row_index, index, wanted_pawn):
-        self.validate_wanted_pawn(wanted_pawn)
-        if self.check_for_max_to_right_or_down(index, len(pawns[0])):
+    @staticmethod
+    def sideways_movement_to_right(pawns, row_index, index, wanted_pawn):
+        Movement.validate_wanted_pawn(wanted_pawn)
+        if Movement.check_for_max_to_right_or_down(index, len(pawns[0])):
             return False
         if pawns[row_index][index+1] == wanted_pawn:
             return True
         return False
 
-    def diagonal_movement_to_right_down(self, pawns, row_index, index, wanted_pawn):
-        self.validate_wanted_pawn(wanted_pawn)
-        if self.check_for_max_to_right_or_down(row_index, len(pawns)):
+    @staticmethod
+    def diagonal_movement_to_right_down(pawns, row_index, index, wanted_pawn):
+        Movement.validate_wanted_pawn(wanted_pawn)
+        if Movement.check_for_max_to_right_or_down(row_index, len(pawns)):
             return False
-        if self.check_for_max_to_right_or_down(index, len(pawns[0])):
+        if Movement.check_for_max_to_right_or_down(index, len(pawns[0])):
             return False
-        if not self.check_for_diagonal_connections(row_index, index):
+        if not Movement.check_for_diagonal_connections(row_index, index):
             return False
         if pawns[row_index+1][index+1] == wanted_pawn:
             return True
         return False
 
-    def down_movement(self, pawns, row_index, index, wanted_pawn):
-        self.validate_wanted_pawn(wanted_pawn)
-        if self.check_for_max_to_right_or_down(row_index, len(pawns)):
+    @staticmethod
+    def down_movement(pawns, row_index, index, wanted_pawn):
+        Movement.validate_wanted_pawn(wanted_pawn)
+        if Movement.check_for_max_to_right_or_down(row_index, len(pawns)):
             return False
         if pawns[row_index+1][index] == wanted_pawn:
             return True
         return False
 
-    def diagonal_movement_to_left_down(self, pawns, row_index, index, wanted_pawn):
-        self.validate_wanted_pawn(wanted_pawn)
-        if self.check_for_max_to_right_or_down(row_index, len(pawns)):
+    @staticmethod
+    def diagonal_movement_to_left_down(pawns, row_index, index, wanted_pawn):
+        Movement.validate_wanted_pawn(wanted_pawn)
+        if Movement.check_for_max_to_right_or_down(row_index, len(pawns)):
             return False
-        if self.check_for_max_to_left_or_up(index):
+        if Movement.check_for_max_to_left_or_up(index):
             return False
-        if not self.check_for_diagonal_connections(row_index, index):
+        if not Movement.check_for_diagonal_connections(row_index, index):
             return False
         if pawns[row_index+1][index-1] == wanted_pawn:
             return True
         return False
 
-    def sideways_movement_to_left(self, pawns, row_index, index, wanted_pawn):
-        self.validate_wanted_pawn(wanted_pawn)
-        if self.check_for_max_to_left_or_up(index):
+    @staticmethod
+    def sideways_movement_to_left(pawns, row_index, index, wanted_pawn):
+        Movement.validate_wanted_pawn(wanted_pawn)
+        if Movement.check_for_max_to_left_or_up(index):
             return False
         if pawns[row_index][index-1] == wanted_pawn:
             return True

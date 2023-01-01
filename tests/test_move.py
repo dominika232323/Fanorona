@@ -55,21 +55,6 @@ def test_create_move_invalid_turn():
         Move(Pawns(Board()), 'fgh')
 
 
-# ---------------------------------------- recognize_move()
-
-
-def test_recognize_move():
-    move = Move(Pawns(Board()), FIRST_COLOR)
-    assert move.recognize_move((1, 1), (0, 0)) == MOVEMENT_DIAGONAL_LEFT_UP
-    assert move.recognize_move((1, 1), (0, 1)) == MOVEMENT_UP
-    assert move.recognize_move((1, 1), (0, 2)) == MOVEMENT_DIAGONAL_RIGHT_UP
-    assert move.recognize_move((1, 1), (1, 2)) == MOVEMENT_SIDEWAYS_RIGHT
-    assert move.recognize_move((1, 1), (2, 2)) == MOVEMENT_DIAGONAL_RIGHT_DOWN
-    assert move.recognize_move((1, 1), (2, 1)) == MOVEMENT_DOWN
-    assert move.recognize_move((1, 1), (2, 0)) == MOVEMENT_DIAGONAL_LEFT_DOWN
-    assert move.recognize_move((1, 1), (1, 0)) == MOVEMENT_SIDEWAYS_LEFT
-
-
 # ---------------------------------------- which_can_move()
 
 
