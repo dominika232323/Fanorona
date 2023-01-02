@@ -15,43 +15,29 @@ from configuration import (
     CHOICE_APPROACH
 )
 from source.movement import Movement
+from source.hit import Hit
+from source.turn import Turn
 
 
-class Move():
-    def __init__(self, pawns, turn):
-        self._validate(pawns, turn)
-        self._pawns = pawns.actual_pawns
-        self._turn = turn
-        self._pawn_to_hit = FIRST_COLOR if turn == SECOND_COLOR else SECOND_COLOR
-        self._length = pawns.board_length
-        self._width = pawns.board_width
+class Move(Turn):
+    def move_maker(self, pawn, empty):
+        self._validate_move_maker(empty, pawn)
+
+        if not Hit.which_can_hit():
+            return self.move_without_hits(pawn, empty)
+        else:
+            return self.move_with_hits(pawn, empty)
 
     @staticmethod
-    def _validate(pawns, turn):
-        if not isinstance(pawns, Pawns):
-            raise TypeError
-        if turn != FIRST_COLOR and turn != SECOND_COLOR:
-            raise ValueError('This type of pawn does not exist.')
-
-    @property
-    def pawns(self):
-        return self._pawns
-
-    @property
-    def turn(self):
-        return self._turn
-
-    @property
-    def pawn_to_hit(self):
-        return self._pawn_to_hit
-
-    @property
-    def length(self):
-        return self._length
-
-    @property
-    def width(self):
-        return self._width
+    def _validate_move_maker(empty, pawn):
+        if pawn not in Hit.which_can_move():
+            raise MoveError('This pawn cannot move')
+        if empty not in Hit.where_can_move()[pawn]:
+            raise MoveError('This pawn cannot move here')
+        if Hit.which_can_hit() and pawn not in Hit.which_can_hit():
+            raise MoveError('This pawn does not have any hits')
+        if Hit.which_can_hit() and empty not in Hit.where_can_hit()[pawn]:
+            raise MoveError('This pawn does not have any hits here')
 
     def possible_combo(self, previous_move_type):
         # sprawdza czy mozna zrobic kombo
@@ -60,12 +46,12 @@ class Move():
     def move_without_hits(self, pawn, empty):
         pawns_after_move = self.copy_pawns()
         pawns_after_move[pawn[0]][pawn[1]] = EMPTY_COLOR
-        pawns_after_move[empty[0]][empty[1]] = self._turn
+        pawns_after_move[empty[0]][empty[1]] = self.turn
         return pawns_after_move
 
     def move_with_hits(self, pawn, empty):
-        withdrawal = self.which_hits_by_withdrawal()
-        approach = self.which_hits_by_approach()
+        withdrawal = Hit.which_hits_by_withdrawal()
+        approach = Hit.which_hits_by_approach()
 
         if (pawn, empty) in withdrawal and (pawn, empty) in approach:
             chosen_group = self.choose_group_to_kill(pawn, empty)
@@ -86,9 +72,12 @@ class Move():
         group = []
         return group
 
-    def choose_move_with_hits(self, pawn, empty, chosen_group):
-        group_withdrawal = self.which_hits_by_withdrawal()[(pawn, empty)]
-        group_approach = self.which_hits_by_approach()[(pawn, empty)]
+    @staticmethod
+    def choose_move_with_hits(pawn, empty, chosen_group):
+        withdrawal = Hit.which_hits_by_withdrawal
+        group_withdrawal = withdrawal[(pawn, empty)]
+        approach = Hit.which_hits_by_approach
+        group_approach = approach[(pawn, empty)]
         if chosen_group == group_withdrawal:
             return CHOICE_WITHDRAWAL
         elif chosen_group == group_approach:
@@ -104,34 +93,16 @@ class Move():
         
         return pawns_after_move
 
-    def move_maker(self, pawn, empty):
-        self._validate_move_maker(empty, pawn)
-
-        if not self.which_can_hit():
-            return self.move_without_hits(pawn, empty)
-        else:
-            return self.move_with_hits(pawn, empty)
-
-    def _validate_move_maker(self, empty, pawn):
-        if pawn not in self.which_can_move():
-            raise MoveError('This pawn cannot move')
-        if empty not in self.where_can_move()[pawn]:
-            raise MoveError('This pawn cannot move here')
-        if self.which_can_hit() and pawn not in self.which_can_hit():
-            raise MoveError('This pawn does not have any hits')
-        if self.which_can_hit() and empty not in self.where_can_hit()[pawn]:
-            raise MoveError('This pawn does not have any hits here')
-
     def copy_pawns(self):
-        pawns_after_move = []
+        copied_pawns = []
 
-        for row in self._pawns:
+        for row in self.pawns:
             row_after_move = []
             for pawn in row:
                 row_after_move.append(pawn)
-            pawns_after_move.append(row_after_move)
+            copied_pawns.append(row_after_move)
         
-        return pawns_after_move
+        return copied_pawns
 
 
 class MoveError(Exception):

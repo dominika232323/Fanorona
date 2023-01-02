@@ -13,44 +13,10 @@ from configuration import (
 )
 from source.pawns import Pawns
 from source.movement import Movement
+from source.turn import Turn
 
 
-class Hit:
-    def __init__(self, pawns, turn):
-        self._validate(pawns, turn)
-        self._pawns = pawns.actual_pawns
-        self._turn = turn
-        self._pawn_to_hit = FIRST_COLOR if turn == SECOND_COLOR else SECOND_COLOR
-        self._length = pawns.board_length
-        self._width = pawns.board_width
-
-    @staticmethod
-    def _validate(pawns, turn):
-        if not isinstance(pawns, Pawns):
-            raise TypeError
-        if turn != FIRST_COLOR and turn != SECOND_COLOR:
-            raise ValueError('This type of pawn does not exist.')
-
-    @property
-    def pawns(self):
-        return self._pawns
-
-    @property
-    def turn(self):
-        return self._turn
-
-    @property
-    def pawn_to_hit(self):
-        return self._pawn_to_hit
-
-    @property
-    def length(self):
-        return self._length
-
-    @property
-    def width(self):
-        return self._width
-
+class Hit(Turn):
     def which_can_move(self):
         """
         Returns a list of co-ordinates of pawns that can move, because they have an empty space near them.
@@ -223,6 +189,7 @@ class Hit:
         # dic = {[(pawns cords), (empty cords)]: [cords of each pawn that hits]}
         pass
 
+    @property
     def which_hits_by_withdrawal(self):
         hitting_pawns = self.where_can_hit_by_withdrawal()
         which_hits = {}
@@ -282,6 +249,7 @@ class Hit:
                 which_hits[(pawn, empty)] = hits
         return which_hits
 
+    @property
     def which_hits_by_approach(self):
         hitting_pawns = self.where_can_hit_by_approach()
         which_hits = {}

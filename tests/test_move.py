@@ -1,6 +1,7 @@
 from source.move import Move, MoveError
 from source.board import Board
 from source.pawns import Pawns
+from source.hit import Hit
 from configuration import (
     FIRST_COLOR,
     SECOND_COLOR,
@@ -36,26 +37,6 @@ def test_create_move():
     assert move.pawn_to_hit == SECOND_COLOR
     assert move.length == 9
     assert move.width == 5
-
-
-def test_create_move_invalid_pawns():
-    expected = [
-        [SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR],
-        [SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR],
-        [SECOND_COLOR, FIRST_COLOR, SECOND_COLOR, FIRST_COLOR, EMPTY_COLOR, SECOND_COLOR, FIRST_COLOR, SECOND_COLOR, FIRST_COLOR],
-        [FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR],
-        [FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR]
-    ]
-    with pytest.raises(TypeError):
-        Move(expected, SECOND_COLOR)
-
-
-def test_create_move_invalid_turn():
-    with pytest.raises(ValueError):
-        Move(Pawns(Board()), 'fgh')
-
-
-
 
 
 # ---------------------------------------- copy_pawns()
