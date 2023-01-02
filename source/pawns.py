@@ -6,7 +6,7 @@ from configuration import (
 )
 
 
-class Pawns():
+class Pawns:
     def __init__(self, board):
         self._validate(board)
         self._board_length = board.length

@@ -7,11 +7,8 @@ from configuration import (
     MOVEMENT_DIAGONAL_LEFT_DOWN,
     MOVEMENT_SIDEWAYS_LEFT,
     MOVEMENT_DIAGONAL_LEFT_UP,
-    FIRST_COLOR,
-    SECOND_COLOR,
     EMPTY_COLOR
 )
-from source.pawns import Pawns
 from source.movement import Movement
 from source.turn import Turn
 

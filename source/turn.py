@@ -1,7 +1,6 @@
 from configuration import (
     FIRST_COLOR,
-    SECOND_COLOR,
-    EMPTY_COLOR
+    SECOND_COLOR
 )
 from source.pawns import Pawns
 
@@ -18,7 +17,7 @@ class Turn:
     @staticmethod
     def _validate(pawns, turn):
         if not isinstance(pawns, Pawns):
-            raise TypeError
+            raise TypeError('Invalid type of pawns')
         if turn != FIRST_COLOR and turn != SECOND_COLOR:
             raise ValueError('This type of pawn does not exist.')
 

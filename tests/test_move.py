@@ -1,23 +1,43 @@
 from source.move import Move, MoveError
 from source.board import Board
 from source.pawns import Pawns
-from source.hit import Hit
 from configuration import (
     FIRST_COLOR,
     SECOND_COLOR,
     EMPTY_COLOR,
-    MOVEMENT_DIAGONAL_LEFT_UP,
-    MOVEMENT_UP,
-    MOVEMENT_DIAGONAL_RIGHT_UP,
-    MOVEMENT_SIDEWAYS_RIGHT,
-    MOVEMENT_DIAGONAL_RIGHT_DOWN,
-    MOVEMENT_DOWN,
-    MOVEMENT_DIAGONAL_LEFT_DOWN,
-    MOVEMENT_SIDEWAYS_LEFT,
     CHOICE_WITHDRAWAL,
     CHOICE_APPROACH
 )
 import pytest
+
+
+# ---------------------------------------- copy_pawns()
+
+
+def test_create_move():
+    move = Move(Pawns(Board()), FIRST_COLOR)
+    assert move.pawns == [
+        [SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR],
+        [SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR],
+        [SECOND_COLOR, FIRST_COLOR, SECOND_COLOR, FIRST_COLOR, EMPTY_COLOR, SECOND_COLOR, FIRST_COLOR, SECOND_COLOR, FIRST_COLOR],
+        [FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR],
+        [FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR]
+    ]
+    assert move.turn == FIRST_COLOR
+    assert move.pawn_to_hit == SECOND_COLOR
+    assert move.length == 9
+    assert move.width == 5
+
+
+def test_create_move_invalid_pawns():
+    pawns = 'sdfghjk'
+    with pytest.raises(TypeError):
+        Move(pawns, FIRST_COLOR)
+
+
+def test_create_move_invalid_turn():
+    with pytest.raises(ValueError):
+        Move(Pawns(Board()), 'fghj')
 
 
 # ---------------------------------------- copy_pawns()

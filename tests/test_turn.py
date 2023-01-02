@@ -21,11 +21,11 @@ def test_create_turn():
         [FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR],
         [FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR]
     ]
-    assert turn.pawns == expected
-    assert turn.turn == FIRST_COLOR
-    assert turn.pawn_to_hit == SECOND_COLOR
-    assert turn.length == 9
-    assert turn.width == 5
+    assert turn.pawns() == expected
+    assert turn.turn() == FIRST_COLOR
+    assert turn.pawn_to_hit() == SECOND_COLOR
+    assert turn.length() == 9
+    assert turn.width() == 5
 
 
 def test_create_hit_invalid_pawns():

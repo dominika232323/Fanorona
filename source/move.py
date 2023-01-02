@@ -1,22 +1,9 @@
-from source.pawns import Pawns
 from configuration import (
-    FIRST_COLOR,
-    SECOND_COLOR,
     EMPTY_COLOR,
-    MOVEMENT_DIAGONAL_LEFT_UP,
-    MOVEMENT_UP,
-    MOVEMENT_DIAGONAL_RIGHT_UP,
-    MOVEMENT_SIDEWAYS_RIGHT,
-    MOVEMENT_DIAGONAL_RIGHT_DOWN,
-    MOVEMENT_DOWN,
-    MOVEMENT_DIAGONAL_LEFT_DOWN,
-    MOVEMENT_SIDEWAYS_LEFT,
     CHOICE_WITHDRAWAL,
     CHOICE_APPROACH
 )
-from source.movement import Movement
 from source.hit import Hit
-from source.turn import Turn
 
 
 class Move:
