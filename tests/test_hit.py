@@ -21,11 +21,11 @@ def test_create_hit():
         [FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR],
         [FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR]
     ]
-    assert move.pawns == expected
-    assert move.turn == FIRST_COLOR
-    assert move.pawn_to_hit == SECOND_COLOR
-    assert move.length == 9
-    assert move.width == 5
+    assert move.pawns() == expected
+    assert move.turn() == FIRST_COLOR
+    assert move.pawn_to_hit() == SECOND_COLOR
+    assert move.length() == 9
+    assert move.width() == 5
 
 
 def test_create_hit_invalid_pawns():
@@ -390,7 +390,7 @@ def test_which_hits_by_withdrawal():
         ((2, 7), (1, 7)): [(3, 7), (4, 7)],
         ((3, 3), (3, 4)): [(3, 2), (3, 1), (3, 0)]
         }
-    assert move.which_hits_by_withdrawal == expected
+    assert move.which_hits_by_withdrawal() == expected
 
 
 def test_which_hits_by_withdrawal_without_hits():
@@ -405,7 +405,7 @@ def test_which_hits_by_withdrawal_without_hits():
     pawns.set_actual_pawns(new_pawns)
 
     move = Hit(pawns, FIRST_COLOR)
-    assert move.which_hits_by_withdrawal == {}
+    assert move.which_hits_by_withdrawal() == {}
 
 
 # ---------------------------------------- which_hits_by_approach()
@@ -435,7 +435,7 @@ def test_which_hits_by_approach():
         ((1, 2), (2, 2)): [(3, 2)],
         ((3, 3), (3, 4)): [(3, 5), (3, 6), (3, 7), (3, 8)]
         }
-    assert move.which_hits_by_approach == expected
+    assert move.which_hits_by_approach() == expected
 
 
 def test_which_hits_by_approach_without_hits():
@@ -450,4 +450,4 @@ def test_which_hits_by_approach_without_hits():
     pawns.set_actual_pawns(new_pawns)
 
     move = Hit(pawns, FIRST_COLOR)
-    assert move.which_hits_by_approach == {}
+    assert move.which_hits_by_approach() == {}
