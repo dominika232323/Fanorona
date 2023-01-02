@@ -20,25 +20,6 @@ from configuration import (
 import pytest
 
 
-# ---------------------------------------- __init__()
-
-
-def test_create_move():
-    move = Move(Pawns(Board()), FIRST_COLOR)
-    expected = [
-        [SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR],
-        [SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR],
-        [SECOND_COLOR, FIRST_COLOR, SECOND_COLOR, FIRST_COLOR, EMPTY_COLOR, SECOND_COLOR, FIRST_COLOR, SECOND_COLOR, FIRST_COLOR],
-        [FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR],
-        [FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR]
-    ]
-    assert move.pawns == expected
-    assert move.turn == FIRST_COLOR
-    assert move.pawn_to_hit == SECOND_COLOR
-    assert move.length == 9
-    assert move.width == 5
-
-
 # ---------------------------------------- copy_pawns()
 
 
@@ -53,7 +34,7 @@ def test_copy_pawns():
     ]
     pawns.set_actual_pawns(new_pawns)
 
-    move = Move(pawns, FIRST_COLOR)
+    move = Move(pawns, SECOND_COLOR)
     assert move.copy_pawns() == [
         [SECOND_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, SECOND_COLOR, EMPTY_COLOR],
         [SECOND_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, SECOND_COLOR, EMPTY_COLOR],

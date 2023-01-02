@@ -19,24 +19,46 @@ from source.hit import Hit
 from source.turn import Turn
 
 
-class Move(Turn):
+class Move:
+    def __init__(self, pawns, turn):
+        self.hit = Hit(pawns, turn)
+
+    @property
+    def pawns(self):
+        return self.hit.pawns()
+
+    @property
+    def turn(self):
+        return self.hit.turn()
+
+    @property
+    def pawn_to_hit(self):
+        return self.hit.pawn_to_hit()
+
+    @property
+    def length(self):
+        return self.hit.length()
+
+    @property
+    def width(self):
+        return self.hit.width()
+
     def move_maker(self, pawn, empty):
         self._validate_move_maker(empty, pawn)
 
-        if not Hit.which_can_hit():
+        if not self.hit.which_can_hit():
             return self.move_without_hits(pawn, empty)
         else:
             return self.move_with_hits(pawn, empty)
 
-    @staticmethod
-    def _validate_move_maker(empty, pawn):
-        if pawn not in Hit.which_can_move():
+    def _validate_move_maker(self, empty, pawn):
+        if pawn not in self.hit.which_can_move():
             raise MoveError('This pawn cannot move')
-        if empty not in Hit.where_can_move()[pawn]:
+        if empty not in self.hit.where_can_move()[pawn]:
             raise MoveError('This pawn cannot move here')
-        if Hit.which_can_hit() and pawn not in Hit.which_can_hit():
+        if self.hit.which_can_hit() and pawn not in self.hit.which_can_hit():
             raise MoveError('This pawn does not have any hits')
-        if Hit.which_can_hit() and empty not in Hit.where_can_hit()[pawn]:
+        if self.hit.which_can_hit() and empty not in self.hit.where_can_hit()[pawn]:
             raise MoveError('This pawn does not have any hits here')
 
     def possible_combo(self, previous_move_type):
@@ -50,8 +72,8 @@ class Move(Turn):
         return pawns_after_move
 
     def move_with_hits(self, pawn, empty):
-        withdrawal = Hit.which_hits_by_withdrawal()
-        approach = Hit.which_hits_by_approach()
+        withdrawal = self.hit.which_hits_by_withdrawal()
+        approach = self.hit.which_hits_by_approach()
 
         if (pawn, empty) in withdrawal and (pawn, empty) in approach:
             chosen_group = self.choose_group_to_kill(pawn, empty)
@@ -72,12 +94,9 @@ class Move(Turn):
         group = []
         return group
 
-    @staticmethod
-    def choose_move_with_hits(pawn, empty, chosen_group):
-        withdrawal = Hit.which_hits_by_withdrawal
-        group_withdrawal = withdrawal[(pawn, empty)]
-        approach = Hit.which_hits_by_approach
-        group_approach = approach[(pawn, empty)]
+    def choose_move_with_hits(self, pawn, empty, chosen_group):
+        group_withdrawal = self.hit.which_hits_by_withdrawal()[(pawn, empty)]
+        group_approach = self.hit.which_hits_by_approach()[(pawn, empty)]
         if chosen_group == group_withdrawal:
             return CHOICE_WITHDRAWAL
         elif chosen_group == group_approach:
