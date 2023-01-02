@@ -22,22 +22,17 @@ class Turn:
         if turn != FIRST_COLOR and turn != SECOND_COLOR:
             raise ValueError('This type of pawn does not exist.')
 
-    @property
     def pawns(self):
         return self._pawns
 
-    @property
     def turn(self):
         return self._turn
 
-    @property
     def pawn_to_hit(self):
         return self._pawn_to_hit
 
-    @property
     def length(self):
         return self._length
 
-    @property
     def width(self):
         return self._width
