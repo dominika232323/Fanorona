@@ -11,7 +11,7 @@ from configuration import (
 import pytest
 
 
-# ---------------------------------------- copy_pawns()
+# ---------------------------------------- __init__()
 
 
 def test_create_move():

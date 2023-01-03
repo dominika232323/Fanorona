@@ -3,7 +3,10 @@ from configuration import (
     CHOICE_WITHDRAWAL,
     CHOICE_APPROACH
 )
+from source.board import Board
 from source.hit import Hit
+from source.movement import Movement
+from source.pawns import Pawns
 
 
 class Move:
@@ -47,10 +50,6 @@ class Move:
             raise MoveError('This pawn does not have any hits')
         if self.hit.which_can_hit() and empty not in self.hit.where_can_hit()[pawn]:
             raise MoveError('This pawn does not have any hits here')
-
-    def possible_combo(self, previous_move_type):
-        # sprawdza czy mozna zrobic kombo
-        pass
 
     def move_without_hits(self, pawn, empty):
         pawns_after_move = self.copy_pawns()
