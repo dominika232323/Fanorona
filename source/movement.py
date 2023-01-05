@@ -1,4 +1,4 @@
-from configuration import (
+from source.configuration import (
     MOVEMENT_UP,
     MOVEMENT_DIAGONAL_RIGHT_UP,
     MOVEMENT_SIDEWAYS_RIGHT,

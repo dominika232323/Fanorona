@@ -7,6 +7,13 @@ from random import choice
 
 def player_turn(pawns, pawn_color):
     move = Move(pawns, pawn_color)
+    # move.move_maker()
+    # pawns.set_actual_pawns()
+    # combo = Combo()
+    # while combo.possible_combo():
+    #     if combo.possible_combo():
+    #         move_combo = Move()
+    #         move_combo.move_maker()
 
 
 def computer_random(pawns, pawn_color):

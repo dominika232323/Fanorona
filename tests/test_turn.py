@@ -1,7 +1,7 @@
 from source.turn import Turn
 from source.board import Board
 from source.pawns import Pawns
-from configuration import (
+from source.configuration import (
     FIRST_COLOR,
     SECOND_COLOR,
     EMPTY_COLOR

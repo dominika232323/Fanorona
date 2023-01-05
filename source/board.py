@@ -1,4 +1,4 @@
-from configuration import (
+from source.configuration import (
     MIN_BOARD_LENGTH,
     MIN_BOARD_WIDTH,
     DEFAULTS_BOARD_LENGTH,

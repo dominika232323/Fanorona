@@ -1,12 +1,9 @@
-from configuration import (
+from source.configuration import (
     EMPTY_COLOR,
     CHOICE_WITHDRAWAL,
     CHOICE_APPROACH
 )
-from source.board import Board
 from source.hit import Hit
-from source.movement import Movement
-from source.pawns import Pawns
 
 
 class Move:

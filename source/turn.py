@@ -1,4 +1,4 @@
-from configuration import (
+from source.configuration import (
     FIRST_COLOR,
     SECOND_COLOR
 )
