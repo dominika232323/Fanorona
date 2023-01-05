@@ -1,14 +1,7 @@
-from source.board import Board
 from source.hit import Hit
 from source.move import Move
 from source.movement import Movement
-from source.pawns import Pawns
 from source.turn import Turn
-from configuration import (
-    FIRST_COLOR,
-    SECOND_COLOR,
-    EMPTY_COLOR
-)
 
 
 class Combo(Turn):
