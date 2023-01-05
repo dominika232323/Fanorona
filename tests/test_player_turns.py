@@ -1,5 +1,5 @@
-from game.player_turns import *
-from configuration import (
+from game.players_turns import *
+from source.configuration import (
     FIRST_COLOR,
     SECOND_COLOR,
     EMPTY_COLOR

@@ -1,12 +1,9 @@
 from game.game_progress import (
-    game_progress,
-    opponent_turn,
     order_of_players
 )
-from configuration import (
+from source.configuration import (
     FIRST_COLOR,
     SECOND_COLOR,
-    EMPTY_COLOR,
     OPPONENT_PLAYER,
     OPPONENT_COMPUTER_RANDOM,
     OPPONENT_COMPUTER_BEST
