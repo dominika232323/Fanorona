@@ -17,6 +17,7 @@ class FanoronaWindow(QMainWindow):
         self.length = self.ui.boardLength.value()
         self.width = self.ui.boardWidth.value()
         self.opponent = self.ui.ChooseOpponent.value()
+        self.color = self.ui.spinBoxChooseColor.value()
 
 
 def gui_main():

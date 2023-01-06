@@ -19,8 +19,8 @@
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>541</width>
-      <height>311</height>
+      <width>561</width>
+      <height>451</height>
      </rect>
     </property>
     <property name="sizePolicy">
@@ -31,10 +31,177 @@
     </property>
     <widget class="QWidget" name="page">
      <layout class="QGridLayout" name="gridLayout">
-      <item row="0" column="0">
+      <item row="1" column="1">
+       <layout class="QVBoxLayout" name="verticalLayout_2">
+        <item>
+         <widget class="QLabel" name="labelWidth">
+          <property name="font">
+           <font>
+            <pointsize>11</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>Chose number of rows</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QSpinBox" name="boardWidth">
+          <property name="minimum">
+           <number>3</number>
+          </property>
+          <property name="maximum">
+           <number>15</number>
+          </property>
+          <property name="singleStep">
+           <number>2</number>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item row="8" column="0" colspan="2">
+       <spacer name="verticalSpacer_3">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>40</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item row="5" column="0" colspan="2">
+       <widget class="QLabel" name="labelFirstColor">
+        <property name="font">
+         <font>
+          <pointsize>11</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>1 - Pawns with the first move color</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0" colspan="2">
+       <layout class="QVBoxLayout" name="verticalLayout_3">
+        <item>
+         <widget class="QLabel" name="labelOpponent">
+          <property name="font">
+           <font>
+            <pointsize>11</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>Choose your opponent</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="labelOppontnPlayer">
+          <property name="font">
+           <font>
+            <pointsize>11</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>1 - Play against another player</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="labelOppontnComputerRandom">
+          <property name="font">
+           <font>
+            <pointsize>11</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>2 - Play against computer with random choice</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="labelOppontnComputerBest">
+          <property name="font">
+           <font>
+            <pointsize>11</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>3 - Play against computer with the best choice</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QSpinBox" name="ChooseOpponent">
+          <property name="minimum">
+           <number>1</number>
+          </property>
+          <property name="maximum">
+           <number>3</number>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="verticalSpacer_2">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>40</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </item>
+      <item row="4" column="0" colspan="2">
+       <widget class="QLabel" name="labelChooseColor">
+        <property name="font">
+         <font>
+          <pointsize>11</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Choose the color of your pawns</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
        <layout class="QVBoxLayout" name="verticalLayout">
         <item>
          <widget class="QLabel" name="labelLength">
+          <property name="font">
+           <font>
+            <pointsize>11</pointsize>
+           </font>
+          </property>
           <property name="text">
            <string>Chose number of columns</string>
           </property>
@@ -67,93 +234,68 @@
         </item>
        </layout>
       </item>
-      <item row="0" column="1">
-       <layout class="QVBoxLayout" name="verticalLayout_2">
-        <item>
-         <widget class="QLabel" name="labelWidth">
-          <property name="text">
-           <string>Chose number of rows</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignCenter</set>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QSpinBox" name="boardWidth">
-          <property name="minimum">
-           <number>3</number>
-          </property>
-          <property name="maximum">
-           <number>15</number>
-          </property>
-          <property name="singleStep">
-           <number>2</number>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-      <item row="1" column="0" colspan="2">
-       <layout class="QVBoxLayout" name="verticalLayout_3">
-        <item>
-         <widget class="QLabel" name="labelOpponent">
-          <property name="text">
-           <string>Choose your opponent</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignCenter</set>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLabel" name="labelOppontnPlayer">
-          <property name="text">
-           <string>1 - Play against another player</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignCenter</set>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLabel" name="labelOppontnComputerRandom">
-          <property name="text">
-           <string>2 - Play against computer with random choice</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignCenter</set>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLabel" name="labelOppontnComputerBest">
-          <property name="text">
-           <string>3 - Play against computer with the best choice</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignCenter</set>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QSpinBox" name="ChooseOpponent">
-          <property name="minimum">
-           <number>1</number>
-          </property>
-          <property name="maximum">
-           <number>3</number>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-      <item row="2" column="0" colspan="2">
+      <item row="9" column="0" colspan="2">
        <widget class="QPushButton" name="playButton">
+        <property name="font">
+         <font>
+          <pointsize>12</pointsize>
+         </font>
+        </property>
         <property name="text">
          <string>Play</string>
         </property>
        </widget>
+      </item>
+      <item row="7" column="0" colspan="2">
+       <widget class="QSpinBox" name="spinBoxChooseColor">
+        <property name="minimum">
+         <number>1</number>
+        </property>
+        <property name="maximum">
+         <number>2</number>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="0" colspan="2">
+       <widget class="QLabel" name="labelSecondColor">
+        <property name="font">
+         <font>
+          <pointsize>11</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>2 - Pawns with the second move color</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0" colspan="2">
+       <spacer name="verticalSpacer">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>40</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item row="0" column="0" colspan="2">
+       <spacer name="verticalSpacer_4">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>40</height>
+         </size>
+        </property>
+       </spacer>
       </item>
      </layout>
     </widget>
