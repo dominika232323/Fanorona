@@ -7,9 +7,16 @@ class FanoronaWindow(QMainWindow):
         super().__init__(parent)
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
+        self.ui.stack.setCurrentIndex(0)
+        self._setup_game()
+
+    def _setup_game(self):
+        self.ui.playButton.clicked.connect(self._get_values)
 
     def _get_values(self):
-        pass
+        self.length = self.ui.boardLength.value()
+        self.width = self.ui.boardWidth.value()
+        self.opponent = self.ui.ChooseOpponent.value()
 
 
 def gui_main():
