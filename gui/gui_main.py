@@ -1,4 +1,7 @@
+from PySide2.QtCore import QSize
+from PySide2.QtGui import QBrush
 from PySide2.QtWidgets import QApplication, QMainWindow, QGridLayout, QPushButton
+from PySide2.QtCore import Qt
 
 from source.board import Board
 from source.pawns import Pawns
@@ -33,6 +36,7 @@ class FanoronaWindow(QMainWindow):
         for row in range(0, self._width):
             for column in range(0, self._length):
                 self._buttons_dict[(row, column)] = QPushButton()
+                self._buttons_dict[(row, column)].setMinimumSize(QSize(100, 100))
                 self.ui.boardGrid.addWidget(self._buttons_dict[(row, column)], row, column)
         self._set_pawns_on_board(Pawns(Board(self._length, self._width)))
 
