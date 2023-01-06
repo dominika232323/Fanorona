@@ -11,17 +11,18 @@ class FanoronaWindow(QMainWindow):
         self._setup_game()
 
     def _setup_game(self):
-        self.ui.boardLength.valueChanged.connect(self._get_values())
-        self.ui.boardWidth.valueChanged.connect(self._get_values())
-        self.ui.ChooseOpponent.valueChanged.connect(self._get_values())
-        self.ui.spinBoxChooseColor.valueChanged.connect(self._get_values())
-        self.ui.playButton.clicked.connect(self._create_board)
+        # self.ui.boardLength.valueChanged.connect(self._get_values())
+        # self.ui.boardWidth.valueChanged.connect(self._get_values())
+        # self.ui.ChooseOpponent.valueChanged.connect(self._get_values())
+        # self.ui.spinBoxChooseColor.valueChanged.connect(self._get_values())
+        self.ui.playButton.clicked.connect(self._get_values)
 
     def _get_values(self):
         self._length = int(self.ui.boardLength.value())
         self._width = int(self.ui.boardWidth.value())
         self._opponent = int(self.ui.ChooseOpponent.value())
         self._color = int(self.ui.spinBoxChooseColor.value())
+        self._create_board()
 
     def _create_board(self):
         self.ui.stack.setCurrentIndex(1)
