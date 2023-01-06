@@ -64,3 +64,13 @@ def find_longest_group_to_kill(dict_of_hits):
             len_group_to_kill = len(dict_of_hits[pawn_and_empty])
     return pawn_cords, empty_cords, len_group_to_kill
 
+
+def find_best_empty_for_combo(pawn_cords, list_of_empties, dict_of_hits):
+    length = 0
+    empty_cords = (0, 0)
+    for empty in list_of_empties:
+        if (pawn_cords, empty) in dict_of_hits.keys():
+            if len(dict_of_hits[(pawn_cords, empty)]) > length:
+                empty_cords = empty
+                length = len(dict_of_hits[(pawn_cords, empty)])
+    return empty_cords, length
