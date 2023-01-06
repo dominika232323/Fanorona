@@ -32,6 +32,7 @@ class FanoronaWindow(QMainWindow):
         self._setup_game()
 
     def _setup_game(self):
+        self.ui.stack.setCurrentIndex(0)
         self.ui.playButton.clicked.connect(self._get_values)
 
     def _get_values(self):
@@ -86,6 +87,8 @@ class FanoronaWindow(QMainWindow):
         while self._pawns.check_for_winner() is False:
             self._make_turn(self._first_player, self._pawns, FIRST_COLOR)
             self._make_turn(self._second_player, self._pawns, SECOND_COLOR)
+
+        self._game_over()
 
     def _make_turn(self, player, pawns, color):
         if player == OPPONENT_PLAYER:
@@ -170,6 +173,12 @@ class FanoronaWindow(QMainWindow):
         for button in self._buttons_dict:
             if self._buttons_dict[button].clicked():
                 return button
+
+    def _game_over(self):
+        self.ui.stack.setCurrentIndex(2)
+        self.ui.labelWinner.setText(self._pawns.winner_message())
+        self.ui.NewGame.clicked.connect(self._setup_game)
+
 
 
 def gui_main():
