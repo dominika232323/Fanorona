@@ -1,4 +1,7 @@
 from PySide2.QtWidgets import QApplication, QMainWindow, QGridLayout, QPushButton
+
+from source.board import Board
+from source.pawns import Pawns
 from ui_fanorona import Ui_MainWindow
 
 
@@ -26,12 +29,22 @@ class FanoronaWindow(QMainWindow):
 
     def _create_board(self):
         self.ui.stack.setCurrentIndex(1)
-        # self.ui.boardGrid.addWidget(QPushButton())
+        self._buttons_dict = {}
         for row in range(0, self._width):
             for column in range(0, self._length):
-                self.ui.boardGrid.addWidget(QPushButton(), row, column)
+                self._buttons_dict[(row, column)] = QPushButton()
+                self.ui.boardGrid.addWidget(self._buttons_dict[(row, column)], row, column)
+        self._set_pawns_on_board(Pawns(Board(self._length, self._width)))
 
-
+    def _set_pawns_on_board(self, pawns):
+        for row_index, row in enumerate(pawns.actual_pawns):
+            for index, pawn in enumerate(pawns.actual_pawns[row_index]):
+                self._buttons_dict[(row_index, index)].setStyleSheet(
+                    "QPushButton"
+                    "{"
+                    f"background-color : {pawn};"
+                    "}"
+                )
 
 
 def gui_main():
