@@ -178,6 +178,16 @@ class Ui_MainWindow(object):
         self.boardGrid.setObjectName(u"boardGrid")
         self.boardGrid.setContentsMargins(0, 0, 0, 0)
         self.stack.addWidget(self.page_2)
+        self.page_3 = QWidget()
+        self.page_3.setObjectName(u"page_3")
+        self.labelWinner = QLabel(self.page_3)
+        self.labelWinner.setObjectName(u"labelWinner")
+        self.labelWinner.setGeometry(QRect(340, 220, 361, 81))
+        self.NewGame = QPushButton(self.page_3)
+        self.NewGame.setObjectName(u"NewGame")
+        self.NewGame.setGeometry(QRect(380, 340, 271, 91))
+        self.NewGame.setStyleSheet(u"font: 18pt \"Sans Serif\";")
+        self.stack.addWidget(self.page_3)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(MainWindow)
         self.menubar.setObjectName(u"menubar")
@@ -189,7 +199,7 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
 
-        self.stack.setCurrentIndex(1)
+        self.stack.setCurrentIndex(2)
 
 
         QMetaObject.connectSlotsByName(MainWindow)
@@ -208,5 +218,7 @@ class Ui_MainWindow(object):
         self.labelOppontnComputerBest.setText(QCoreApplication.translate("MainWindow", u"3 - Play against computer with the best choice", None))
         self.labelChooseColor.setText(QCoreApplication.translate("MainWindow", u"Choose the color of your pawns", None))
         self.playButton.setText(QCoreApplication.translate("MainWindow", u"Play", None))
+        self.labelWinner.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p align=\"center\"><span style=\" font-size:36pt;\">X won!</span></p></body></html>", None))
+        self.NewGame.setText(QCoreApplication.translate("MainWindow", u"Start another game", None))
     # retranslateUi
 
