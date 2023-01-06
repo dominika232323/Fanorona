@@ -3,7 +3,7 @@ from source.pawns import Pawns, PawnsError
 from source.configuration import (
     FIRST_COLOR,
     SECOND_COLOR,
-    EMPTY_COLOR
+    EMPTY_COLOR, SECOND_COLOR_WINNER
 )
 import pytest
 
@@ -176,3 +176,24 @@ def test_check_for_winner_first_zero():
         ]
     pawns.set_actual_pawns(new_pawns)
     assert pawns.check_for_winner() is True
+
+
+# -------------------------------- winner_message()
+
+
+def test_winner_message_first_zero():
+    pawns = Pawns(Board())
+    new_pawns = [
+            [SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, EMPTY_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR],
+            [SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR],
+            [EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, EMPTY_COLOR],
+            [EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, SECOND_COLOR, EMPTY_COLOR, EMPTY_COLOR, SECOND_COLOR, EMPTY_COLOR, EMPTY_COLOR],
+            [EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR]
+        ]
+    pawns.set_actual_pawns(new_pawns)
+    assert pawns.winner_message() == SECOND_COLOR_WINNER
+
+
+def test_winner_message_starting():
+    pawns = Pawns(Board())
+    assert pawns.winner_message() is None

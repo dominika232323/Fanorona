@@ -2,7 +2,9 @@ from source.board import Board
 from source.configuration import (
     FIRST_COLOR,
     SECOND_COLOR,
-    EMPTY_COLOR
+    EMPTY_COLOR,
+    SECOND_COLOR_WINNER,
+    FIRST_COLOR_WINNER
 )
 
 
@@ -81,10 +83,6 @@ class Pawns:
                 if pawn not in (FIRST_COLOR, SECOND_COLOR, EMPTY_COLOR):
                     raise PawnsError('This type of pawn does not exist')
 
-    def pawns_after_move(self):
-        # aktualizuje tablice pionkow po ruchu gracza
-        pass
-
     def check_for_winner(self):
         first_color_count, second_color_count = self.count_pawns()
 
@@ -100,6 +98,16 @@ class Pawns:
             first_color_count += row.count(FIRST_COLOR)
             second_color_count += row.count(SECOND_COLOR)
         return first_color_count, second_color_count
+
+    def winner_message(self):
+        if not self.check_for_winner():
+            return None
+
+        first_color_count, second_color_count = self.count_pawns()
+        if first_color_count == 0:
+            return SECOND_COLOR_WINNER
+        else:
+            return FIRST_COLOR_WINNER
 
 
 class PawnsError(Exception):
