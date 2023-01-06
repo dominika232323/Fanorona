@@ -38,6 +38,19 @@ def test_starting_pawns():
     assert pawns.actual_pawns == expected
 
 
+def test_starting_pawns_length7():
+    pawns = Pawns(Board(7))
+    pawns.set_starting_pawns()
+    expected = [
+        [SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR],
+        [SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR],
+        [SECOND_COLOR, FIRST_COLOR, SECOND_COLOR, EMPTY_COLOR, FIRST_COLOR, SECOND_COLOR, FIRST_COLOR],
+        [FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR],
+        [FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR]
+    ]
+    assert pawns.actual_pawns == expected
+
+
 # -------------------------------- set_actual_pawns()
 
 

@@ -42,7 +42,14 @@ class Pawns:
         for i in range(self._board_length // 4):
             row.append(SECOND_COLOR)
             row.append(FIRST_COLOR)
-        row.append(EMPTY_COLOR)
+
+        if round(self._board_length / 4) < self._board_length / 4:
+            row.append(EMPTY_COLOR)
+        else:
+            row.append(SECOND_COLOR)
+            row.append(EMPTY_COLOR)
+            row.append(FIRST_COLOR)
+
         for i in range(self._board_length // 4):
             row.append(SECOND_COLOR)
             row.append(FIRST_COLOR)
