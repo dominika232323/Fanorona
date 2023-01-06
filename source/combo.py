@@ -33,14 +33,11 @@ class Combo(Turn):
     def possible_combo(self):
         if self._new_pawn not in self.hit.which_can_hit():
             return False
-        if self._find_empty_for_combo():
+        if self.find_empty_for_combo():
             return True
         return False
 
-    def make_combo(self):
-        pass
-
-    def _find_empty_for_combo(self):
+    def find_empty_for_combo(self):
         empties = []
         for empty_space in self.hit.where_can_hit()[self._new_pawn]:
             if Movement.recognize_move(self._new_pawn, empty_space) != self._previous_move_type:
