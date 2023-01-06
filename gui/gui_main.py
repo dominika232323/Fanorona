@@ -5,8 +5,7 @@ from PySide2.QtGui import QBrush
 from PySide2.QtWidgets import QApplication, QMainWindow, QGridLayout, QPushButton
 from PySide2.QtCore import Qt
 
-from game.game_progress import order_of_players
-from game.players_turns import get_random_pawn_and_empty_cords, get_best_pawns_and_empty_cords, \
+from game.game_progress import order_of_players, get_random_pawn_and_empty_cords, get_best_pawns_and_empty_cords, \
     find_best_empty_for_combo
 from source.board import Board
 from source.combo import Combo
@@ -53,6 +52,7 @@ class FanoronaWindow(QMainWindow):
         self._board = Board(self._length, self._width)
         self._pawns = Pawns(self._board)
         self._set_pawns_on_board()
+        self._game()
 
     def _set_pawns_on_board(self):
         for row_index, row in enumerate(self._pawns.actual_pawns):
@@ -63,7 +63,7 @@ class FanoronaWindow(QMainWindow):
                     f"background-color : {pawn};"
                     "}"
                 )
-                self._buttons_dict[(row_index, index)].isEnabled(True)
+                self._buttons_dict[(row_index, index)].setEnabled(True)
 
     def _highlight_pawns(self, pawns_to_highlight):
         for row_index, row in enumerate(self._pawns.actual_pawns):
@@ -76,9 +76,9 @@ class FanoronaWindow(QMainWindow):
                         "border-radius : 6px;"
                         "}"
                     )
-                    self._buttons_dict[(row_index, index)].isEnabled(True)
+                    self._buttons_dict[(row_index, index)].setEnabled(True)
                 else:
-                    self._buttons_dict[(row_index, index)].isEnabled(False)
+                    self._buttons_dict[(row_index, index)].setEnabled(False)
 
     def _game(self):
         player_color = FIRST_COLOR if self._color == 1 else SECOND_COLOR
@@ -92,11 +92,11 @@ class FanoronaWindow(QMainWindow):
 
     def _make_turn(self, player, pawns, color):
         if player == OPPONENT_PLAYER:
-            self._player_turn(pawns, color)
+            self._player_turn(color)
         elif player == OPPONENT_COMPUTER_RANDOM:
-            self._computer_random(pawns, color)
+            self._computer_random(color)
         elif player == OPPONENT_COMPUTER_BEST:
-            self._computer_best(pawns, color)
+            self._computer_best(color)
 
     def _player_turn(self, pawn_color):
         move = Move(self._pawns, pawn_color)
@@ -171,7 +171,7 @@ class FanoronaWindow(QMainWindow):
 
     def _chose_pawn_button_clicked(self):
         for button in self._buttons_dict:
-            if self._buttons_dict[button].clicked():
+            if self._buttons_dict[button].isChecked():
                 return button
 
     def _game_over(self):
