@@ -28,6 +28,8 @@ class Ui_MainWindow(object):
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.stack.sizePolicy().hasHeightForWidth())
         self.stack.setSizePolicy(sizePolicy)
+        self.stack.setStyleSheet(u"background-color: rgb(172, 153, 102);\n"
+"")
         self.page = QWidget()
         self.page.setObjectName(u"page")
         self.gridLayout = QGridLayout(self.page)
@@ -45,6 +47,7 @@ class Ui_MainWindow(object):
 
         self.boardWidth = QSpinBox(self.page)
         self.boardWidth.setObjectName(u"boardWidth")
+        self.boardWidth.setStyleSheet(u"background-color: rgb(226, 226, 226)")
         self.boardWidth.setMinimum(3)
         self.boardWidth.setMaximum(15)
         self.boardWidth.setSingleStep(2)
@@ -65,6 +68,7 @@ class Ui_MainWindow(object):
 
         self.boardLength = QSpinBox(self.page)
         self.boardLength.setObjectName(u"boardLength")
+        self.boardLength.setStyleSheet(u"background-color: rgb(226, 226, 226)")
         self.boardLength.setInputMethodHints(Qt.ImhDigitsOnly)
         self.boardLength.setKeyboardTracking(True)
         self.boardLength.setMinimum(3)
@@ -78,6 +82,7 @@ class Ui_MainWindow(object):
 
         self.spinBoxChooseColor = QSpinBox(self.page)
         self.spinBoxChooseColor.setObjectName(u"spinBoxChooseColor")
+        self.spinBoxChooseColor.setStyleSheet(u"background-color: rgb(226, 226, 226)")
         self.spinBoxChooseColor.setMinimum(1)
         self.spinBoxChooseColor.setMaximum(2)
 
@@ -141,6 +146,7 @@ class Ui_MainWindow(object):
 
         self.ChooseOpponent = QSpinBox(self.page)
         self.ChooseOpponent.setObjectName(u"ChooseOpponent")
+        self.ChooseOpponent.setStyleSheet(u"background-color: rgb(226, 226, 226)")
         self.ChooseOpponent.setMinimum(1)
         self.ChooseOpponent.setMaximum(3)
 
@@ -161,6 +167,7 @@ class Ui_MainWindow(object):
         font1 = QFont()
         font1.setPointSize(12)
         self.playButton.setFont(font1)
+        self.playButton.setStyleSheet(u"background-color: rgb(226, 226, 226)")
 
         self.gridLayout.addWidget(self.playButton, 10, 0, 1, 2)
 
@@ -186,7 +193,8 @@ class Ui_MainWindow(object):
         self.NewGame = QPushButton(self.page_3)
         self.NewGame.setObjectName(u"NewGame")
         self.NewGame.setGeometry(QRect(380, 340, 271, 91))
-        self.NewGame.setStyleSheet(u"font: 18pt \"Sans Serif\";")
+        self.NewGame.setStyleSheet(u"background-color: rgb(226, 226, 226);\n"
+"font: 18pt \"Sans Serif\";")
         self.stack.addWidget(self.page_3)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(MainWindow)

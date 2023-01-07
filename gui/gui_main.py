@@ -52,7 +52,7 @@ class FanoronaWindow(QMainWindow):
         self._board = Board(self._length, self._width)
         self._pawns = Pawns(self._board)
         self._set_pawns_on_board()
-        self._game()
+        # self._game()
 
     def _set_pawns_on_board(self):
         for row_index, row in enumerate(self._pawns.actual_pawns):
@@ -72,7 +72,7 @@ class FanoronaWindow(QMainWindow):
                     self._buttons_dict[(row_index, index)].setStyleSheet(
                         "QPushButton"
                         "{"
-                        "border : black;"
+                        "border : red;"
                         "border-radius : 6px;"
                         "}"
                     )
@@ -85,12 +85,12 @@ class FanoronaWindow(QMainWindow):
         self._first_player, self._second_player = order_of_players(player_color, self._opponent)
 
         while self._pawns.check_for_winner() is False:
-            self._make_turn(self._first_player, self._pawns, FIRST_COLOR)
-            self._make_turn(self._second_player, self._pawns, SECOND_COLOR)
+            self._make_turn(self._first_player, FIRST_COLOR)
+            self._make_turn(self._second_player, SECOND_COLOR)
 
         self._game_over()
 
-    def _make_turn(self, player, pawns, color):
+    def _make_turn(self, player, color):
         if player == OPPONENT_PLAYER:
             self._player_turn(color)
         elif player == OPPONENT_COMPUTER_RANDOM:

@@ -29,6 +29,10 @@
       <verstretch>0</verstretch>
      </sizepolicy>
     </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(172, 153, 102);
+</string>
+    </property>
     <property name="currentIndex">
      <number>2</number>
     </property>
@@ -53,6 +57,9 @@
         </item>
         <item>
          <widget class="QSpinBox" name="boardWidth">
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(226, 226, 226)</string>
+          </property>
           <property name="minimum">
            <number>3</number>
           </property>
@@ -85,6 +92,9 @@
         </item>
         <item>
          <widget class="QSpinBox" name="boardLength">
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(226, 226, 226)</string>
+          </property>
           <property name="inputMethodHints">
            <set>Qt::ImhDigitsOnly</set>
           </property>
@@ -109,6 +119,9 @@
       </item>
       <item row="8" column="0" colspan="2">
        <widget class="QSpinBox" name="spinBoxChooseColor">
+        <property name="styleSheet">
+         <string notr="true">background-color: rgb(226, 226, 226)</string>
+        </property>
         <property name="minimum">
          <number>1</number>
         </property>
@@ -250,6 +263,9 @@
         </item>
         <item>
          <widget class="QSpinBox" name="ChooseOpponent">
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(226, 226, 226)</string>
+          </property>
           <property name="minimum">
            <number>1</number>
           </property>
@@ -281,6 +297,9 @@
          <font>
           <pointsize>12</pointsize>
          </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: rgb(226, 226, 226)</string>
         </property>
         <property name="text">
          <string>Play</string>
@@ -339,7 +358,8 @@
        </rect>
       </property>
       <property name="styleSheet">
-       <string notr="true">font: 18pt &quot;Sans Serif&quot;;</string>
+       <string notr="true">background-color: rgb(226, 226, 226);
+font: 18pt &quot;Sans Serif&quot;;</string>
       </property>
       <property name="text">
        <string>Start another game</string>
