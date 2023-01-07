@@ -12,17 +12,11 @@ from source.configuration import (
 )
 
 
-# ---------------------------------- order_of_players()
-
-
 def order_of_players(player_color, opponent_type):
     if player_color == FIRST_COLOR:
         return OPPONENT_PLAYER, opponent_type
     if player_color == SECOND_COLOR:
         return opponent_type, OPPONENT_PLAYER
-
-
-# ---------------------------------- get_random_pawn_and_empty_cords()
 
 
 def get_random_pawn_and_empty_cords(pawns, pawn_color):
@@ -36,9 +30,6 @@ def get_random_pawn_and_empty_cords(pawns, pawn_color):
         pawn_cords = choice(list(hit.which_can_move()))
         empty_cords = choice(hit.where_can_move()[pawn_cords])
     return pawn_cords, empty_cords
-
-
-# ---------------------------------- get_best_pawn_and_empty_cords()
 
 
 def get_best_pawns_and_empty_cords(pawns, pawn_color):
@@ -55,9 +46,6 @@ def get_best_pawns_and_empty_cords(pawns, pawn_color):
         pawn_cords = choice(list(hit.which_can_move()))
         empty_cords = choice(hit.where_can_move()[pawn_cords])
         return pawn_cords, empty_cords
-
-
-# ---------------------------------- find_longest_group_to_kill()
 
 
 def find_longest_group_to_kill(dict_of_hits):

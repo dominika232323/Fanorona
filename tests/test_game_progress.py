@@ -22,6 +22,9 @@ def test_order_of_players():
     assert order_of_players(SECOND_COLOR, OPPONENT_PLAYER) == (OPPONENT_PLAYER, OPPONENT_PLAYER)
 
 
+# ---------------------------------- get_random_pawn_and_empty_cords()
+
+
 def test_get_random_pawn_and_empty_cords_with_hits():
     pawns = Pawns(Board())
     new_pawns = [
@@ -54,6 +57,9 @@ def test_get_random_pawn_and_empty_cords_without_hits():
     assert empty_cords in [(3, 1), (4, 2), (4, 0), (3, 3), (4, 4), (4, 2), (3, 5), (3, 6), (3, 7), (4, 5), (3, 7), (4, 8)]
 
 
+# ---------------------------------- find_longest_group_to_kill()
+
+
 def test_find_longest_group_to_kill():
     pawns = Pawns(Board())
     new_pawns = [
@@ -72,6 +78,9 @@ def test_find_longest_group_to_kill():
 
     move = Hit(pawns, SECOND_COLOR)
     assert find_longest_group_to_kill(move.which_hits_by_approach()) == ((3, 3), (3, 4), 4)
+
+
+# ---------------------------------- get_best_pawn_and_empty_cords()
 
 
 def test_get_best_pawn_and_empty_cords_with_hits():
