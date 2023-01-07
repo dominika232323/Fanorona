@@ -20,6 +20,7 @@ from source.hit import Hit
 from source.move import Move
 from source.pawns import Pawns
 from ui_fanorona import Ui_MainWindow
+from time import sleep
 
 
 class FanoronaWindow(QMainWindow):
@@ -52,7 +53,7 @@ class FanoronaWindow(QMainWindow):
         self._board = Board(self._length, self._width)
         self._pawns = Pawns(self._board)
         self._set_pawns_on_board()
-        # self._game()
+        self._game()
 
     def _set_pawns_on_board(self):
         for row_index, row in enumerate(self._pawns.actual_pawns):
@@ -64,6 +65,7 @@ class FanoronaWindow(QMainWindow):
                     "}"
                 )
                 self._buttons_dict[(row_index, index)].setEnabled(True)
+        sleep(1)
 
     def _highlight_pawns(self, pawns_to_highlight):
         for row_index, row in enumerate(self._pawns.actual_pawns):
