@@ -88,7 +88,7 @@ class FanoronaWindow(QMainWindow):
         player_color = FIRST_COLOR if self._color == 1 else SECOND_COLOR
         self._first_player, self._second_player = order_of_players(player_color, self._opponent)
 
-        self._highlight_pawns([(1, 1), (2, 2), (3, 3)])
+        self._make_turn(self._first_player, FIRST_COLOR)
 
         # while self._pawns.check_for_winner() is False:
         #     self._make_turn(self._first_player, FIRST_COLOR)
@@ -114,8 +114,37 @@ class FanoronaWindow(QMainWindow):
             for pawn in hit.which_can_hit():
                 empties = hit.where_can_hit()[pawn]
                 self._buttons_dict[pawn].clicked.connect(lambda: self._highlight_pawns(empties))
+                pawn_cords = self._buttons_dict[pawn].clicked.connect(lambda: self._set_pawn_cords_for_players_move(pawn))
+                for empty in empties:
+                    empty_cords = self._buttons_dict[pawn].clicked.connect(lambda: self._set_pawn_cords_for_players_move(empty))
+                    self._buttons_dict[pawn].clicked.connect(lambda: self._make_players_move(move, pawn_cords, empty_cords))
+
+
         else:
             self._highlight_pawns(hit.which_can_move())
+
+            for pawn in hit.which_can_move():
+                empties = hit.where_can_move()[pawn]
+                if self._buttons_dict[pawn].isChecked():
+                    self._buttons_dict[pawn].clicked.connect(lambda: self._highlight_pawns(empties))
+                    pawn_cords = pawn
+                    for empty in empties:
+                        if self._buttons_dict[empty].isChecked():
+                            empty_cords = empty
+
+                            pawns_after_move = move.move_maker(pawn_cords, empty_cords)
+                            self._pawns.set_actual_pawns(pawns_after_move)
+                            self._set_pawns_on_board()
+
+    def _set_pawn_cords_for_players_move(self, pawn):
+        print(pawn)
+        return pawn
+
+    def _make_players_move(self, move, pawn_cords, empty_cords):
+        pawns_after_move = move.move_maker(pawn_cords, empty_cords)
+        self._pawns.set_actual_pawns(pawns_after_move)
+        self._set_pawns_on_board()
+
 
     def _computer_random(self, pawn_color):
         pawn_cords, empty_cords = get_random_pawn_and_empty_cords(self._pawns, pawn_color)
