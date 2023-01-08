@@ -74,6 +74,7 @@ class FanoronaWindow(QMainWindow):
                     self._buttons_dict[(row_index, index)].setStyleSheet(
                         "QPushButton"
                         "{"
+                        f"background-color : {pawn};"
                         "border-style: outset;"
                         "border-color : yellow;"
                         "border-width: 5px;"
@@ -87,13 +88,13 @@ class FanoronaWindow(QMainWindow):
         player_color = FIRST_COLOR if self._color == 1 else SECOND_COLOR
         self._first_player, self._second_player = order_of_players(player_color, self._opponent)
 
-        # self._make_turn(self._first_player, FIRST_COLOR)
+        self._highlight_pawns([(1, 1), (2, 2), (3, 3)])
 
-        while self._pawns.check_for_winner() is False:
-            self._make_turn(self._first_player, FIRST_COLOR)
-            self._make_turn(self._second_player, SECOND_COLOR)
+        # while self._pawns.check_for_winner() is False:
+        #     self._make_turn(self._first_player, FIRST_COLOR)
+        #     self._make_turn(self._second_player, SECOND_COLOR)
 
-        self._game_over()
+        # self._game_over()
 
     def _make_turn(self, player, color):
         if player == OPPONENT_PLAYER:
@@ -109,7 +110,7 @@ class FanoronaWindow(QMainWindow):
 
         if hit.which_can_hit():
             self._highlight_pawns(hit.which_can_hit())
-    
+
             for pawn in hit.which_can_hit():
                 empties = hit.where_can_hit()[pawn]
                 self._buttons_dict[pawn].clicked.connect(lambda: self._highlight_pawns(empties))
