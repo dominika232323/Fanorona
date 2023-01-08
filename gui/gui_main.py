@@ -1,8 +1,9 @@
 from random import choice
 
+from PySide2 import QtCore
 from PySide2.QtCore import QSize
 from PySide2.QtGui import QBrush
-from PySide2.QtWidgets import QApplication, QMainWindow, QGridLayout, QPushButton
+from PySide2.QtWidgets import QApplication, QMainWindow, QGridLayout, QPushButton, QListWidgetItem
 from PySide2.QtCore import Qt
 
 from game.game_progress import order_of_players, get_random_pawn_and_empty_cords, get_best_pawns_and_empty_cords, \
@@ -48,7 +49,7 @@ class FanoronaWindow(QMainWindow):
         for row in range(0, self._width):
             for column in range(0, self._length):
                 self._buttons_dict[(row, column)] = QPushButton()
-                self._buttons_dict[(row, column)].setMinimumSize(QSize(100, 100))
+                self._buttons_dict[(row, column)].setMinimumSize(QSize(50, 50))
                 self.ui.boardGrid.addWidget(self._buttons_dict[(row, column)], row, column)
         self._board = Board(self._length, self._width)
         self._pawns = Pawns(self._board)
@@ -65,7 +66,6 @@ class FanoronaWindow(QMainWindow):
                     "}"
                 )
                 self._buttons_dict[(row_index, index)].setEnabled(True)
-        sleep(1)
 
     def _highlight_pawns(self, pawns_to_highlight):
         for row_index, row in enumerate(self._pawns.actual_pawns):
@@ -74,8 +74,9 @@ class FanoronaWindow(QMainWindow):
                     self._buttons_dict[(row_index, index)].setStyleSheet(
                         "QPushButton"
                         "{"
-                        "border : red;"
-                        "border-radius : 6px;"
+                        "border-style: outset;"
+                        "border-color : yellow;"
+                        "border-width: 5px;"
                         "}"
                     )
                     self._buttons_dict[(row_index, index)].setEnabled(True)
@@ -85,6 +86,8 @@ class FanoronaWindow(QMainWindow):
     def _game(self):
         player_color = FIRST_COLOR if self._color == 1 else SECOND_COLOR
         self._first_player, self._second_player = order_of_players(player_color, self._opponent)
+
+        # self._make_turn(self._first_player, FIRST_COLOR)
 
         while self._pawns.check_for_winner() is False:
             self._make_turn(self._first_player, FIRST_COLOR)
@@ -106,28 +109,12 @@ class FanoronaWindow(QMainWindow):
 
         if hit.which_can_hit():
             self._highlight_pawns(hit.which_can_hit())
-            pawn_cords = self._chose_pawn_button_clicked()
-            self._highlight_pawns(hit.where_can_hit()[pawn_cords])
-            empty_cords = self._chose_pawn_button_clicked()
+    
+            for pawn in hit.which_can_hit():
+                empties = hit.where_can_hit()[pawn]
+                self._buttons_dict[pawn].clicked.connect(lambda: self._highlight_pawns(empties))
         else:
             self._highlight_pawns(hit.which_can_move())
-            pawn_cords = self._chose_pawn_button_clicked()
-            self._highlight_pawns(hit.where_can_move()[pawn_cords])
-            empty_cords = self._chose_pawn_button_clicked()
-
-        pawns_after_move = move.move_maker(pawn_cords, empty_cords)
-        self._pawns.set_actual_pawns(pawns_after_move)
-        self._set_pawns_on_board()
-
-        combo = Combo(self._pawns, pawn_color, pawn_cords, empty_cords)
-        while combo.possible_combo():
-            move_combo = Move(self._pawns, pawn_color)
-            self._highlight_pawns(combo.find_empty_for_combo())
-            combo_empty_cords = self._chose_pawn_button_clicked()
-            pawns_after_move = move_combo.move_maker(combo.new_pawn, combo_empty_cords)
-            self._pawns.set_actual_pawns(pawns_after_move)
-            self._set_pawns_on_board()
-            combo = Combo(self._pawns, pawn_color, combo.new_pawn, combo_empty_cords)
 
     def _computer_random(self, pawn_color):
         pawn_cords, empty_cords = get_random_pawn_and_empty_cords(self._pawns, pawn_color)
@@ -173,7 +160,7 @@ class FanoronaWindow(QMainWindow):
 
     def _chose_pawn_button_clicked(self):
         for button in self._buttons_dict:
-            if self._buttons_dict[button].isChecked():
+            if self._buttons_dict[button].clicked.connect():
                 return button
 
     def _game_over(self):
