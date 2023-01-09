@@ -31,7 +31,7 @@ class Move:
         return self.hit.width()
 
     def move_maker(self, pawn, empty):
-        # self._validate_move_maker(empty, pawn)
+        self._validate_move_maker(empty, pawn)
 
         if not self.hit.which_can_hit():
             return self.move_without_hits(pawn, empty)
@@ -57,30 +57,25 @@ class Move:
     def move_with_hits(self, pawn, empty):
         withdrawal = self.hit.which_hits_by_withdrawal()
         approach = self.hit.which_hits_by_approach()
-        dead_pawns = []
 
         if (pawn, empty) in withdrawal and (pawn, empty) in approach:
-            choice = CHOICE_WITHDRAWAL
-            # chosen_group = self.choose_group_to_kill(pawn, empty)
-            # choice = self.choose_move_with_hits(pawn, empty, chosen_group)
+            chosen_group = self.choose_group_to_kill(pawn, empty)
+            choice = self.choose_move_with_hits(pawn, empty, chosen_group)
             if choice == CHOICE_WITHDRAWAL:
-                dead_pawns.append(withdrawal[(pawn, empty)])
+                dead_pawns = withdrawal[(pawn, empty)]
             if choice == CHOICE_APPROACH:
-                dead_pawns.append(approach[(pawn, empty)])
+                dead_pawns = approach[(pawn, empty)]
         elif (pawn, empty) in withdrawal:
-            dead_pawns.append(withdrawal[(pawn, empty)])
+            dead_pawns = withdrawal[(pawn, empty)]
         elif (pawn, empty) in approach:
-            dead_pawns.append(approach[(pawn, empty)])
+            dead_pawns = approach[(pawn, empty)]
 
         return self.move_with_hits_kill_pawns(pawn, empty, dead_pawns)
 
-    def choose_group_to_kill(self, pawn, empty, group):
-        withdrawal = self.hit.which_hits_by_withdrawal()[(pawn, empty)]
-        approach = self.hit.which_hits_by_approach()[(pawn, empty)]
-
-        if group == withdrawal:
-            return withdrawal
-        return approach
+    def choose_group_to_kill(self, pawn, empty):
+        # NOT READY FUNCTION
+        group = []
+        return group
 
     def choose_move_with_hits(self, pawn, empty, chosen_group):
         group_withdrawal = self.hit.which_hits_by_withdrawal()[(pawn, empty)]
