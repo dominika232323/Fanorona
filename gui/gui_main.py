@@ -113,23 +113,23 @@ class FanoronaWindow(QMainWindow):
             for pawn in move.hit.which_can_hit():
                 empties = move.hit.where_can_hit()[pawn]
                 self._buttons_dict[pawn].clicked.connect(lambda: self._highlight_pawns(empties))
-                pawn_cords = self._buttons_dict[pawn].clicked.connect(lambda: self._get_pawn_cords_for_players_move(pawn))
+                self._buttons_dict[pawn].clicked.connect(lambda: self._get_pawn_cords_for_players_move(pawn))
             for empty in empties:
-                empty_cords = self._buttons_dict[empty].clicked.connect(lambda: self._get_pawn_cords_for_players_move(empty))
-                self._buttons_dict[empty].clicked.connect(lambda: self._make_players_move(move, pawn_cords, empty_cords))
+                self._buttons_dict[empty].clicked.connect(lambda: self._get_empty_cords_for_players_move(empty))
+                self._buttons_dict[empty].clicked.connect(lambda: self._make_players_move(move))
         else:
             self._highlight_pawns(move.hit.which_can_move())
 
-    @staticmethod
-    def _get_pawn_cords_for_players_move(pawn):
-        print(pawn)
-        return pawn
+    def _get_pawn_cords_for_players_move(self, pawn):
+        self._pawn_cords = pawn
 
-    def _make_players_move(self, move, pawn_cords, empty_cords):
-        pawns_after_move = move.move_maker(pawn_cords, empty_cords)
+    def _get_empty_cords_for_players_move(self, empty):
+        self._empty_cords = empty
+
+    def _make_players_move(self, move):
+        pawns_after_move = move.move_maker(self._pawn_cords, self._empty_cords)
         self._pawns.set_actual_pawns(pawns_after_move)
         self._set_pawns_on_board()
-
 
     def _computer_random(self, pawn_color):
         pawn_cords, empty_cords = get_random_pawn_and_empty_cords(self._pawns, pawn_color)
