@@ -106,33 +106,19 @@ class FanoronaWindow(QMainWindow):
 
     def _player_turn(self, pawn_color):
         move = Move(self._pawns, pawn_color)
-        hit = Hit(self._pawns, pawn_color)
 
-        if hit.which_can_hit():
-            self._highlight_pawns(hit.which_can_hit())
+        if move.hit.which_can_hit():
+            self._highlight_pawns(move.hit.which_can_hit())
 
-            for pawn in hit.which_can_hit():
-                empties = hit.where_can_hit()[pawn]
+            for pawn in move.hit.which_can_hit():
+                empties = move.hit.where_can_hit()[pawn]
                 self._buttons_dict[pawn].clicked.connect(lambda: self._highlight_pawns(empties))
                 pawn_cords = self._buttons_dict[pawn].clicked.connect(lambda: self._get_pawn_cords_for_players_move(pawn))
-                for empty in empties:
-                    empty_cords = self._buttons_dict[empty].clicked.connect(lambda: self._get_pawn_cords_for_players_move(empty))
-                    self._buttons_dict[pawn].clicked.connect(lambda: self._make_players_move(move, pawn_cords, empty_cords))
+            for empty in empties:
+                empty_cords = self._buttons_dict[empty].clicked.connect(lambda: self._get_pawn_cords_for_players_move(empty))
+                self._buttons_dict[empty].clicked.connect(lambda: self._make_players_move(move, pawn_cords, empty_cords))
         else:
-            self._highlight_pawns(hit.which_can_move())
-
-            # for pawn in hit.which_can_move():
-            #     empties = hit.where_can_move()[pawn]
-            #     if self._buttons_dict[pawn].isChecked():
-            #         self._buttons_dict[pawn].clicked.connect(lambda: self._highlight_pawns(empties))
-            #         pawn_cords = pawn
-            #         for empty in empties:
-            #             if self._buttons_dict[empty].isChecked():
-            #                 empty_cords = empty
-            #
-            #                 pawns_after_move = move.move_maker(pawn_cords, empty_cords)
-            #                 self._pawns.set_actual_pawns(pawns_after_move)
-            #                 self._set_pawns_on_board()
+            self._highlight_pawns(move.hit.which_can_move())
 
     @staticmethod
     def _get_pawn_cords_for_players_move(pawn):
