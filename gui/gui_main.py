@@ -51,7 +51,6 @@ class FanoronaWindow(QMainWindow):
                 self._buttons_dict[(row, column)] = QPushButton()
                 self._buttons_dict[(row, column)].setMinimumSize(QSize(50, 50))
                 self.ui.boardGrid.addWidget(self._buttons_dict[(row, column)], row, column)
-                self._buttons_dict[(row, column)].setCheckable(True)
         self._board = Board(self._length, self._width)
         self._pawns = Pawns(self._board)
         self._set_pawns_on_board()
@@ -67,7 +66,6 @@ class FanoronaWindow(QMainWindow):
                     "}"
                 )
                 self._buttons_dict[(row_index, index)].setEnabled(True)
-                self._buttons_dict[(row_index, index)].setCheckable(True)
 
     def _highlight_pawns(self, pawns_to_highlight):
         for row_index, row in enumerate(self._pawns.actual_pawns):
@@ -83,7 +81,6 @@ class FanoronaWindow(QMainWindow):
                         "}"
                     )
                     self._buttons_dict[(row_index, index)].setEnabled(True)
-                    self._buttons_dict[(row_index, index)].setCheckable(True)
                 else:
                     self._buttons_dict[(row_index, index)].setEnabled(False)
 
@@ -92,6 +89,7 @@ class FanoronaWindow(QMainWindow):
         self._first_player, self._second_player = order_of_players(player_color, self._opponent)
 
         self._make_turn(self._first_player, FIRST_COLOR)
+        # self._make_turn(self._second_player, SECOND_COLOR)
 
         # while self._pawns.check_for_winner() is False:
         #     self._make_turn(self._first_player, FIRST_COLOR)
@@ -113,15 +111,20 @@ class FanoronaWindow(QMainWindow):
         if move.hit.which_can_hit():
             self._highlight_pawns(move.hit.which_can_hit())
 
+            self._quit_loop = False
             for pawn in move.hit.which_can_hit():
+                if self._quit_loop:
+                    break
                 empties = move.hit.where_can_hit()[pawn]
-                if self._buttons_dict[pawn].isChecked():
-                    self._buttons_dict[pawn].clicked.connect(lambda: self._highlight_pawns(empties))
-                    self._buttons_dict[pawn].clicked.connect(lambda: self._get_pawn_cords_for_players_move(pawn))
+                self._buttons_dict[pawn].clicked.connect(lambda: self._highlight_pawns(empties))
+                self._buttons_dict[pawn].clicked.connect(lambda: self._get_pawn_cords_for_players_move(pawn))
+                self._buttons_dict[pawn].clicked.connect(self._set_quit_loop)
+
+            self._quit_loop = False
             for empty in empties:
-                if self._buttons_dict[empty].isChecked():
-                    self._buttons_dict[empty].clicked.connect(lambda: self._get_empty_cords_for_players_move(empty))
-                    self._buttons_dict[empty].clicked.connect(lambda: self._make_players_move(move))
+                self._buttons_dict[empty].clicked.connect(lambda: self._get_empty_cords_for_players_move(empty))
+                self._buttons_dict[empty].clicked.connect(lambda: self._make_players_move(move))
+                self._buttons_dict[empty].clicked.connect(self._set_quit_loop)
         else:
             self._highlight_pawns(move.hit.which_can_move())
 
@@ -130,6 +133,9 @@ class FanoronaWindow(QMainWindow):
 
     def _get_empty_cords_for_players_move(self, empty):
         self._empty_cords = empty
+
+    def _set_quit_loop(self):
+        self._quit_loop = True
 
     def _make_players_move(self, move):
         pawns_after_move = move.move_maker(self._pawn_cords, self._empty_cords)
@@ -144,14 +150,14 @@ class FanoronaWindow(QMainWindow):
         self._pawns.set_actual_pawns(pawns_after_move)
         self._set_pawns_on_board()
 
-        combo = Combo(self._pawns, pawn_color, pawn_cords, empty_cords)
-        while combo.possible_combo():
-            move_combo = Move(self._pawns, pawn_color)
-            combo_empty_cords = choice(combo.find_empty_for_combo())
-            pawns_after_move = move_combo.move_maker(combo.new_pawn, combo_empty_cords)
-            self._pawns.set_actual_pawns(pawns_after_move)
-            self._set_pawns_on_board()
-            combo = Combo(self._pawns, pawn_color, combo.new_pawn, combo_empty_cords)
+        # combo = Combo(self._pawns, pawn_color, pawn_cords, empty_cords)
+        # while combo.possible_combo():
+        #     move_combo = Move(self._pawns, pawn_color)
+        #     combo_empty_cords = choice(combo.find_empty_for_combo())
+        #     pawns_after_move = move_combo.move_maker(combo.new_pawn, combo_empty_cords)
+        #     self._pawns.set_actual_pawns(pawns_after_move)
+        #     self._set_pawns_on_board()
+        #     combo = Combo(self._pawns, pawn_color, combo.new_pawn, combo_empty_cords)
 
     def _computer_best(self, pawn_color):
         pawn_cords, empty_cords = get_best_pawns_and_empty_cords(self._pawns, pawn_color)
