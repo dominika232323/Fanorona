@@ -111,20 +111,17 @@ class FanoronaWindow(QMainWindow):
         if move.hit.which_can_hit():
             self._highlight_pawns(move.hit.which_can_hit())
 
-            self._quit_loop = False
             for pawn in move.hit.which_can_hit():
-                if self._quit_loop:
-                    break
                 empties = move.hit.where_can_hit()[pawn]
                 self._buttons_dict[pawn].clicked.connect(lambda: self._highlight_pawns(empties))
                 self._buttons_dict[pawn].clicked.connect(lambda: self._get_pawn_cords_for_players_move(pawn))
-                self._buttons_dict[pawn].clicked.connect(self._set_quit_loop)
 
-            self._quit_loop = False
             for empty in empties:
                 self._buttons_dict[empty].clicked.connect(lambda: self._get_empty_cords_for_players_move(empty))
+                # if move.hit.if_can_hit_by_approach_and_by_withdrawal(self._pawn_cords, self._empty_cords):
+                #     self._buttons_dict[empty].clicked.connect(lambda: self._highlight_pawns(move.hit.which_hits_by_withdrawal()[(self._pawn_cords, self._empty_cords)]))
+                #     self._buttons_dict[empty].clicked.connect(lambda: self._highlight_pawns(move.hit.which_hits_by_approach()[(self._pawn_cords, self._empty_cords)]))
                 self._buttons_dict[empty].clicked.connect(lambda: self._make_players_move(move))
-                self._buttons_dict[empty].clicked.connect(self._set_quit_loop)
         else:
             self._highlight_pawns(move.hit.which_can_move())
 
@@ -133,9 +130,6 @@ class FanoronaWindow(QMainWindow):
 
     def _get_empty_cords_for_players_move(self, empty):
         self._empty_cords = empty
-
-    def _set_quit_loop(self):
-        self._quit_loop = True
 
     def _make_players_move(self, move):
         pawns_after_move = move.move_maker(self._pawn_cords, self._empty_cords)
@@ -183,11 +177,6 @@ class FanoronaWindow(QMainWindow):
             self._pawns.set_actual_pawns(pawns_after_move)
             self._set_pawns_on_board()
             combo = Combo(self._pawns, pawn_color, combo.new_pawn, combo_empty_cords)
-
-    def _chose_pawn_button_clicked(self):
-        for button in self._buttons_dict:
-            if self._buttons_dict[button].clicked.connect():
-                return button
 
     def _game_over(self):
         self.ui.stack.setCurrentIndex(2)
