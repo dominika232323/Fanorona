@@ -42,22 +42,22 @@ class Hit(Turn):
         which = self.which_can_move()
         where = {}
 
-        for indexs in which:
+        for indexes in which:
             where_for_pawn = []
-            tab = [
-                (Movement.diagonal_movement_to_left_up(self.pawns(), indexs[0], indexs[1], EMPTY_COLOR), -1, -1),
-                (Movement.up_movement(self.pawns(), indexs[0], indexs[1], EMPTY_COLOR), -1, 0),
-                (Movement.diagonal_movement_to_right_up(self.pawns(), indexs[0], indexs[1], EMPTY_COLOR), -1, 1),
-                (Movement.sideways_movement_to_right(self.pawns(), indexs[0], indexs[1], EMPTY_COLOR), 0, 1),
-                (Movement.diagonal_movement_to_right_down(self.pawns(), indexs[0], indexs[1], EMPTY_COLOR), 1, 1),
-                (Movement.down_movement(self.pawns(), indexs[0], indexs[1], EMPTY_COLOR), 1, 0),
-                (Movement.diagonal_movement_to_left_down(self.pawns(), indexs[0], indexs[1], EMPTY_COLOR), 1, -1),
-                (Movement.sideways_movement_to_left(self.pawns(), indexs[0], indexs[1], EMPTY_COLOR), 0, -1),
+            tab_of_movements = [
+                (Movement.diagonal_movement_to_left_up(self.pawns(), indexes[0], indexes[1], EMPTY_COLOR), -1, -1),
+                (Movement.up_movement(self.pawns(), indexes[0], indexes[1], EMPTY_COLOR), -1, 0),
+                (Movement.diagonal_movement_to_right_up(self.pawns(), indexes[0], indexes[1], EMPTY_COLOR), -1, 1),
+                (Movement.sideways_movement_to_right(self.pawns(), indexes[0], indexes[1], EMPTY_COLOR), 0, 1),
+                (Movement.diagonal_movement_to_right_down(self.pawns(), indexes[0], indexes[1], EMPTY_COLOR), 1, 1),
+                (Movement.down_movement(self.pawns(), indexes[0], indexes[1], EMPTY_COLOR), 1, 0),
+                (Movement.diagonal_movement_to_left_down(self.pawns(), indexes[0], indexes[1], EMPTY_COLOR), 1, -1),
+                (Movement.sideways_movement_to_left(self.pawns(), indexes[0], indexes[1], EMPTY_COLOR), 0, -1),
             ]
-            for t in tab:
-                if t[0]:
-                    where_for_pawn.append((indexs[0] + t[1], indexs[1] + t[2]))
-            where[indexs] = where_for_pawn
+            for movement in tab_of_movements:
+                if movement[0]:
+                    where_for_pawn.append((indexes[0] + movement[1], indexes[1] + movement[2]))
+            where[indexes] = where_for_pawn
 
         return where
 
@@ -86,22 +86,30 @@ class Hit(Turn):
 
     def _check_by_approach(self, pawn, empty, what_append):
         move_type = Movement.recognize_move(pawn, empty)
-        if move_type == MOVEMENT_DIAGONAL_LEFT_UP and Movement.diagonal_movement_to_left_up(self.pawns(), empty[0], empty[1], self.pawn_to_hit()):
-            return what_append
-        if move_type == MOVEMENT_UP and Movement.up_movement(self.pawns(), empty[0], empty[1], self.pawn_to_hit()):
-            return what_append
-        if move_type == MOVEMENT_DIAGONAL_RIGHT_UP and Movement.diagonal_movement_to_right_up(self.pawns(), empty[0], empty[1], self.pawn_to_hit()):
-            return what_append
-        if move_type == MOVEMENT_SIDEWAYS_RIGHT and Movement.sideways_movement_to_right(self.pawns(), empty[0], empty[1], self.pawn_to_hit()):
-            return what_append
-        if move_type == MOVEMENT_DIAGONAL_RIGHT_DOWN and Movement.diagonal_movement_to_right_down(self.pawns(), empty[0], empty[1], self.pawn_to_hit()):
-            return what_append
-        if move_type == MOVEMENT_DOWN and Movement.down_movement(self.pawns(), empty[0], empty[1], self.pawn_to_hit()):
-            return what_append
-        if move_type == MOVEMENT_DIAGONAL_LEFT_DOWN and Movement.diagonal_movement_to_left_down(self.pawns(), empty[0], empty[1], self.pawn_to_hit()):
-            return what_append
-        if move_type == MOVEMENT_SIDEWAYS_LEFT and Movement.sideways_movement_to_left(self.pawns(), empty[0], empty[1], self.pawn_to_hit()):
-            return what_append
+        movement_types = [
+            MOVEMENT_DIAGONAL_LEFT_UP,
+            MOVEMENT_UP,
+            MOVEMENT_DIAGONAL_RIGHT_UP,
+            MOVEMENT_SIDEWAYS_RIGHT,
+            MOVEMENT_DIAGONAL_RIGHT_DOWN,
+            MOVEMENT_DOWN,
+            MOVEMENT_DIAGONAL_LEFT_DOWN,
+            MOVEMENT_SIDEWAYS_LEFT
+        ]
+        movement_by_approach = [
+            Movement.diagonal_movement_to_left_up(self.pawns(), empty[0], empty[1], self.pawn_to_hit()),
+            Movement.up_movement(self.pawns(), empty[0], empty[1], self.pawn_to_hit()),
+            Movement.diagonal_movement_to_right_up(self.pawns(), empty[0], empty[1], self.pawn_to_hit()),
+            Movement.sideways_movement_to_right(self.pawns(), empty[0], empty[1], self.pawn_to_hit()),
+            Movement.diagonal_movement_to_right_down(self.pawns(), empty[0], empty[1], self.pawn_to_hit()),
+            Movement.down_movement(self.pawns(), empty[0], empty[1], self.pawn_to_hit()),
+            Movement.diagonal_movement_to_left_down(self.pawns(), empty[0], empty[1], self.pawn_to_hit()),
+            Movement.sideways_movement_to_left(self.pawns(), empty[0], empty[1], self.pawn_to_hit())
+        ]
+
+        for type, approach in zip(movement_types, movement_by_approach):
+            if type == move_type and approach:
+                return what_append
         return None
 
     def which_can_hit_by_withdrawal(self):
@@ -116,22 +124,30 @@ class Hit(Turn):
 
     def _check_by_withdrawal(self, pawn, empty, what_append):
         move_type = Movement.recognize_move(pawn, empty)
-        if move_type == MOVEMENT_DIAGONAL_LEFT_UP and Movement.diagonal_movement_to_right_down(self.pawns(), pawn[0], pawn[1], self.pawn_to_hit()):
-            return what_append
-        if move_type == MOVEMENT_UP and Movement.down_movement(self.pawns(), pawn[0], pawn[1], self.pawn_to_hit()):
-            return what_append
-        if move_type == MOVEMENT_DIAGONAL_RIGHT_UP and Movement.diagonal_movement_to_left_down(self.pawns(), pawn[0], pawn[1], self.pawn_to_hit()):
-            return what_append
-        if move_type == MOVEMENT_SIDEWAYS_RIGHT and Movement.sideways_movement_to_left(self.pawns(), pawn[0], pawn[1], self.pawn_to_hit()):
-            return what_append
-        if move_type == MOVEMENT_DIAGONAL_RIGHT_DOWN and Movement.diagonal_movement_to_left_up(self.pawns(), pawn[0], pawn[1], self.pawn_to_hit()):
-            return what_append
-        if move_type == MOVEMENT_DOWN and Movement.up_movement(self.pawns(), pawn[0], pawn[1], self.pawn_to_hit()):
-            return what_append
-        if move_type == MOVEMENT_DIAGONAL_LEFT_DOWN and Movement.diagonal_movement_to_right_up(self.pawns(), pawn[0], pawn[1], self.pawn_to_hit()):
-            return what_append
-        if move_type == MOVEMENT_SIDEWAYS_LEFT and Movement.sideways_movement_to_right(self.pawns(), pawn[0], pawn[1], self.pawn_to_hit()):
-            return what_append
+        movement_types = [
+            MOVEMENT_DIAGONAL_LEFT_UP,
+            MOVEMENT_UP,
+            MOVEMENT_DIAGONAL_RIGHT_UP,
+            MOVEMENT_SIDEWAYS_RIGHT,
+            MOVEMENT_DIAGONAL_RIGHT_DOWN,
+            MOVEMENT_DOWN,
+            MOVEMENT_DIAGONAL_LEFT_DOWN,
+            MOVEMENT_SIDEWAYS_LEFT
+        ]
+        movement_by_withdrawal = [
+            Movement.diagonal_movement_to_right_down(self.pawns(), pawn[0], pawn[1], self.pawn_to_hit()),
+            Movement.down_movement(self.pawns(), pawn[0], pawn[1], self.pawn_to_hit()),
+            Movement.diagonal_movement_to_left_down(self.pawns(), pawn[0], pawn[1], self.pawn_to_hit()),
+            Movement.sideways_movement_to_left(self.pawns(), pawn[0], pawn[1], self.pawn_to_hit()),
+            Movement.diagonal_movement_to_left_up(self.pawns(), pawn[0], pawn[1], self.pawn_to_hit()),
+            Movement.up_movement(self.pawns(), pawn[0], pawn[1], self.pawn_to_hit()),
+            Movement.diagonal_movement_to_right_up(self.pawns(), pawn[0], pawn[1], self.pawn_to_hit()),
+            Movement.sideways_movement_to_right(self.pawns(), pawn[0], pawn[1], self.pawn_to_hit())
+        ]
+
+        for type, withdrawal in zip(movement_types, movement_by_withdrawal):
+            if type == move_type and withdrawal:
+                return what_append
         return None
 
     def where_can_hit(self):
