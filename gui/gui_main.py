@@ -51,6 +51,7 @@ class FanoronaWindow(QMainWindow):
                 self._buttons_dict[(row, column)] = QPushButton()
                 self._buttons_dict[(row, column)].setMinimumSize(QSize(50, 50))
                 self.ui.boardGrid.addWidget(self._buttons_dict[(row, column)], row, column)
+                self._buttons_dict[(row, column)].setCheckable(True)
         self._board = Board(self._length, self._width)
         self._pawns = Pawns(self._board)
         self._set_pawns_on_board()
@@ -66,6 +67,7 @@ class FanoronaWindow(QMainWindow):
                     "}"
                 )
                 self._buttons_dict[(row_index, index)].setEnabled(True)
+                self._buttons_dict[(row_index, index)].setCheckable(True)
 
     def _highlight_pawns(self, pawns_to_highlight):
         for row_index, row in enumerate(self._pawns.actual_pawns):
@@ -81,6 +83,7 @@ class FanoronaWindow(QMainWindow):
                         "}"
                     )
                     self._buttons_dict[(row_index, index)].setEnabled(True)
+                    self._buttons_dict[(row_index, index)].setCheckable(True)
                 else:
                     self._buttons_dict[(row_index, index)].setEnabled(False)
 
@@ -112,11 +115,13 @@ class FanoronaWindow(QMainWindow):
 
             for pawn in move.hit.which_can_hit():
                 empties = move.hit.where_can_hit()[pawn]
-                self._buttons_dict[pawn].clicked.connect(lambda: self._highlight_pawns(empties))
-                self._buttons_dict[pawn].clicked.connect(lambda: self._get_pawn_cords_for_players_move(pawn))
+                if self._buttons_dict[pawn].isChecked():
+                    self._buttons_dict[pawn].clicked.connect(lambda: self._highlight_pawns(empties))
+                    self._buttons_dict[pawn].clicked.connect(lambda: self._get_pawn_cords_for_players_move(pawn))
             for empty in empties:
-                self._buttons_dict[empty].clicked.connect(lambda: self._get_empty_cords_for_players_move(empty))
-                self._buttons_dict[empty].clicked.connect(lambda: self._make_players_move(move))
+                if self._buttons_dict[empty].isChecked():
+                    self._buttons_dict[empty].clicked.connect(lambda: self._get_empty_cords_for_players_move(empty))
+                    self._buttons_dict[empty].clicked.connect(lambda: self._make_players_move(move))
         else:
             self._highlight_pawns(move.hit.which_can_move())
 
