@@ -14,6 +14,19 @@ from source.turn import Turn
 
 
 class Hit(Turn):
+    def __init__(self, pawns, turn):
+        super().__init__(pawns, turn)
+        self._movement_types = [
+            MOVEMENT_DIAGONAL_LEFT_UP,
+            MOVEMENT_UP,
+            MOVEMENT_DIAGONAL_RIGHT_UP,
+            MOVEMENT_SIDEWAYS_RIGHT,
+            MOVEMENT_DIAGONAL_RIGHT_DOWN,
+            MOVEMENT_DOWN,
+            MOVEMENT_DIAGONAL_LEFT_DOWN,
+            MOVEMENT_SIDEWAYS_LEFT
+        ]
+
     def which_can_move(self):
         """
         Returns a list of co-ordinates of pawns that can move, because they have an empty space near them.
@@ -86,16 +99,6 @@ class Hit(Turn):
 
     def _check_by_approach(self, pawn, empty, what_append):
         move_type = Movement.recognize_move(pawn, empty)
-        movement_types = [
-            MOVEMENT_DIAGONAL_LEFT_UP,
-            MOVEMENT_UP,
-            MOVEMENT_DIAGONAL_RIGHT_UP,
-            MOVEMENT_SIDEWAYS_RIGHT,
-            MOVEMENT_DIAGONAL_RIGHT_DOWN,
-            MOVEMENT_DOWN,
-            MOVEMENT_DIAGONAL_LEFT_DOWN,
-            MOVEMENT_SIDEWAYS_LEFT
-        ]
         movement_by_approach = [
             Movement.diagonal_movement_to_left_up(self.pawns(), empty[0], empty[1], self.pawn_to_hit()),
             Movement.up_movement(self.pawns(), empty[0], empty[1], self.pawn_to_hit()),
@@ -107,7 +110,7 @@ class Hit(Turn):
             Movement.sideways_movement_to_left(self.pawns(), empty[0], empty[1], self.pawn_to_hit())
         ]
 
-        for type, approach in zip(movement_types, movement_by_approach):
+        for type, approach in zip(self._movement_types, movement_by_approach):
             if type == move_type and approach:
                 return what_append
         return None
@@ -124,16 +127,6 @@ class Hit(Turn):
 
     def _check_by_withdrawal(self, pawn, empty, what_append):
         move_type = Movement.recognize_move(pawn, empty)
-        movement_types = [
-            MOVEMENT_DIAGONAL_LEFT_UP,
-            MOVEMENT_UP,
-            MOVEMENT_DIAGONAL_RIGHT_UP,
-            MOVEMENT_SIDEWAYS_RIGHT,
-            MOVEMENT_DIAGONAL_RIGHT_DOWN,
-            MOVEMENT_DOWN,
-            MOVEMENT_DIAGONAL_LEFT_DOWN,
-            MOVEMENT_SIDEWAYS_LEFT
-        ]
         movement_by_withdrawal = [
             Movement.diagonal_movement_to_right_down(self.pawns(), pawn[0], pawn[1], self.pawn_to_hit()),
             Movement.down_movement(self.pawns(), pawn[0], pawn[1], self.pawn_to_hit()),
@@ -145,7 +138,7 @@ class Hit(Turn):
             Movement.sideways_movement_to_right(self.pawns(), pawn[0], pawn[1], self.pawn_to_hit())
         ]
 
-        for type, withdrawal in zip(movement_types, movement_by_withdrawal):
+        for type, withdrawal in zip(self._movement_types, movement_by_withdrawal):
             if type == move_type and withdrawal:
                 return what_append
         return None
