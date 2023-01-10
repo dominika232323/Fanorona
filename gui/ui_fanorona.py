@@ -11,6 +11,12 @@
 from PySide2.QtCore import *
 from PySide2.QtGui import *
 from PySide2.QtWidgets import *
+from source.configuration import (
+        MIN_BOARD_WIDTH,
+        MIN_BOARD_LENGTH,
+        MAX_BOARD_WIDTH,
+        MAX_BOARD_LENGTH
+)
 
 
 class Ui_MainWindow(object):
@@ -48,8 +54,8 @@ class Ui_MainWindow(object):
         self.boardWidth = QSpinBox(self.page)
         self.boardWidth.setObjectName(u"boardWidth")
         self.boardWidth.setStyleSheet(u"background-color: rgb(226, 226, 226)")
-        self.boardWidth.setMinimum(3)
-        self.boardWidth.setMaximum(15)
+        self.boardWidth.setMinimum(MIN_BOARD_WIDTH)
+        self.boardWidth.setMaximum(MAX_BOARD_WIDTH)
         self.boardWidth.setSingleStep(2)
 
         self.verticalLayout_2.addWidget(self.boardWidth)
@@ -71,8 +77,8 @@ class Ui_MainWindow(object):
         self.boardLength.setStyleSheet(u"background-color: rgb(226, 226, 226)")
         self.boardLength.setInputMethodHints(Qt.ImhDigitsOnly)
         self.boardLength.setKeyboardTracking(True)
-        self.boardLength.setMinimum(3)
-        self.boardLength.setMaximum(15)
+        self.boardLength.setMinimum(MIN_BOARD_LENGTH)
+        self.boardLength.setMaximum(MAX_BOARD_LENGTH)
         self.boardLength.setSingleStep(2)
 
         self.verticalLayout.addWidget(self.boardLength)
