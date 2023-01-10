@@ -451,3 +451,13 @@ def test_which_hits_by_approach_without_hits():
 
     move = Hit(pawns, FIRST_COLOR)
     assert move.which_hits_by_approach() == {}
+
+
+# ---------------------------------------- if_can_hit_by_approach_and_by_withdrawal()
+
+
+def test_if_can_hit_by_approach_and_by_withdrawal():
+    pawns = Pawns(Board())
+    move = Hit(pawns, FIRST_COLOR)
+    assert move.if_can_hit_by_approach_and_by_withdrawal((2, 3), (2, 4)) is True
+    assert move.if_can_hit_by_approach_and_by_withdrawal((3, 5), (2, 4)) is False

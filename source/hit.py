@@ -312,3 +312,10 @@ class Hit(Turn):
                             break
                 which_hits[(pawn, empty)] = hits
         return which_hits
+
+    def if_can_hit_by_approach_and_by_withdrawal(self, pawn, empty):
+        if (pawn, empty) not in self.which_hits_by_withdrawal().keys():
+            return False
+        if (pawn, empty) not in self.which_hits_by_approach().keys():
+            return False
+        return True
