@@ -1,12 +1,7 @@
-from random import choice
-
-from PySide2 import QtCore
 from PySide2.QtCore import QSize
-from PySide2.QtGui import QBrush
-from PySide2.QtWidgets import QApplication, QMainWindow, QGridLayout, QPushButton, QListWidgetItem
-from PySide2.QtCore import Qt
+from PySide2.QtWidgets import QApplication, QMainWindow, QPushButton
 
-from game.game_progress import order_of_players, get_random_pawn_and_empty_cords, get_best_pawns_and_empty_cords, \
+from gui.game_progress import order_of_players, get_random_pawn_and_empty_cords, get_best_pawns_and_empty_cords, \
     find_best_empty_for_combo
 from source.board import Board
 from source.combo import Combo
@@ -21,7 +16,6 @@ from source.hit import Hit
 from source.move import Move
 from source.pawns import Pawns
 from ui_fanorona import Ui_MainWindow
-from time import sleep
 
 
 class FanoronaWindow(QMainWindow):
@@ -92,8 +86,8 @@ class FanoronaWindow(QMainWindow):
         # self._make_turn(self._second_player, SECOND_COLOR)
 
         # while self._pawns.check_for_winner() is False:
-        #     self._make_turn(self._first_player, FIRST_COLOR)
-        #     self._make_turn(self._second_player, SECOND_COLOR)
+        #     self._make_turn(self._first_player, FIRST_COLOR_HEX)
+        #     self._make_turn(self._second_player, SECOND_COLOR_HEX)
 
         # self._game_over()
 

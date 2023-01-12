@@ -1,4 +1,4 @@
-from game.game_progress import (
+from gui.game_progress import (
     order_of_players, get_random_pawn_and_empty_cords, find_longest_group_to_kill, get_best_pawns_and_empty_cords
 )
 from source.board import Board
