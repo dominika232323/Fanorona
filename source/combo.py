@@ -5,7 +5,24 @@ from source.turn import Turn
 
 
 class Combo(Turn):
+    """
+    Class Board. Inherits from the class Turn. Contains attributes:
+    :param pawns: two-dimensional list of pawns set on the board
+    :type pawns: list
+
+    :param turn: holds whose turn it is, first or second player
+    :type turn: string
+
+    :param previous_pawn: pawn's co-ordinates from previous move (before move)
+    :type previous_pawn: tuple
+
+    :param previous_empty: empty space's co-ordinates from previous move (before move)
+    :type previous_empty: tuple
+    """
     def __init__(self, pawns, turn, previous_pawn, previous_empty):
+        """
+        Creates an instance of Combo.
+        """
         super().__init__(pawns, turn)
         self._previous_pawn = previous_pawn
         self._previous_empty = previous_empty
@@ -16,21 +33,38 @@ class Combo(Turn):
 
     @property
     def previous_pawn(self):
+        """
+        :return: pawn's co-ordinates from previous move (before move)
+        """
         return self._previous_pawn
 
     @property
     def previous_empty(self):
+        """
+        :return: empty space's co-ordinates from previous move (before move)
+        """
         return self._previous_empty
 
     @property
     def previous_move_type(self):
+        """
+        :return: type of movement made in previous move
+        """
         return self._previous_move_type
 
     @property
     def new_pawn(self):
+        """
+        :return: pawn's co-ordinates from previous move (after move)
+        """
         return self._new_pawn
 
     def possible_combo(self):
+        """
+        Checks if the pawn can make combo.
+        :return: False if the pawn doesn't have any hits
+        :return: True if there is an empty space around the pawn to make combo
+        """
         if self._new_pawn not in self.hit.which_can_hit():
             return False
         if self.find_empty_for_combo():
@@ -38,6 +72,9 @@ class Combo(Turn):
         return False
 
     def find_empty_for_combo(self):
+        """
+        :return: list of empty spaces where the pawn can move to make combo
+        """
         empties = []
         for empty_space in self.hit.where_can_hit()[self._new_pawn]:
             if Movement.recognize_move(self._new_pawn, empty_space) != self._previous_move_type:
