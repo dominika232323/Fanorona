@@ -17,7 +17,7 @@ class Board:
     :param width: board's width, defaults to DEFAULTS_BOARD_LENGTH from configuration
     :type width: int
     """
-    def __init__(self, length=DEFAULTS_BOARD_LENGTH, width=DEFAULTS_BOARD_LENGTH):
+    def __init__(self, length=DEFAULTS_BOARD_LENGTH, width=DEFAULTS_BOARD_WIDTH):
         """
         Creates an instance of Board.
         """
@@ -29,10 +29,10 @@ class Board:
     @staticmethod
     def _validate(length, width):
         """
-        :param length:
-        :param width:
+        :param length: board's length
+        :param width: board's width
         :raise: BoardSizeError if length is an even number, less than MIN_BOARD_LENGTH from configuration, greater
-        than MAX_BOARD_LENGTH from configuration or has an invalid type.
+        than MAX_BOARD_LENGTH from configuration or has an invalid type
         :raise: BoardSizeError if width is an even number, or less than MIN_BOARD_WIDTH from configuration or greater
         than MAX_BOARD_WIDTH from configuration or has an invalid type.
         """
@@ -54,10 +54,16 @@ class Board:
 
     @property
     def length(self):
+        """
+        :return: board's length
+        """
         return self._length
 
     @property
     def width(self):
+        """
+        :return: board's width
+        """
         return self._width
 
 
