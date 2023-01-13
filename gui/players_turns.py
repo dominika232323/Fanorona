@@ -76,8 +76,13 @@ class PlayersTurns(QDialog):
                 #     self._buttons_dict[empty].clicked.connect(lambda: self._highlight_pawns(move.hit.which_hits_by_withdrawal()[(self._pawn_cords, self._empty_cords)]))
                 #     self._buttons_dict[empty].clicked.connect(lambda: self._highlight_pawns(move.hit.which_hits_by_approach()[(self._pawn_cords, self._empty_cords)]))
                 self._buttons_dict[empty].clicked.connect(lambda: self._make_players_move(move))
+                self._buttons_dict[empty].clicked.connect(self._done_func())
+                self._buttons_dict[empty].clicked.connect(self.close)
         else:
             self._highlight_pawns(move.hit.which_can_move())
+
+    def _done_func(self):
+        self.done(256)
 
     def _get_pawn_cords_for_players_move(self, pawn):
         self._pawn_cords = pawn
@@ -90,3 +95,6 @@ class PlayersTurns(QDialog):
 
     def pawns_after_move(self):
         return self._pawns_after_move
+
+    def return_cords(self):
+        return self._pawn_cords, self._empty_cords

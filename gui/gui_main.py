@@ -102,13 +102,14 @@ class FanoronaWindow(QMainWindow):
             self._computer_best(color)
 
     def _player_turn(self, pawn_color):
-        # dialog = QDialog()
         window = PlayersTurns(Turn(self._pawns, pawn_color))
         window.show()
-        pawns_after_move = window.pawns_after_move()
-        self._pawns.set_actual_pawns(pawns_after_move)
-        self._set_pawns_on_board()
-        # return dialog.exec_()
+        if window.exec_() == 256:
+            # self._pawn_cords, self._empty_cords = window.return_cords()
+            print(self._pawn_cords)
+            print(self._empty_cords)
+            move = Move(self._pawns, self._turn)
+            self._make_players_move(move)
 
     def _get_pawn_cords_for_players_move(self, pawn):
         self._pawn_cords = pawn
