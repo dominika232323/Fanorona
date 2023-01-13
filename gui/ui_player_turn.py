@@ -17,11 +17,12 @@ class Ui_DialogWIndow(object):
     def setupUi(self, DialogWIndow):
         if not DialogWIndow.objectName():
             DialogWIndow.setObjectName(u"DialogWIndow")
-        DialogWIndow.resize(881, 699)
+        DialogWIndow.resize(1179, 847)
+        DialogWIndow.setMinimumSize(QSize(1179, 847))
         DialogWIndow.setStyleSheet(u"background-color: rgb(172, 153, 102)")
         self.gridLayoutWidget = QWidget(DialogWIndow)
         self.gridLayoutWidget.setObjectName(u"gridLayoutWidget")
-        self.gridLayoutWidget.setGeometry(QRect(10, 10, 861, 671))
+        self.gridLayoutWidget.setGeometry(QRect(10, 10, 1161, 831))
         self.gridLayout = QGridLayout(self.gridLayoutWidget)
         self.gridLayout.setObjectName(u"gridLayout")
         self.gridLayout.setContentsMargins(0, 0, 0, 0)
