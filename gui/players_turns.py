@@ -63,38 +63,43 @@ class PlayersTurns(QDialog):
                     self._buttons_dict[(row_index, index)].setEnabled(False)
 
     def _player_turn(self):
-        move = Move(self._pawns, self._turn)
+        self.move = Move(self._pawns, self._turn)
 
-        if move.hit.which_can_hit():
-            self._highlight_pawns(move.hit.which_can_hit())
-            for pawn in move.hit.which_can_hit():
-                empties = move.hit.where_can_hit()[pawn]
-                self._buttons_dict[pawn].clicked.connect(lambda: self._highlight_pawns(empties))
+        if self.move.hit.which_can_hit():
+            self._highlight_pawns(self.move.hit.which_can_hit())
+            for pawn in self.move.hit.which_can_hit():
                 self._buttons_dict[pawn].clicked.connect(self._get_pawn_cords_for_players_move)
-
-            for empty in empties:
-                self._buttons_dict[empty].clicked.connect(self._get_empty_cords_for_players_move)
-                # if move.hit.if_can_hit_by_approach_and_by_withdrawal(self._pawn_cords, self._empty_cords):
-                #     self._buttons_dict[empty].clicked.connect(lambda: self._highlight_pawns(move.hit.which_hits_by_withdrawal()[(self._pawn_cords, self._empty_cords)]))
-                #     self._buttons_dict[empty].clicked.connect(lambda: self._highlight_pawns(move.hit.which_hits_by_approach()[(self._pawn_cords, self._empty_cords)]))
-                self._buttons_dict[empty].clicked.connect(self.close)
         else:
-            self._highlight_pawns(move.hit.which_can_move())
+            self._highlight_pawns(self.move.hit.which_can_move())
 
     def _get_pawn_cords_for_players_move(self):
         sending_button = self.sender()
         cords = sending_button.objectName()
         self._pawn_cords = self._make_tuple_from_string(cords)
+        self._highlight_empty_pawns()
 
-    @staticmethod
-    def _make_tuple_from_string(cords_str):
-        cords = cords_str.split()
-        return int(cords[0]), int(cords[1])
+    def _highlight_empty_pawns(self):
+        self._empties = self.move.hit.where_can_hit()[self._pawn_cords]
+        self._highlight_pawns(self._empties)
+        self._take_input_for_empty_place()
+
+    def _take_input_for_empty_place(self):
+        for empty in self._empties:
+            self._buttons_dict[empty].clicked.connect(self._get_empty_cords_for_players_move)
+            # if self.move.hit.if_can_hit_by_approach_and_by_withdrawal(self._pawn_cords, self._empty_cords):
+            #     self._buttons_dict[empty].clicked.connect(lambda: self._highlight_pawns(self.move.hit.which_hits_by_withdrawal()[(self._pawn_cords, self._empty_cords)]))
+            #     self._buttons_dict[empty].clicked.connect(lambda: self._highlight_pawns(self.move.hit.which_hits_by_approach()[(self._pawn_cords, self._empty_cords)]))
+            self._buttons_dict[empty].clicked.connect(self.close)
 
     def _get_empty_cords_for_players_move(self):
         sending_button = self.sender()
         cords = sending_button.objectName()
         self._empty_cords = self._make_tuple_from_string(cords)
+
+    @staticmethod
+    def _make_tuple_from_string(cords_str):
+        cords = cords_str.split()
+        return int(cords[0]), int(cords[1])
 
     def return_cords(self):
         return self._pawn_cords, self._empty_cords
