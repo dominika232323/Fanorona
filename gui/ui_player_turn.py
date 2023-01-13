@@ -18,6 +18,7 @@ class Ui_DialogWIndow(object):
         if not DialogWIndow.objectName():
             DialogWIndow.setObjectName(u"DialogWIndow")
         DialogWIndow.resize(881, 699)
+        DialogWIndow.setStyleSheet(u"background-color: rgb(172, 153, 102)")
         self.gridLayoutWidget = QWidget(DialogWIndow)
         self.gridLayoutWidget.setObjectName(u"gridLayoutWidget")
         self.gridLayoutWidget.setGeometry(QRect(10, 10, 861, 671))
