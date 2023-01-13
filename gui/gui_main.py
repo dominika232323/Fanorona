@@ -1,8 +1,9 @@
 from PySide2.QtCore import QSize
-from PySide2.QtWidgets import QApplication, QMainWindow, QPushButton
+from PySide2.QtWidgets import QApplication, QMainWindow, QPushButton, QDialog
 
 from gui.game_progress import order_of_players, get_random_pawn_and_empty_cords, get_best_pawns_and_empty_cords, \
     find_best_empty_for_combo
+from gui.players_turns import PlayersTurns
 from source.board import Board
 from source.combo import Combo
 from source.configuration import (
@@ -15,6 +16,7 @@ from source.configuration import (
 from source.hit import Hit
 from source.move import Move
 from source.pawns import Pawns
+from source.turn import Turn
 from ui_fanorona import Ui_MainWindow
 
 
@@ -100,24 +102,13 @@ class FanoronaWindow(QMainWindow):
             self._computer_best(color)
 
     def _player_turn(self, pawn_color):
-        move = Move(self._pawns, pawn_color)
-
-        if move.hit.which_can_hit():
-            self._highlight_pawns(move.hit.which_can_hit())
-
-            for pawn in move.hit.which_can_hit():
-                empties = move.hit.where_can_hit()[pawn]
-                self._buttons_dict[pawn].clicked.connect(lambda: self._highlight_pawns(empties))
-                self._buttons_dict[pawn].clicked.connect(lambda: self._get_pawn_cords_for_players_move(pawn))
-
-            for empty in empties:
-                self._buttons_dict[empty].clicked.connect(lambda: self._get_empty_cords_for_players_move(empty))
-                # if move.hit.if_can_hit_by_approach_and_by_withdrawal(self._pawn_cords, self._empty_cords):
-                #     self._buttons_dict[empty].clicked.connect(lambda: self._highlight_pawns(move.hit.which_hits_by_withdrawal()[(self._pawn_cords, self._empty_cords)]))
-                #     self._buttons_dict[empty].clicked.connect(lambda: self._highlight_pawns(move.hit.which_hits_by_approach()[(self._pawn_cords, self._empty_cords)]))
-                self._buttons_dict[empty].clicked.connect(lambda: self._make_players_move(move))
-        else:
-            self._highlight_pawns(move.hit.which_can_move())
+        # dialog = QDialog()
+        window = PlayersTurns(Turn(self._pawns, pawn_color))
+        window.show()
+        pawns_after_move = window.pawns_after_move()
+        self._pawns.set_actual_pawns(pawns_after_move)
+        self._set_pawns_on_board()
+        # return dialog.exec_()
 
     def _get_pawn_cords_for_players_move(self, pawn):
         self._pawn_cords = pawn
