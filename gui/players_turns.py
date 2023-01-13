@@ -30,7 +30,7 @@ class PlayersTurns(QDialog):
                 self._buttons_dict[(row, column)].setMinimumSize(QSize(50, 50))
                 self.ui.gridLayout.addWidget(self._buttons_dict[(row, column)], row, column)
         self._set_pawns_on_board()
-        self.player_turn()
+        self._player_turn()
 
     def _set_pawns_on_board(self):
         for row_index, row in enumerate(self._pawns_on_board):
@@ -60,23 +60,29 @@ class PlayersTurns(QDialog):
                 else:
                     self._buttons_dict[(row_index, index)].setEnabled(False)
 
-    def player_turn(self):
+    def _player_turn(self):
         move = Move(self._pawns, self._turn)
 
         if move.hit.which_can_hit():
             self._highlight_pawns(move.hit.which_can_hit())
 
+            self._loop = 0
             for pawn in move.hit.which_can_hit():
-                empties = move.hit.where_can_hit()[pawn]
-                self._buttons_dict[pawn].clicked.connect(lambda: self._highlight_pawns(empties))
-                self._buttons_dict[pawn].clicked.connect(lambda: self._get_pawn_cords_for_players_move(pawn))
+                if self._loop == 0:
+                    empties = move.hit.where_can_hit()[pawn]
+                    self._buttons_dict[pawn].clicked.connect(lambda: self._highlight_pawns(empties))
+                    self._buttons_dict[pawn].clicked.connect(lambda: self._get_pawn_cords_for_players_move(pawn))
+                    self._buttons_dict[pawn].clicked.connect(self._quit_loop)
 
+            self._loop = 0
             for empty in empties:
-                self._buttons_dict[empty].clicked.connect(lambda: self._get_empty_cords_for_players_move(empty))
-                # if move.hit.if_can_hit_by_approach_and_by_withdrawal(self._pawn_cords, self._empty_cords):
-                #     self._buttons_dict[empty].clicked.connect(lambda: self._highlight_pawns(move.hit.which_hits_by_withdrawal()[(self._pawn_cords, self._empty_cords)]))
-                #     self._buttons_dict[empty].clicked.connect(lambda: self._highlight_pawns(move.hit.which_hits_by_approach()[(self._pawn_cords, self._empty_cords)]))
-                self._buttons_dict[empty].clicked.connect(self.close)
+                if self._loop == 0:
+                    self._buttons_dict[empty].clicked.connect(lambda: self._get_empty_cords_for_players_move(empty))
+                    # if move.hit.if_can_hit_by_approach_and_by_withdrawal(self._pawn_cords, self._empty_cords):
+                    #     self._buttons_dict[empty].clicked.connect(lambda: self._highlight_pawns(move.hit.which_hits_by_withdrawal()[(self._pawn_cords, self._empty_cords)]))
+                    #     self._buttons_dict[empty].clicked.connect(lambda: self._highlight_pawns(move.hit.which_hits_by_approach()[(self._pawn_cords, self._empty_cords)]))
+                    self._buttons_dict[empty].clicked.connect(self._quit_loop)
+                    self._buttons_dict[empty].clicked.connect(self.close)
         else:
             self._highlight_pawns(move.hit.which_can_move())
 
@@ -88,3 +94,6 @@ class PlayersTurns(QDialog):
 
     def return_cords(self):
         return self._pawn_cords, self._empty_cords
+
+    def _quit_loop(self):
+        self._loop = 1
