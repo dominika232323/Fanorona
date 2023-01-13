@@ -18,6 +18,7 @@ class PlayersTurns(QDialog):
         self._length = turn.length()
         self._width = turn.width()
         self._pawns = Pawns(Board(self._length, self._width))
+        self._pawns.set_actual_pawns(self._pawns_on_board)
 
         self._create_board()
 

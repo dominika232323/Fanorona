@@ -85,7 +85,7 @@ class FanoronaWindow(QMainWindow):
         self._first_player, self._second_player = order_of_players(player_color, self._opponent)
 
         self._make_turn(self._first_player, FIRST_COLOR)
-        # self._make_turn(self._second_player, SECOND_COLOR)
+        self._make_turn(self._second_player, SECOND_COLOR)
 
         # while self._pawns.check_for_winner() is False:
         #     self._make_turn(self._first_player, FIRST_COLOR_HEX)
@@ -105,8 +105,6 @@ class FanoronaWindow(QMainWindow):
         window = PlayersTurns(Turn(self._pawns, pawn_color))
         window.exec_()
         self._pawn_cords, self._empty_cords = window.return_cords()
-        print(self._pawn_cords)
-        print(self._empty_cords)
         move = Move(self._pawns, pawn_color)
         self._make_players_move(move)
 
