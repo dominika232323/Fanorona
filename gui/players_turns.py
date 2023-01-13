@@ -1,7 +1,5 @@
 from PySide2.QtCore import QSize
 from PySide2.QtWidgets import QDialog, QPushButton
-
-from gui.functor import Functor
 from source.board import Board
 from source.move import Move
 from source.pawns import Pawns

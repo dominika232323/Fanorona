@@ -108,12 +108,6 @@ class FanoronaWindow(QMainWindow):
         move = Move(self._pawns, pawn_color)
         self._make_players_move(move)
 
-    def _get_pawn_cords_for_players_move(self, pawn):
-        self._pawn_cords = pawn
-
-    def _get_empty_cords_for_players_move(self, empty):
-        self._empty_cords = empty
-
     def _make_players_move(self, move):
         pawns_after_move = move.move_maker(self._pawn_cords, self._empty_cords)
         self._pawns.set_actual_pawns(pawns_after_move)
