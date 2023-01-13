@@ -1,6 +1,7 @@
 from PySide2.QtCore import QSize
 from PySide2.QtWidgets import QDialog, QPushButton
 
+from gui.functor import Functor
 from source.board import Board
 from source.move import Move
 from source.pawns import Pawns
@@ -27,6 +28,7 @@ class PlayersTurns(QDialog):
         for row in range(0, self._width):
             for column in range(0, self._length):
                 self._buttons_dict[(row, column)] = QPushButton()
+                self._buttons_dict[(row, column)].setObjectName(f'{row} {column}')
                 self._buttons_dict[(row, column)].setMinimumSize(QSize(50, 50))
                 self.ui.gridLayout.addWidget(self._buttons_dict[(row, column)], row, column)
         self._set_pawns_on_board()
@@ -65,35 +67,34 @@ class PlayersTurns(QDialog):
 
         if move.hit.which_can_hit():
             self._highlight_pawns(move.hit.which_can_hit())
-
-            self._loop = 0
             for pawn in move.hit.which_can_hit():
-                if self._loop == 0:
-                    empties = move.hit.where_can_hit()[pawn]
-                    self._buttons_dict[pawn].clicked.connect(lambda: self._highlight_pawns(empties))
-                    self._buttons_dict[pawn].clicked.connect(lambda: self._get_pawn_cords_for_players_move(pawn))
-                    self._buttons_dict[pawn].clicked.connect(self._quit_loop)
+                empties = move.hit.where_can_hit()[pawn]
+                self._buttons_dict[pawn].clicked.connect(lambda: self._highlight_pawns(empties))
+                self._buttons_dict[pawn].clicked.connect(self._get_pawn_cords_for_players_move)
 
-            self._loop = 0
             for empty in empties:
-                if self._loop == 0:
-                    self._buttons_dict[empty].clicked.connect(lambda: self._get_empty_cords_for_players_move(empty))
-                    # if move.hit.if_can_hit_by_approach_and_by_withdrawal(self._pawn_cords, self._empty_cords):
-                    #     self._buttons_dict[empty].clicked.connect(lambda: self._highlight_pawns(move.hit.which_hits_by_withdrawal()[(self._pawn_cords, self._empty_cords)]))
-                    #     self._buttons_dict[empty].clicked.connect(lambda: self._highlight_pawns(move.hit.which_hits_by_approach()[(self._pawn_cords, self._empty_cords)]))
-                    self._buttons_dict[empty].clicked.connect(self._quit_loop)
-                    self._buttons_dict[empty].clicked.connect(self.close)
+                self._buttons_dict[empty].clicked.connect(self._get_empty_cords_for_players_move)
+                # if move.hit.if_can_hit_by_approach_and_by_withdrawal(self._pawn_cords, self._empty_cords):
+                #     self._buttons_dict[empty].clicked.connect(lambda: self._highlight_pawns(move.hit.which_hits_by_withdrawal()[(self._pawn_cords, self._empty_cords)]))
+                #     self._buttons_dict[empty].clicked.connect(lambda: self._highlight_pawns(move.hit.which_hits_by_approach()[(self._pawn_cords, self._empty_cords)]))
+                self._buttons_dict[empty].clicked.connect(self.close)
         else:
             self._highlight_pawns(move.hit.which_can_move())
 
-    def _get_pawn_cords_for_players_move(self, pawn):
-        self._pawn_cords = pawn
+    def _get_pawn_cords_for_players_move(self):
+        sending_button = self.sender()
+        cords = sending_button.objectName()
+        self._pawn_cords = self._make_tuple_from_string(cords)
 
-    def _get_empty_cords_for_players_move(self, empty):
-        self._empty_cords = empty
+    @staticmethod
+    def _make_tuple_from_string(cords_str):
+        cords = cords_str.split()
+        return int(cords[0]), int(cords[1])
+
+    def _get_empty_cords_for_players_move(self):
+        sending_button = self.sender()
+        cords = sending_button.objectName()
+        self._empty_cords = self._make_tuple_from_string(cords)
 
     def return_cords(self):
         return self._pawn_cords, self._empty_cords
-
-    def _quit_loop(self):
-        self._loop = 1
