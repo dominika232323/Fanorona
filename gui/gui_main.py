@@ -1,4 +1,4 @@
-from PySide2.QtCore import QSize
+from PySide2.QtCore import QSize, QEventLoop
 from PySide2.QtWidgets import QApplication, QMainWindow, QPushButton, QDialog
 
 from gui.game_progress import order_of_players, get_random_pawn_and_empty_cords, get_best_pawns_and_empty_cords, \
@@ -103,13 +103,12 @@ class FanoronaWindow(QMainWindow):
 
     def _player_turn(self, pawn_color):
         window = PlayersTurns(Turn(self._pawns, pawn_color))
-        window.show()
-        if window.exec_() == 256:
-            # self._pawn_cords, self._empty_cords = window.return_cords()
-            print(self._pawn_cords)
-            print(self._empty_cords)
-            move = Move(self._pawns, self._turn)
-            self._make_players_move(move)
+        window.exec_()
+        self._pawn_cords, self._empty_cords = window.return_cords()
+        print(self._pawn_cords)
+        print(self._empty_cords)
+        move = Move(self._pawns, pawn_color)
+        self._make_players_move(move)
 
     def _get_pawn_cords_for_players_move(self, pawn):
         self._pawn_cords = pawn
