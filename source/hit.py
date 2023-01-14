@@ -14,6 +14,14 @@ from source.turn import Turn
 
 
 class Hit(Turn):
+    """
+    Class Hit. Inherits from the class Turn. Contains attributes:
+    :param pawns: two-dimensional list of pawns set on the board
+    :type pawns: list
+
+    :param turn: holds whose turn it is, first or second player
+    :type turn: string
+    """
     def __init__(self, pawns, turn):
         super().__init__(pawns, turn)
         self._movement_types = [
@@ -29,7 +37,7 @@ class Hit(Turn):
 
     def which_can_move(self):
         """
-        Returns a list of co-ordinates of pawns that can move, because they have an empty space near them.
+        :return: a list of co-ordinates of pawns that can move, because they have an empty space around them.
         """
         result_pawns = []
         for index_row, row in enumerate(self.pawns()):
@@ -40,6 +48,11 @@ class Hit(Turn):
         return result_pawns
 
     def _can_move(self, index, index_row):
+        """
+        :param index: number of column in which a pawn is seated
+        :param index_row: number of row in which a pawn is seated
+        :return: True if pawn have an empty space around
+        """
         return (
                 Movement.diagonal_movement_to_left_up(self.pawns(), index_row, index, EMPTY_COLOR) or
                 Movement.up_movement(self.pawns(), index_row, index, EMPTY_COLOR) or
@@ -52,6 +65,9 @@ class Hit(Turn):
         )
 
     def where_can_move(self):
+        """
+        :return: dictionary where keys are pawns which can move and values are lists of empty spaces around them
+        """
         which = self.which_can_move()
         where = {}
 
@@ -75,6 +91,9 @@ class Hit(Turn):
         return where
 
     def which_can_hit(self):
+        """
+        :return: set of co-ordinates of pawns that can hit another pawn
+        """
         which = []
         which_withdrawal = self.which_can_hit_by_withdrawal()
         for element in which_withdrawal:
@@ -87,6 +106,9 @@ class Hit(Turn):
         return [] if not which else set(which)
 
     def which_can_hit_by_approach(self):
+        """
+        :return: set of co-ordinates of pawns that can hit another pawn by approach
+        """
         moving_pawns = self.where_can_move()
         which = []
 
@@ -98,6 +120,12 @@ class Hit(Turn):
         return [] if not which else set(which)
 
     def _check_by_approach(self, pawn, empty, what_append):
+        """
+        :param pawn: co-ordinates of a pawn from self.which_can_move()
+        :param empty: co-ordinates of an empty space for the pawn from self.where_can_move()
+        :param what_append: variable to return, so it can be appended somewhere
+        :return: what_append if the pawn can move to the empty space and hit by approach
+        """
         move_type = Movement.recognize_move(pawn, empty)
         movement_by_approach = [
             Movement.diagonal_movement_to_left_up(self.pawns(), empty[0], empty[1], self.pawn_to_hit()),
@@ -116,6 +144,9 @@ class Hit(Turn):
         return None
 
     def which_can_hit_by_withdrawal(self):
+        """
+        :return: set of co-ordinates of pawns that can hit another pawn by withdrawal
+        """
         moving_pawns = self.where_can_move()
         which = []
 
@@ -126,6 +157,12 @@ class Hit(Turn):
         return [] if not which else set(which)
 
     def _check_by_withdrawal(self, pawn, empty, what_append):
+        """
+        :param pawn: co-ordinates of a pawn from self.which_can_move()
+        :param empty: co-ordinates of an empty space for the pawn from self.where_can_move()
+        :param what_append: variable to return, so it can be appended somewhere
+        :return: what_append if the pawn can move to the empty space and hit by withdrawal
+        """
         move_type = Movement.recognize_move(pawn, empty)
         movement_by_withdrawal = [
             Movement.diagonal_movement_to_right_down(self.pawns(), pawn[0], pawn[1], self.pawn_to_hit()),
@@ -144,6 +181,10 @@ class Hit(Turn):
         return None
 
     def where_can_hit(self):
+        """
+        :return: dictionary where keys are co-ordinates of pawns from self.which_can_hit() and values are co-ordinates
+        of empty spaces where they can move to capture opponent's pawns
+        """
         by_withdrawal = self.where_can_hit_by_withdrawal()
         by_approach = self.where_can_hit_by_approach()
         where = {}
@@ -162,6 +203,10 @@ class Hit(Turn):
         return where
 
     def where_can_hit_by_approach(self):
+        """
+        :return: dictionary where keys are co-ordinates of pawns from self.which_can_hit() and values are co-ordinates
+        of empty spaces where they can move to capture by approach opponent's pawns
+        """
         hitting_pawns = self.which_can_hit_by_approach()
         possible_move = self.where_can_move()
         where = {}
@@ -177,6 +222,10 @@ class Hit(Turn):
         return where
 
     def where_can_hit_by_withdrawal(self):
+        """
+        :return: dictionary where keys are co-ordinates of pawns from self.which_can_hit() and values are co-ordinates
+        of empty spaces where they can move to capture by withdrawal opponent's pawns
+        """
         hitting_pawns = self.which_can_hit_by_withdrawal()
         possible_move = self.where_can_move()
         where = {}
@@ -191,11 +240,11 @@ class Hit(Turn):
                     where[pawn] = where_for_pawn
         return where
 
-    def which_hits(self):
-        # dic = {[(pawns cords), (empty cords)]: [cords of each pawn that hits]}
-        pass
-
     def which_hits_by_withdrawal(self):
+        """
+        :return: dictionary where keys are tuples of pawn's and empty space's co-ordinates and values are co-ordinates
+        of opponent's pawns which the pawn can capture by withdrawal by moving to the empty space
+        """
         hitting_pawns = self.where_can_hit_by_withdrawal()
         which_hits = {}
 
@@ -255,6 +304,10 @@ class Hit(Turn):
         return which_hits
 
     def which_hits_by_approach(self):
+        """
+        :return: dictionary where keys are tuples of pawn's and empty space's co-ordinates and values are co-ordinates
+        of opponent's pawns which the pawn can capture by approach by moving to the empty space
+        """
         hitting_pawns = self.where_can_hit_by_approach()
         which_hits = {}
 
@@ -314,6 +367,11 @@ class Hit(Turn):
         return which_hits
 
     def if_can_hit_by_approach_and_by_withdrawal(self, pawn, empty):
+        """
+        :param pawn: co-ordinates of a pawn that player wants to move
+        :param empty: co-ordinates of an empty space where player wants to move the pawn
+        :return: True if player has a choice to capture opponent's pawns by withdrawal or by approach
+        """
         if (pawn, empty) not in self.which_hits_by_withdrawal().keys():
             return False
         if (pawn, empty) not in self.which_hits_by_approach().keys():
