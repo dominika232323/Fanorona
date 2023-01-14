@@ -104,12 +104,12 @@ class FanoronaWindow(QMainWindow):
     def _player_turn(self, pawn_color):
         window = PlayersTurns(Turn(self._pawns, pawn_color))
         window.exec_()
-        self._pawn_cords, self._empty_cords = window.return_cords()
+        self._pawn_cords, self._empty_cords, self._choice = window.return_cords()
         move = Move(self._pawns, pawn_color)
         self._make_players_move(move)
 
     def _make_players_move(self, move):
-        pawns_after_move = move.move_maker(self._pawn_cords, self._empty_cords)
+        pawns_after_move = move.move_maker(self._pawn_cords, self._empty_cords, self._choice)
         self._pawns.set_actual_pawns(pawns_after_move)
         self._set_pawns_on_board()
 

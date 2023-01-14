@@ -193,39 +193,6 @@ def test_move_with_hits_kill_pawns_by_approach():
     ]
 
 
-# ---------------------------------------- choose_move_with_hits()
-
-
-def test_choose_move_with_hits_withdrawal():
-    pawns = Pawns(Board())
-    new_pawns = [
-        [SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, EMPTY_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR],
-        [SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, EMPTY_COLOR, FIRST_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR],
-        [EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, FIRST_COLOR, FIRST_COLOR, SECOND_COLOR, FIRST_COLOR],
-        [FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, SECOND_COLOR, EMPTY_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR],
-        [FIRST_COLOR, FIRST_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR]
-    ]
-    pawns.set_actual_pawns(new_pawns)
-
-    move = Move(pawns, SECOND_COLOR)
-    assert move.choose_move_with_hits((3, 3), (3, 4), [(3, 2), (3, 1), (3, 0)]) == CHOICE_WITHDRAWAL
-
-
-def test_choose_move_with_hits_approach():
-    pawns = Pawns(Board())
-    new_pawns = [
-        [SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, EMPTY_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR],
-        [SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, EMPTY_COLOR, FIRST_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR],
-        [EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, FIRST_COLOR, FIRST_COLOR, SECOND_COLOR, FIRST_COLOR],
-        [FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, SECOND_COLOR, EMPTY_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR],
-        [FIRST_COLOR, FIRST_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR]
-    ]
-    pawns.set_actual_pawns(new_pawns)
-
-    move = Move(pawns, SECOND_COLOR)
-    assert move.choose_move_with_hits((3, 3), (3, 4), [(3, 5), (3, 6), (3, 7), (3, 8)]) == CHOICE_APPROACH
-
-
 # ---------------------------------------- move_with_hits()
 
 
@@ -248,7 +215,7 @@ def test_move_with_hits_1():
         [FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, SECOND_COLOR, EMPTY_COLOR, FIRST_COLOR, FIRST_COLOR, EMPTY_COLOR, FIRST_COLOR],
         [FIRST_COLOR, FIRST_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, FIRST_COLOR, FIRST_COLOR, EMPTY_COLOR, FIRST_COLOR]
     ]
-    assert move.move_with_hits((2, 7), (1, 7)) == expected
+    assert move.move_with_hits((2, 7), (1, 7), None) == expected
 
 
 def test_move_with_hits_2():
@@ -270,10 +237,10 @@ def test_move_with_hits_2():
         [FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, SECOND_COLOR, EMPTY_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, EMPTY_COLOR],
         [FIRST_COLOR, FIRST_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, EMPTY_COLOR]
     ]
-    assert move.move_with_hits((0, 8), (1, 8)) == expected
+    assert move.move_with_hits((0, 8), (1, 8), None) == expected
 
 
-def test_move_with_hits_choice_approach(monkeypatch):
+def test_move_with_hits_choice_approach():
     pawns = Pawns(Board())
     new_pawns = [
         [SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, EMPTY_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR],
@@ -285,11 +252,6 @@ def test_move_with_hits_choice_approach(monkeypatch):
     pawns.set_actual_pawns(new_pawns)
 
     move = Move(pawns, SECOND_COLOR)
-
-    def monkey_chosen_group(f, t, z):
-        return [(3, 5), (3, 6), (3, 7), (3, 8)]
-    monkeypatch.setattr(Move, 'choose_group_to_kill', monkey_chosen_group)
-
     expected = [
         [SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, EMPTY_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR],
         [SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, EMPTY_COLOR, FIRST_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR],
@@ -297,7 +259,7 @@ def test_move_with_hits_choice_approach(monkeypatch):
         [FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, EMPTY_COLOR, SECOND_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR],
         [FIRST_COLOR, FIRST_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR]
     ]
-    assert move.move_with_hits((3, 3), (3, 4)) == expected
+    assert move.move_with_hits((3, 3), (3, 4), CHOICE_APPROACH) == expected
 
 
 # ---------------------------------------- move_maker()
@@ -322,7 +284,7 @@ def test_move_maker_with_hits():
         [FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, SECOND_COLOR, EMPTY_COLOR, FIRST_COLOR, FIRST_COLOR, EMPTY_COLOR, FIRST_COLOR],
         [FIRST_COLOR, FIRST_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, FIRST_COLOR, FIRST_COLOR, EMPTY_COLOR, FIRST_COLOR]
     ]
-    assert move.move_maker((2, 7), (1, 7)) == expected
+    assert move.move_maker((2, 7), (1, 7), None) == expected
 
 
 def test_move_maker_without_hits():
@@ -344,7 +306,7 @@ def test_move_maker_without_hits():
         [EMPTY_COLOR, FIRST_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR],
         [EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, FIRST_COLOR, EMPTY_COLOR, EMPTY_COLOR, FIRST_COLOR, FIRST_COLOR, EMPTY_COLOR]
     ]
-    assert move.move_without_hits((4, 1), (3, 1)) == expected
+    assert move.move_without_hits((4, 1), (3, 1), None) == expected
 
 
 def test_move_maker_pawn_without_moves():
@@ -360,7 +322,7 @@ def test_move_maker_pawn_without_moves():
 
     move = Move(pawns, SECOND_COLOR)
     with pytest.raises(MoveError):
-        move.move_maker((0, 1), (1, 3))
+        move.move_maker((0, 1), (1, 3), None)
 
 
 def test_move_maker_not_empty_space():
@@ -376,7 +338,7 @@ def test_move_maker_not_empty_space():
 
     move = Move(pawns, SECOND_COLOR)
     with pytest.raises(MoveError):
-        move.move_maker((0, 3), (0, 2))
+        move.move_maker((0, 3), (0, 2), None)
 
 
 def test_move_maker_without_hits():
@@ -392,7 +354,7 @@ def test_move_maker_without_hits():
 
     move = Move(pawns, SECOND_COLOR)
     with pytest.raises(MoveError):
-        move.move_maker((0, 3), (1, 3))
+        move.move_maker((0, 3), (1, 3), None)
 
 
 def test_move_maker_not_empty_space_to_hit():
@@ -408,4 +370,4 @@ def test_move_maker_not_empty_space_to_hit():
 
     move = Move(pawns, SECOND_COLOR)
     with pytest.raises(MoveError):
-        move.move_maker((3, 3), (3, 2))
+        move.move_maker((3, 3), (3, 2), None)

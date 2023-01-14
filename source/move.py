@@ -30,13 +30,13 @@ class Move:
     def width(self):
         return self.hit.width()
 
-    def move_maker(self, pawn, empty):
+    def move_maker(self, pawn, empty, choice):
         self._validate_move_maker(empty, pawn)
 
         if not self.hit.which_can_hit():
             return self.move_without_hits(pawn, empty)
         else:
-            return self.move_with_hits(pawn, empty)
+            return self.move_with_hits(pawn, empty, choice)
 
     def _validate_move_maker(self, empty, pawn):
         if pawn not in self.hit.which_can_move():
@@ -54,38 +54,16 @@ class Move:
         pawns_after_move[empty[0]][empty[1]] = self.turn
         return pawns_after_move
 
-    def move_with_hits(self, pawn, empty):
+    def move_with_hits(self, pawn, empty, choice):
         withdrawal = self.hit.which_hits_by_withdrawal()
         approach = self.hit.which_hits_by_approach()
 
-        if (pawn, empty) in withdrawal and (pawn, empty) in approach:
-            chosen_group = self.choose_group_to_kill(pawn, empty)
-            choice = self.choose_move_with_hits(pawn, empty, chosen_group)
-            if choice == CHOICE_WITHDRAWAL:
-                dead_pawns = withdrawal[(pawn, empty)]
-            if choice == CHOICE_APPROACH:
-                dead_pawns = approach[(pawn, empty)]
-        elif (pawn, empty) in withdrawal:
+        if choice == CHOICE_WITHDRAWAL or (choice is None and (pawn, empty) in withdrawal):
             dead_pawns = withdrawal[(pawn, empty)]
-        elif (pawn, empty) in approach:
+        elif choice == CHOICE_APPROACH or (choice is None and (pawn, empty) in approach):
             dead_pawns = approach[(pawn, empty)]
 
         return self.move_with_hits_kill_pawns(pawn, empty, dead_pawns)
-
-    def choose_group_to_kill(self, pawn, empty):
-        # NOT READY FUNCTION
-        group = []
-        return group
-
-    def choose_move_with_hits(self, pawn, empty, chosen_group):
-        group_withdrawal = self.hit.which_hits_by_withdrawal()[(pawn, empty)]
-        group_approach = self.hit.which_hits_by_approach()[(pawn, empty)]
-        if chosen_group == group_withdrawal:
-            return CHOICE_WITHDRAWAL
-        elif chosen_group == group_approach:
-            return CHOICE_APPROACH
-        else:
-            raise MoveError('You cannot choose this group of pawns')
 
     def move_with_hits_kill_pawns(self, pawn, empty, dead_pawns):
         pawns_after_move = self.move_without_hits(pawn, empty)

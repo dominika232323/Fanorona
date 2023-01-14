@@ -4,6 +4,10 @@ from source.board import Board
 from source.move import Move
 from source.pawns import Pawns
 from ui_player_turn import Ui_DialogWIndow
+from source.configuration import (
+    CHOICE_WITHDRAWAL,
+    CHOICE_APPROACH
+)
 
 
 class PlayersTurns(QDialog):
@@ -87,15 +91,37 @@ class PlayersTurns(QDialog):
     def _choose_empty_place_for_move(self):
         for empty in self._empties:
             self._buttons_dict[empty].clicked.connect(self._get_empty_cords_for_players_move)
-            # if self.move.hit.if_can_hit_by_approach_and_by_withdrawal(self._pawn_cords, self._empty_cords):
-            #     self._buttons_dict[empty].clicked.connect(lambda: self._highlight_pawns(self.move.hit.which_hits_by_withdrawal()[(self._pawn_cords, self._empty_cords)]))
-            #     self._buttons_dict[empty].clicked.connect(lambda: self._highlight_pawns(self.move.hit.which_hits_by_approach()[(self._pawn_cords, self._empty_cords)]))
-            self._buttons_dict[empty].clicked.connect(self.close)
+            # self._buttons_dict[empty].clicked.connect(self.close)
 
     def _get_empty_cords_for_players_move(self):
         sending_button = self.sender()
         cords = sending_button.objectName()
         self._empty_cords = self._make_tuple_with_cords_from_button_name(cords)
+        self._choose_group_to_capture()
+
+    def _choose_group_to_capture(self):
+        if self.move.hit.if_can_hit_by_approach_and_by_withdrawal(self._pawn_cords, self._empty_cords):
+            self._group_by_withdrawal = self.move.hit.which_hits_by_withdrawal()[(self._pawn_cords, self._empty_cords)]
+            self._group_by_approach = self.move.hit.which_hits_by_approach()[(self._pawn_cords, self._empty_cords)]
+            self._highlight_pawns(self._group_by_withdrawal)
+            self._highlight_pawns(self._group_by_approach)
+
+            pawns_to_capture = self._group_by_approach + self._group_by_withdrawal
+            for pawn in pawns_to_capture:
+                self._buttons_dict[pawn].clicked.connect(self._get_players_choice_to_capture)
+                self._buttons_dict[pawn].clicked.connect(self.close)
+        else:
+            self._choice = None
+            self.close()
+
+    def _get_players_choice_to_capture(self):
+        chosen_button = self.sender()
+        cords = chosen_button.objectName()
+        chosen_pawn = self._make_tuple_with_cords_from_button_name(cords)
+        if chosen_pawn in self._group_by_withdrawal:
+            self._choice = CHOICE_WITHDRAWAL
+        else:
+            self._choice = CHOICE_APPROACH
 
     @staticmethod
     def _make_tuple_with_cords_from_button_name(cords_str):
@@ -103,4 +129,4 @@ class PlayersTurns(QDialog):
         return int(cords[0]), int(cords[1])
 
     def return_cords(self):
-        return self._pawn_cords, self._empty_cords
+        return self._pawn_cords, self._empty_cords, self._choice
