@@ -84,14 +84,14 @@ class FanoronaWindow(QMainWindow):
         player_color = FIRST_COLOR if self._color == 1 else SECOND_COLOR
         self._first_player, self._second_player = order_of_players(player_color, self._opponent)
 
-        self._make_turn(self._first_player, FIRST_COLOR)
-        self._make_turn(self._second_player, SECOND_COLOR)
+        # self._make_turn(self._first_player, FIRST_COLOR)
+        # self._make_turn(self._second_player, SECOND_COLOR)
 
-        # while self._pawns.check_for_winner() is False:
-        #     self._make_turn(self._first_player, FIRST_COLOR_HEX)
-        #     self._make_turn(self._second_player, SECOND_COLOR_HEX)
+        while self._pawns.check_for_winner() is False:
+            self._make_turn(self._first_player, FIRST_COLOR)
+            self._make_turn(self._second_player, SECOND_COLOR)
 
-        # self._game_over()
+        self._game_over()
 
     def _make_turn(self, player, color):
         if player == OPPONENT_PLAYER:

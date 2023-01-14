@@ -84,14 +84,16 @@ class PlayersTurns(QDialog):
         self._highlight_empty_pawns()
 
     def _highlight_empty_pawns(self):
-        self._empties = self.move.hit.where_can_hit()[self._pawn_cords]
+        if self._pawn_cords in self.move.hit.which_can_hit():
+            self._empties = self.move.hit.where_can_hit()[self._pawn_cords]
+        else:
+            self._empties = self.move.hit.where_can_move()[self._pawn_cords]
         self._highlight_pawns(self._empties)
         self._choose_empty_place_for_move()
 
     def _choose_empty_place_for_move(self):
         for empty in self._empties:
             self._buttons_dict[empty].clicked.connect(self._get_empty_cords_for_players_move)
-            # self._buttons_dict[empty].clicked.connect(self.close)
 
     def _get_empty_cords_for_players_move(self):
         sending_button = self.sender()
