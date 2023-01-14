@@ -64,24 +64,27 @@ class PlayersTurns(QDialog):
         self.move = Move(self._pawns, self._turn)
 
         if self.move.hit.which_can_hit():
-            self._highlight_pawns(self.move.hit.which_can_hit())
-            for pawn in self.move.hit.which_can_hit():
-                self._buttons_dict[pawn].clicked.connect(self._get_pawn_cords_for_players_move)
+            self._choose_pawn_for_move(self.move.hit.which_can_hit())
         else:
-            self._highlight_pawns(self.move.hit.which_can_move())
+            self._choose_pawn_for_move(self.move.hit.which_can_move())
+
+    def _choose_pawn_for_move(self, from_where):
+        self._highlight_pawns(from_where)
+        for pawn in from_where:
+            self._buttons_dict[pawn].clicked.connect(self._get_pawn_cords_for_players_move)
 
     def _get_pawn_cords_for_players_move(self):
         sending_button = self.sender()
         cords = sending_button.objectName()
-        self._pawn_cords = self._make_tuple_from_string(cords)
+        self._pawn_cords = self._make_tuple_with_cords_from_button_name(cords)
         self._highlight_empty_pawns()
 
     def _highlight_empty_pawns(self):
         self._empties = self.move.hit.where_can_hit()[self._pawn_cords]
         self._highlight_pawns(self._empties)
-        self._take_input_for_empty_place()
+        self._choose_empty_place_for_move()
 
-    def _take_input_for_empty_place(self):
+    def _choose_empty_place_for_move(self):
         for empty in self._empties:
             self._buttons_dict[empty].clicked.connect(self._get_empty_cords_for_players_move)
             # if self.move.hit.if_can_hit_by_approach_and_by_withdrawal(self._pawn_cords, self._empty_cords):
@@ -92,10 +95,10 @@ class PlayersTurns(QDialog):
     def _get_empty_cords_for_players_move(self):
         sending_button = self.sender()
         cords = sending_button.objectName()
-        self._empty_cords = self._make_tuple_from_string(cords)
+        self._empty_cords = self._make_tuple_with_cords_from_button_name(cords)
 
     @staticmethod
-    def _make_tuple_from_string(cords_str):
+    def _make_tuple_with_cords_from_button_name(cords_str):
         cords = cords_str.split()
         return int(cords[0]), int(cords[1])
 
