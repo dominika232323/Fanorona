@@ -84,9 +84,6 @@ class FanoronaWindow(QMainWindow):
         player_color = FIRST_COLOR if self._color == 1 else SECOND_COLOR
         self._first_player, self._second_player = order_of_players(player_color, self._opponent)
 
-        # self._make_turn(self._first_player, FIRST_COLOR)
-        # self._make_turn(self._second_player, SECOND_COLOR)
-
         while self._pawns.check_for_winner() is False:
             self._make_turn(self._first_player, FIRST_COLOR)
             self._make_turn(self._second_player, SECOND_COLOR)
@@ -101,8 +98,8 @@ class FanoronaWindow(QMainWindow):
         elif player == OPPONENT_COMPUTER_BEST:
             self._computer_best(color)
 
-    def _player_turn(self, pawn_color):
-        window = PlayersTurns(Turn(self._pawns, pawn_color))
+    def _player_turn(self, pawn_color, previous_pawn_cords=None):
+        window = PlayersTurns(Turn(self._pawns, pawn_color), previous_pawn_cords)
         window.exec_()
         self._pawn_cords, self._empty_cords, self._choice = window.return_cords()
         move = Move(self._pawns, pawn_color)
@@ -112,6 +109,12 @@ class FanoronaWindow(QMainWindow):
         pawns_after_move = move.move_maker(self._pawn_cords, self._empty_cords, self._choice)
         self._pawns.set_actual_pawns(pawns_after_move)
         self._set_pawns_on_board()
+        self._player_combo(move.turn)
+
+    def _player_combo(self, pawn_color):
+        combo = Combo(self._pawns, pawn_color, self._pawn_cords, self._empty_cords)
+        if combo.possible_combo():
+            self._player_turn(pawn_color, combo.new_pawn)
 
     def _computer_random(self, pawn_color):
         pawn_cords, empty_cords = get_random_pawn_and_empty_cords(self._pawns, pawn_color)

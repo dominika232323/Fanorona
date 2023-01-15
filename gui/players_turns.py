@@ -11,7 +11,7 @@ from source.configuration import (
 
 
 class PlayersTurns(QDialog):
-    def __init__(self, turn, parent=None):
+    def __init__(self, turn, pawn_cords_for_combo=None, parent=None):
         super().__init__(parent)
         self.ui = Ui_DialogWIndow()
         self.ui.setupUi(self)
@@ -20,6 +20,7 @@ class PlayersTurns(QDialog):
         self._pawn_to_hit = turn.pawn_to_hit()
         self._length = turn.length()
         self._width = turn.width()
+        self._pawn_cords_for_combo = pawn_cords_for_combo
         self._pawns = Pawns(Board(self._length, self._width))
         self._pawns.set_actual_pawns(self._pawns_on_board)
 
@@ -67,10 +68,14 @@ class PlayersTurns(QDialog):
     def _player_turn(self):
         self.move = Move(self._pawns, self._turn)
 
-        if self.move.hit.which_can_hit():
-            self._choose_pawn_for_move(self.move.hit.which_can_hit())
+        if self._pawn_cords_for_combo is None:
+            if self.move.hit.which_can_hit():
+                self._choose_pawn_for_move(self.move.hit.which_can_hit())
+            else:
+                self._choose_pawn_for_move(self.move.hit.which_can_move())
         else:
-            self._choose_pawn_for_move(self.move.hit.which_can_move())
+            self._pawn_cords = self._pawn_cords_for_combo
+            self._highlight_empty_pawns()
 
     def _choose_pawn_for_move(self, from_where):
         self._highlight_pawns(from_where)
