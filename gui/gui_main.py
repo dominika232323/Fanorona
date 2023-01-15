@@ -103,13 +103,21 @@ class FanoronaWindow(QMainWindow):
         window.exec_()
         self._pawn_cords, self._empty_cords, self._choice = window.return_cords()
         move = Move(self._pawns, pawn_color)
+        self._if_move_was_capturing(move)
         self._make_players_move(move)
+
+    def _if_move_was_capturing(self, move):
+        if move.was_move_capturing(self._pawn_cords, self._empty_cords):
+            self._capturing_move = True
+        else:
+            self._capturing_move = False
 
     def _make_players_move(self, move):
         pawns_after_move = move.move_maker(self._pawn_cords, self._empty_cords, self._choice)
         self._pawns.set_actual_pawns(pawns_after_move)
         self._set_pawns_on_board()
-        self._player_combo(move.turn)
+        if self._capturing_move:
+            self._player_combo(move.turn)
 
     def _player_combo(self, pawn_color):
         combo = Combo(self._pawns, pawn_color, self._pawn_cords, self._empty_cords)
