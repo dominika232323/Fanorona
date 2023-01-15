@@ -306,7 +306,7 @@ def test_move_maker_without_hits():
         [EMPTY_COLOR, FIRST_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR],
         [EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, FIRST_COLOR, EMPTY_COLOR, EMPTY_COLOR, FIRST_COLOR, FIRST_COLOR, EMPTY_COLOR]
     ]
-    assert move.move_without_hits((4, 1), (3, 1), None) == expected
+    assert move.move_without_hits((4, 1), (3, 1)) == expected
 
 
 def test_move_maker_pawn_without_moves():
@@ -341,7 +341,7 @@ def test_move_maker_not_empty_space():
         move.move_maker((0, 3), (0, 2), None)
 
 
-def test_move_maker_without_hits():
+def test_move_maker_pawn_without_hits():
     pawns = Pawns(Board())
     new_pawns = [
         [SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, EMPTY_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR],
@@ -371,3 +371,36 @@ def test_move_maker_not_empty_space_to_hit():
     move = Move(pawns, SECOND_COLOR)
     with pytest.raises(MoveError):
         move.move_maker((3, 3), (3, 2), None)
+
+
+# ---------------------------------------- was_move_capturing()
+
+
+def test_was_move_capturing_true():
+    pawns = Pawns(Board())
+    new_pawns = [
+        [SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, EMPTY_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR],
+        [SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, EMPTY_COLOR, FIRST_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR],
+        [EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, FIRST_COLOR, FIRST_COLOR, SECOND_COLOR, FIRST_COLOR],
+        [FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, SECOND_COLOR, EMPTY_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR],
+        [FIRST_COLOR, FIRST_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR]
+    ]
+    pawns.set_actual_pawns(new_pawns)
+
+    move = Move(pawns, SECOND_COLOR)
+    assert move.was_move_capturing((1, 2), (1, 3)) is True
+
+
+def test_was_move_capturing_false():
+    pawns = Pawns(Board())
+    new_pawns = [
+        [SECOND_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, SECOND_COLOR, EMPTY_COLOR],
+        [SECOND_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, SECOND_COLOR, EMPTY_COLOR],
+        [EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR],
+        [EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR],
+        [EMPTY_COLOR, FIRST_COLOR, EMPTY_COLOR, FIRST_COLOR, EMPTY_COLOR, EMPTY_COLOR, FIRST_COLOR, FIRST_COLOR, EMPTY_COLOR]
+    ]
+    pawns.set_actual_pawns(new_pawns)
+
+    move = Move(pawns, FIRST_COLOR)
+    assert move.was_move_capturing((4, 1), (3, 1)) is False

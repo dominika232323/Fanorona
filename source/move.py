@@ -84,6 +84,13 @@ class Move:
         
         return copied_pawns
 
+    def was_move_capturing(self, pawn, empty):
+        if pawn in self.hit.which_can_hit():
+            if empty in self.hit.where_can_hit()[pawn]:
+                return True
+            return False
+        return False
+
 
 class MoveError(Exception):
     pass
