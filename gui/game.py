@@ -36,6 +36,14 @@ class Game:
         return pawn_cords, empty_cords
 
     @staticmethod
+    def get_random_move_choice(pawns, pawn_color, pawn_cords, empty_cords):
+        hit = Hit(pawns, pawn_color)
+        if (pawn_cords, empty_cords) in hit.which_hits_by_withdrawal().keys() and \
+                (pawn_cords, empty_cords) in hit.which_hits_by_approach().keys():
+            return choice([CHOICE_APPROACH, CHOICE_WITHDRAWAL])
+        return None
+
+    @staticmethod
     def get_best_pawns_and_empty_cords(pawns, pawn_color):
         hit = Hit(pawns, pawn_color)
         hitting_pawns = list(hit.which_can_hit())
@@ -52,17 +60,9 @@ class Game:
             return pawn_cords, empty_cords
 
     @staticmethod
-    def get_random_move_choice(pawns, pawn_color, pawn_cords, empty_cords):
-        hit = Hit(pawns, pawn_color)
-        if (pawn_cords, empty_cords) in hit.which_hits_by_withdrawal().keys() and \
-                (pawn_cords, empty_cords) in hit.which_hits_by_approach().keys():
-            return choice([CHOICE_APPROACH, CHOICE_WITHDRAWAL])
-        return None
-
-    @staticmethod
     def find_longest_group_to_kill(dict_of_hits):
-        pawn_cords = (0, 0)
-        empty_cords = (0, 0)
+        pawn_cords = None
+        empty_cords = None
         len_group_to_kill = 0
         for pawn_and_empty in dict_of_hits:
             if len(dict_of_hits[pawn_and_empty]) > len_group_to_kill:
@@ -72,9 +72,31 @@ class Game:
         return pawn_cords, empty_cords, len_group_to_kill
 
     @staticmethod
-    def find_best_empty_for_combo(pawn_cords, list_of_empties, dict_of_hits):
+    def find_best_choice(pawns, pawn_color, pawn_cords, empty_cords):
+        hit = Hit(pawns, pawn_color)
+        if (pawn_cords, empty_cords) in hit.which_hits_by_withdrawal().keys() and \
+                (pawn_cords, empty_cords) in hit.which_hits_by_approach().keys():
+            if len(hit.which_hits_by_approach()[(pawn_cords, empty_cords)]) > len(hit.which_hits_by_withdrawal()[(pawn_cords, empty_cords)]):
+                return CHOICE_APPROACH
+            else:
+                return CHOICE_WITHDRAWAL
+        return None
+
+    @staticmethod
+    def get_best_empty_for_combo(hit, combo, pawn_cords):
+        empties = combo.find_empty_for_combo()
+        combo_withdrawal, len_withdrawal = Game.find_best_empty_for_combo_by(pawn_cords, empties, hit.which_hits_by_withdrawal())
+        combo_approach, len_approach = Game.find_best_empty_for_combo_by(pawn_cords, empties, hit.which_hits_by_approach())
+        if len_withdrawal >= len_approach:
+            combo_empty_cords = combo_withdrawal
+        else:
+            combo_empty_cords = combo_approach
+        return combo_empty_cords
+
+    @staticmethod
+    def find_best_empty_for_combo_by(pawn_cords, list_of_empties, dict_of_hits):
         length = 0
-        empty_cords = (0, 0)
+        empty_cords = None
         for empty in list_of_empties:
             if (pawn_cords, empty) in dict_of_hits.keys():
                 if len(dict_of_hits[(pawn_cords, empty)]) > length:
