@@ -53,7 +53,7 @@ class Movement:
         return True
 
     @staticmethod
-    def validate_wanted_pawn(pawn):
+    def _validate_wanted_pawn(pawn):
         """
         :param pawn: pawn seated on the board
         :raise: PawnsError if type of given pawn doesn't exist in the game Fanorona
@@ -70,7 +70,7 @@ class Movement:
         :param wanted_pawn: pawn type wanted diagonally to the left and up of the pawn
         :return: True if wanted pawn is diagonally to the left and up of the pawn
         """
-        Movement.validate_wanted_pawn(wanted_pawn)
+        Movement._validate_wanted_pawn(wanted_pawn)
         if Movement.check_for_max_to_left_or_up(row_index):
             return False
         if Movement.check_for_max_to_left_or_up(index):
@@ -90,7 +90,7 @@ class Movement:
         :param wanted_pawn: pawn type wanted on top of the pawn
         :return: True if wanted pawn is on top of the pawn
         """
-        Movement.validate_wanted_pawn(wanted_pawn)
+        Movement._validate_wanted_pawn(wanted_pawn)
         if Movement.check_for_max_to_left_or_up(row_index):
             return False
         if pawns[row_index-1][index] == wanted_pawn:
@@ -106,7 +106,7 @@ class Movement:
         :param wanted_pawn: pawn type wanted diagonally to the right and up of the pawn
         :return: True if wanted pawn is diagonally to the right and up of the pawn
         """
-        Movement.validate_wanted_pawn(wanted_pawn)
+        Movement._validate_wanted_pawn(wanted_pawn)
         if Movement.check_for_max_to_left_or_up(row_index):
             return False
         if Movement.check_for_max_to_right_or_down(index, len(pawns[0])):
@@ -126,7 +126,7 @@ class Movement:
         :param wanted_pawn: pawn type wanted on the right of the pawn
         :return: True if wanted pawn is on the right of the pawn
         """
-        Movement.validate_wanted_pawn(wanted_pawn)
+        Movement._validate_wanted_pawn(wanted_pawn)
         if Movement.check_for_max_to_right_or_down(index, len(pawns[0])):
             return False
         if pawns[row_index][index+1] == wanted_pawn:
@@ -142,7 +142,7 @@ class Movement:
         :param wanted_pawn: pawn type wanted diagonally to the right and down of the pawn
         :return: True if wanted pawn is diagonally to the right and down of the pawn
         """
-        Movement.validate_wanted_pawn(wanted_pawn)
+        Movement._validate_wanted_pawn(wanted_pawn)
         if Movement.check_for_max_to_right_or_down(row_index, len(pawns)):
             return False
         if Movement.check_for_max_to_right_or_down(index, len(pawns[0])):
@@ -162,7 +162,7 @@ class Movement:
         :param wanted_pawn: pawn type wanted at the bottom of the pawn
         :return: True if wanted pawn is at the bottom of the pawn
         """
-        Movement.validate_wanted_pawn(wanted_pawn)
+        Movement._validate_wanted_pawn(wanted_pawn)
         if Movement.check_for_max_to_right_or_down(row_index, len(pawns)):
             return False
         if pawns[row_index+1][index] == wanted_pawn:
@@ -178,7 +178,7 @@ class Movement:
         :param wanted_pawn: pawn type wanted diagonally to the left and down of the pawn
         :return: True if wanted pawn is diagonally to the left and down of the pawn
         """
-        Movement.validate_wanted_pawn(wanted_pawn)
+        Movement._validate_wanted_pawn(wanted_pawn)
         if Movement.check_for_max_to_right_or_down(row_index, len(pawns)):
             return False
         if Movement.check_for_max_to_left_or_up(index):
@@ -198,7 +198,7 @@ class Movement:
         :param wanted_pawn: pawn type wanted on the left of the pawn
         :return: True if wanted pawn is on the left of the pawn
         """
-        Movement.validate_wanted_pawn(wanted_pawn)
+        Movement._validate_wanted_pawn(wanted_pawn)
         if Movement.check_for_max_to_left_or_up(index):
             return False
         if pawns[row_index][index-1] == wanted_pawn:

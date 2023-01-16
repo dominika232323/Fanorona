@@ -47,7 +47,7 @@ def test_check_for_diagonal_connections():
 
 def test_validate_wanted_pawn():
     with pytest.raises(PawnsError):
-        Movement.validate_wanted_pawn('fvghjk')
+        Movement._validate_wanted_pawn('fvghjk')
 
 
 # --------------------------------------- diagonal_movement_to_left_up()
@@ -65,6 +65,18 @@ def test_diagonal_movement_to_left_up():
     assert Movement.diagonal_movement_to_left_up(pawns, 3, 5, EMPTY_COLOR) is True
 
 
+def test_diagonal_movement_to_left_up_validate():
+    pawns = [
+        [SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR],
+        [SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR],
+        [SECOND_COLOR, FIRST_COLOR, SECOND_COLOR, FIRST_COLOR, EMPTY_COLOR, SECOND_COLOR, FIRST_COLOR, SECOND_COLOR, FIRST_COLOR],
+        [FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR],
+        [FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR]
+    ]
+    with pytest.raises(PawnsError):
+        Movement.diagonal_movement_to_left_up(pawns, 3, 5, 'fghj')
+
+
 # --------------------------------------- up_movement()
 
 
@@ -78,6 +90,18 @@ def test_up_movement():
     ]
     assert Movement.up_movement(pawns, 2, 3, EMPTY_COLOR) is False
     assert Movement.up_movement(pawns, 3, 4, EMPTY_COLOR) is True
+
+
+def test_up_movement_validate():
+    pawns = [
+        [SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR],
+        [SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR],
+        [SECOND_COLOR, FIRST_COLOR, SECOND_COLOR, FIRST_COLOR, EMPTY_COLOR, SECOND_COLOR, FIRST_COLOR, SECOND_COLOR, FIRST_COLOR],
+        [FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR],
+        [FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR]
+    ]
+    with pytest.raises(PawnsError):
+        Movement.up_movement(pawns, 3, 4, 'fghj')
 
 
 # --------------------------------------- diagonal_movement_to_right_up()
@@ -95,6 +119,18 @@ def test_diagonal_movement_to_right_up():
     assert Movement.diagonal_movement_to_right_up(pawns, 3, 3, EMPTY_COLOR) is True
 
 
+def test_diagonal_movement_to_right_up_validate():
+    pawns = [
+        [SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR],
+        [SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR],
+        [SECOND_COLOR, FIRST_COLOR, SECOND_COLOR, FIRST_COLOR, EMPTY_COLOR, SECOND_COLOR, FIRST_COLOR, SECOND_COLOR, FIRST_COLOR],
+        [FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR],
+        [FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR]
+    ]
+    with pytest.raises(PawnsError):
+        Movement.diagonal_movement_to_right_up(pawns, 3, 3, 'fghj')
+
+
 # --------------------------------------- sideways_movement_to_right()
 
 
@@ -108,6 +144,18 @@ def test_sideways_movement_to_right():
     ]
     assert Movement.sideways_movement_to_right(pawns, 3, 3, EMPTY_COLOR) is False
     assert Movement.sideways_movement_to_right(pawns, 2, 3, EMPTY_COLOR) is True
+
+
+def test_sideways_movement_to_right_validate():
+    pawns = [
+        [SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR],
+        [SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR],
+        [SECOND_COLOR, FIRST_COLOR, SECOND_COLOR, FIRST_COLOR, EMPTY_COLOR, SECOND_COLOR, FIRST_COLOR, SECOND_COLOR, FIRST_COLOR],
+        [FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR],
+        [FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR]
+    ]
+    with pytest.raises(PawnsError):
+        Movement.sideways_movement_to_right(pawns, 2, 3, 'fghj')
 
 
 # --------------------------------------- diagonal_movement_to_right_down()
@@ -125,6 +173,18 @@ def test_diagonal_movement_to_right_down():
     assert Movement.diagonal_movement_to_right_down(pawns, 1, 3, EMPTY_COLOR) is True
 
 
+def test_diagonal_movement_to_right_down_validate():
+    pawns = [
+        [SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR],
+        [SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR],
+        [SECOND_COLOR, FIRST_COLOR, SECOND_COLOR, FIRST_COLOR, EMPTY_COLOR, SECOND_COLOR, FIRST_COLOR, SECOND_COLOR, FIRST_COLOR],
+        [FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR],
+        [FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR]
+    ]
+    with pytest.raises(PawnsError):
+        Movement.diagonal_movement_to_right_down(pawns, 1, 3, 'fghj')
+
+
 # --------------------------------------- down_movement()
 
 
@@ -138,6 +198,18 @@ def test_down_movement():
     ]
     assert Movement.down_movement(pawns, 3, 3, EMPTY_COLOR) is False
     assert Movement.down_movement(pawns, 1, 4, EMPTY_COLOR) is True
+
+
+def test_down_movement_validate():
+    pawns = [
+        [SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR],
+        [SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR],
+        [SECOND_COLOR, FIRST_COLOR, SECOND_COLOR, FIRST_COLOR, EMPTY_COLOR, SECOND_COLOR, FIRST_COLOR, SECOND_COLOR, FIRST_COLOR],
+        [FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR],
+        [FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR]
+    ]
+    with pytest.raises(PawnsError):
+        Movement.down_movement(pawns, 1, 4, 'fghj')
 
 
 # --------------------------------------- diagonal_movement_to_left_down()
@@ -155,6 +227,18 @@ def test_diagonal_movement_to_left_down():
     assert Movement.diagonal_movement_to_left_down(pawns, 1, 5, EMPTY_COLOR) is True
 
 
+def test_diagonal_movement_to_left_down_validate():
+    pawns = [
+        [SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR],
+        [SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR],
+        [SECOND_COLOR, FIRST_COLOR, SECOND_COLOR, FIRST_COLOR, EMPTY_COLOR, SECOND_COLOR, FIRST_COLOR, SECOND_COLOR, FIRST_COLOR],
+        [FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR],
+        [FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR]
+    ]
+    with pytest.raises(PawnsError):
+        Movement.diagonal_movement_to_left_down(pawns, 1, 5, 'fghj')
+
+
 # --------------------------------------- sideways_movement_to_left()
 
 
@@ -168,6 +252,18 @@ def test_sideways_movement_to_left():
     ]
     assert Movement.sideways_movement_to_left(pawns, 3, 3, EMPTY_COLOR) is False
     assert Movement.sideways_movement_to_left(pawns, 2, 5, EMPTY_COLOR) is True
+
+
+def test_sideways_movement_to_left_validate():
+    pawns = [
+        [SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR],
+        [SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR],
+        [SECOND_COLOR, FIRST_COLOR, SECOND_COLOR, FIRST_COLOR, EMPTY_COLOR, SECOND_COLOR, FIRST_COLOR, SECOND_COLOR, FIRST_COLOR],
+        [FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR],
+        [FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR]
+    ]
+    with pytest.raises(PawnsError):
+        Movement.sideways_movement_to_left(pawns, 2, 5, 'fghj')
 
 
 # ---------------------------------------- recognize_move()
