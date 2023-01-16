@@ -3,9 +3,12 @@ from source.board import Board
 from source.configuration import (
     FIRST_COLOR,
     SECOND_COLOR,
+    EMPTY_COLOR,
     OPPONENT_PLAYER,
     OPPONENT_COMPUTER_RANDOM,
-    OPPONENT_COMPUTER_BEST, EMPTY_COLOR
+    OPPONENT_COMPUTER_BEST,
+    CHOICE_APPROACH,
+    CHOICE_WITHDRAWAL
 )
 from source.hit import Hit
 from source.pawns import Pawns
@@ -58,6 +61,49 @@ def test_get_random_pawn_and_empty_cords_without_hits():
 # ---------------------------------- find_longest_group_to_kill()
 
 
+def test_get_random_choice(monkeypatch):
+    pawns = Pawns(Board())
+    new_pawns = [
+        [SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, EMPTY_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR],
+        [SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, EMPTY_COLOR, FIRST_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR],
+        [EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, FIRST_COLOR, FIRST_COLOR, SECOND_COLOR, FIRST_COLOR],
+        [FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, SECOND_COLOR, EMPTY_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR],
+        [FIRST_COLOR, FIRST_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR]
+    ]
+    pawns.set_actual_pawns(new_pawns)
+
+    def monkey_move_cords(f, t):
+        return (3, 3), (3, 4)
+    monkeypatch.setattr(Game, 'get_random_pawn_and_empty_cords', monkey_move_cords)
+    pawn_cords, empty_cords = Game.get_random_pawn_and_empty_cords(pawns, SECOND_COLOR)
+
+    random_choice = Game.get_random_move_choice(pawns, SECOND_COLOR, pawn_cords, empty_cords)
+    assert random_choice in [CHOICE_APPROACH, CHOICE_WITHDRAWAL]
+
+
+def test_get_random_choice_none(monkeypatch):
+    pawns = Pawns(Board())
+    new_pawns = [
+        [SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, EMPTY_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR],
+        [SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, EMPTY_COLOR, FIRST_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR],
+        [EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, FIRST_COLOR, FIRST_COLOR, SECOND_COLOR, FIRST_COLOR],
+        [FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, SECOND_COLOR, EMPTY_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR],
+        [FIRST_COLOR, FIRST_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR]
+    ]
+    pawns.set_actual_pawns(new_pawns)
+
+    def monkey_move_cords(f, t):
+        return (0, 8), (1, 7)
+    monkeypatch.setattr(Game, 'get_random_pawn_and_empty_cords', monkey_move_cords)
+    pawn_cords, empty_cords = Game.get_random_pawn_and_empty_cords(pawns, SECOND_COLOR)
+
+    random_choice = Game.get_random_move_choice(pawns, SECOND_COLOR, pawn_cords, empty_cords)
+    assert random_choice is None
+
+
+# ---------------------------------- find_longest_group_to_kill()
+
+
 def test_find_longest_group_to_kill():
     pawns = Pawns(Board())
     new_pawns = [
@@ -104,3 +150,5 @@ def test_get_best_pawn_and_empty_cords_without_hits():
     pawn_cords, empty_cords = Game.get_best_pawns_and_empty_cords(pawns, FIRST_COLOR)
     assert pawn_cords in [(4, 1), (4, 3), (4, 6), (4, 7)]
     assert empty_cords in [(3, 1), (4, 2), (4, 0), (3, 3), (4, 4), (4, 2), (3, 5), (3, 6), (3, 7), (4, 5), (3, 7), (4, 8)]
+
+

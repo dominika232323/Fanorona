@@ -8,7 +8,9 @@ from source.configuration import (
     SECOND_COLOR,
     OPPONENT_PLAYER,
     OPPONENT_COMPUTER_RANDOM,
-    OPPONENT_COMPUTER_BEST
+    OPPONENT_COMPUTER_BEST,
+    CHOICE_APPROACH,
+    CHOICE_WITHDRAWAL
 )
 
 
@@ -48,6 +50,14 @@ class Game:
             pawn_cords = choice(list(hit.which_can_move()))
             empty_cords = choice(hit.where_can_move()[pawn_cords])
             return pawn_cords, empty_cords
+
+    @staticmethod
+    def get_random_move_choice(pawns, pawn_color, pawn_cords, empty_cords):
+        hit = Hit(pawns, pawn_color)
+        if (pawn_cords, empty_cords) in hit.which_hits_by_withdrawal().keys() and \
+                (pawn_cords, empty_cords) in hit.which_hits_by_approach().keys():
+            return choice([CHOICE_APPROACH, CHOICE_WITHDRAWAL])
+        return None
 
     @staticmethod
     def find_longest_group_to_kill(dict_of_hits):
