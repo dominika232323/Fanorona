@@ -193,14 +193,25 @@ class Ui_MainWindow(object):
         self.stack.addWidget(self.page_2)
         self.page_3 = QWidget()
         self.page_3.setObjectName(u"page_3")
-        self.labelWinner = QLabel(self.page_3)
+        self.widget = QWidget(self.page_3)
+        self.widget.setObjectName(u"widget")
+        self.widget.setGeometry(QRect(110, 220, 831, 221))
+        self.verticalLayout_4 = QVBoxLayout(self.widget)
+        self.verticalLayout_4.setObjectName(u"verticalLayout_4")
+        self.verticalLayout_4.setContentsMargins(0, 0, 0, 0)
+        self.labelWinner = QLabel(self.widget)
         self.labelWinner.setObjectName(u"labelWinner")
-        self.labelWinner.setGeometry(QRect(340, 220, 361, 81))
-        self.NewGame = QPushButton(self.page_3)
+        self.labelWinner.setStyleSheet(u"font: 36pt \"Sans Serif\";")
+
+        self.verticalLayout_4.addWidget(self.labelWinner)
+
+        self.NewGame = QPushButton(self.widget)
         self.NewGame.setObjectName(u"NewGame")
-        self.NewGame.setGeometry(QRect(380, 340, 271, 91))
         self.NewGame.setStyleSheet(u"background-color: rgb(226, 226, 226);\n"
 "font: 18pt \"Sans Serif\";")
+
+        self.verticalLayout_4.addWidget(self.NewGame)
+
         self.stack.addWidget(self.page_3)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(MainWindow)

@@ -84,9 +84,8 @@ class FanoronaWindow(QMainWindow):
 
         while self._pawns.check_for_winner() is False:
             self._make_turn(self._first_player, FIRST_COLOR)
-            if self._pawns.check_for_winner() is True:
-                break
-            self._make_turn(self._second_player, SECOND_COLOR)
+            if self._pawns.check_for_winner() is False:
+                self._make_turn(self._second_player, SECOND_COLOR)
 
         self._game_over()
 
@@ -126,9 +125,10 @@ class FanoronaWindow(QMainWindow):
 
     def _computer_random(self, pawn_color):
         pawn_cords, empty_cords = Game.get_random_pawn_and_empty_cords(self._pawns, pawn_color)
+        choice = Game.get_random_move_choice(self._pawns, pawn_color, pawn_cords, empty_cords)
         move = Move(self._pawns, pawn_color)
 
-        pawns_after_move = move.move_maker(pawn_cords, empty_cords, None)
+        pawns_after_move = move.move_maker(pawn_cords, empty_cords, choice)
         self._pawns.set_actual_pawns(pawns_after_move)
         self._set_pawns_on_board()
 
