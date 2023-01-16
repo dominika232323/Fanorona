@@ -94,6 +94,8 @@ class Combo(Turn):
         :return: list of empty spaces where the pawn can move to make combo
         """
         empties = []
+        if self._new_pawn not in self.hit.which_can_hit():
+            return []
         for empty_space in self.hit.where_can_hit()[self._new_pawn]:
             if Movement.recognize_move(self._new_pawn, empty_space) != self._previous_move_type and \
                     Movement.recognize_move(self._new_pawn, empty_space) != self._other_side_of_previous:

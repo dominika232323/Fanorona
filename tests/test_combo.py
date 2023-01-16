@@ -76,3 +76,34 @@ def test_possible_combo_repeated_move_type():
     pawns.set_actual_pawns(new_pawns)
     combo = Combo(pawns, SECOND_COLOR, (3, 4), (2, 4))
     assert combo.possible_combo() is False
+
+
+# ---------------------------------------- possible_combo()
+
+
+def test_find_empty_for_combo():
+    pawns = Pawns(Board())
+    new_pawns = [
+        [SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, EMPTY_COLOR, EMPTY_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR],
+        [SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, EMPTY_COLOR, FIRST_COLOR, SECOND_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR],
+        [EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, FIRST_COLOR, SECOND_COLOR, FIRST_COLOR],
+        [FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, SECOND_COLOR, EMPTY_COLOR, EMPTY_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR],
+        [FIRST_COLOR, FIRST_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR]
+    ]
+    pawns.set_actual_pawns(new_pawns)
+    combo = Combo(pawns, SECOND_COLOR, (0, 5), (1, 5))
+    assert combo.find_empty_for_combo() == [(1, 6)]
+
+
+def test_find_empty_for_combo_repeated_move_type():
+    pawns = Pawns(Board())
+    new_pawns = [
+        [SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, EMPTY_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR],
+        [SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, EMPTY_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR],
+        [SECOND_COLOR, FIRST_COLOR, SECOND_COLOR, FIRST_COLOR, FIRST_COLOR, SECOND_COLOR, FIRST_COLOR, SECOND_COLOR, FIRST_COLOR],
+        [FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, EMPTY_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR],
+        [FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR]
+    ]
+    pawns.set_actual_pawns(new_pawns)
+    combo = Combo(pawns, SECOND_COLOR, (3, 4), (2, 4))
+    assert combo.find_empty_for_combo() == []
