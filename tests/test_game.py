@@ -58,7 +58,7 @@ def test_get_random_pawn_and_empty_cords_without_hits():
     assert empty_cords in [(3, 1), (4, 2), (4, 0), (3, 3), (4, 4), (4, 2), (3, 5), (3, 6), (3, 7), (4, 5), (3, 7), (4, 8)]
 
 
-# ---------------------------------- find_longest_group_to_kill()
+# ---------------------------------- get_random_choice()
 
 
 def test_get_random_choice(monkeypatch):
