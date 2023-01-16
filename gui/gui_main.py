@@ -1,8 +1,6 @@
 from PySide2.QtCore import QSize, QEventLoop
 from PySide2.QtWidgets import QApplication, QMainWindow, QPushButton, QDialog
-
-from gui.game_progress import order_of_players, get_random_pawn_and_empty_cords, get_best_pawns_and_empty_cords, \
-    find_best_empty_for_combo
+from gui.game import Game
 from gui.players_turns import PlayersTurns
 from source.board import Board
 from source.combo import Combo
@@ -82,7 +80,7 @@ class FanoronaWindow(QMainWindow):
 
     def _game(self):
         player_color = FIRST_COLOR if self._color == 1 else SECOND_COLOR
-        self._first_player, self._second_player = order_of_players(player_color, self._opponent)
+        self._first_player, self._second_player = Game.order_of_players(player_color, self._opponent)
 
         while self._pawns.check_for_winner() is False:
             self._make_turn(self._first_player, FIRST_COLOR)
@@ -127,7 +125,7 @@ class FanoronaWindow(QMainWindow):
             self._player_turn(pawn_color, combo.new_pawn)
 
     def _computer_random(self, pawn_color):
-        pawn_cords, empty_cords = get_random_pawn_and_empty_cords(self._pawns, pawn_color)
+        pawn_cords, empty_cords = Game.get_random_pawn_and_empty_cords(self._pawns, pawn_color)
         move = Move(self._pawns, pawn_color)
 
         pawns_after_move = move.move_maker(pawn_cords, empty_cords, None)
@@ -144,7 +142,7 @@ class FanoronaWindow(QMainWindow):
         #     combo = Combo(self._pawns, pawn_color, combo.new_pawn, combo_empty_cords)
 
     def _computer_best(self, pawn_color):
-        pawn_cords, empty_cords = get_best_pawns_and_empty_cords(self._pawns, pawn_color)
+        pawn_cords, empty_cords = Game.get_best_pawns_and_empty_cords(self._pawns, pawn_color)
         move = Move(self._pawns, pawn_color)
 
         pawns_after_move = move.move_maker(pawn_cords, empty_cords)
@@ -156,8 +154,8 @@ class FanoronaWindow(QMainWindow):
             move_combo = Move(self._pawns, pawn_color)
             hit_combo = Hit(self._pawns, pawn_color)
 
-            combo_empty_cords_by_withdrawal, len_by_withdrawal = find_best_empty_for_combo(pawn_cords, combo.find_empty_for_combo(), hit_combo.which_hits_by_withdrawal())
-            combo_empty_cords_by_approach, len_by_approach = find_best_empty_for_combo(pawn_cords, combo.find_empty_for_combo(), hit_combo.which_hits_by_approach())
+            combo_empty_cords_by_withdrawal, len_by_withdrawal = Game.find_best_empty_for_combo(pawn_cords, combo.find_empty_for_combo(), hit_combo.which_hits_by_withdrawal())
+            combo_empty_cords_by_approach, len_by_approach = Game.find_best_empty_for_combo(pawn_cords, combo.find_empty_for_combo(), hit_combo.which_hits_by_approach())
             if len_by_withdrawal >= len_by_approach:
                 combo_empty_cords = combo_empty_cords_by_withdrawal
             else:
