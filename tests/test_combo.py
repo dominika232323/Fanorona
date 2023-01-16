@@ -5,7 +5,8 @@ from source.configuration import (
     FIRST_COLOR,
     SECOND_COLOR,
     EMPTY_COLOR,
-    MOVEMENT_DOWN
+    MOVEMENT_DOWN,
+    MOVEMENT_UP
 )
 
 
@@ -28,6 +29,7 @@ def test_create_combo():
     assert combo.previous_pawn == (0, 5)
     assert combo.previous_empty == (1, 5)
     assert combo.previous_move_type == MOVEMENT_DOWN
+    assert combo.other_side_of_previous == MOVEMENT_UP
     assert combo.new_pawn == (1, 5)
 
 

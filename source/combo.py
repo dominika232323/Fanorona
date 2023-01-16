@@ -2,6 +2,16 @@ from source.hit import Hit
 from source.move import Move
 from source.movement import Movement
 from source.turn import Turn
+from source.configuration import (
+    MOVEMENT_UP,
+    MOVEMENT_DOWN,
+    MOVEMENT_SIDEWAYS_LEFT,
+    MOVEMENT_SIDEWAYS_RIGHT,
+    MOVEMENT_DIAGONAL_LEFT_DOWN,
+    MOVEMENT_DIAGONAL_RIGHT_DOWN,
+    MOVEMENT_DIAGONAL_RIGHT_UP,
+    MOVEMENT_DIAGONAL_LEFT_UP
+)
 
 
 class Combo(Turn):
@@ -27,6 +37,7 @@ class Combo(Turn):
         self._previous_pawn = previous_pawn
         self._previous_empty = previous_empty
         self._previous_move_type = Movement.recognize_move(previous_pawn, previous_empty)
+        self._other_side_of_previous = self._other_side_of_previous_move_type()
         self.hit = Hit(pawns, turn)
         self.move = Move(pawns, turn)
         self._new_pawn = previous_empty
@@ -53,6 +64,13 @@ class Combo(Turn):
         return self._previous_move_type
 
     @property
+    def other_side_of_previous(self):
+        """
+        :return: type of movement made in previous move but in opposite direction
+        """
+        return self._other_side_of_previous
+
+    @property
     def new_pawn(self):
         """
         :return: pawn's co-ordinates from previous move (after move)
@@ -77,6 +95,20 @@ class Combo(Turn):
         """
         empties = []
         for empty_space in self.hit.where_can_hit()[self._new_pawn]:
-            if Movement.recognize_move(self._new_pawn, empty_space) != self._previous_move_type:
+            if Movement.recognize_move(self._new_pawn, empty_space) != self._previous_move_type and \
+                    Movement.recognize_move(self._new_pawn, empty_space) != self._other_side_of_previous:
                 empties.append(empty_space)
         return empties
+
+    def _other_side_of_previous_move_type(self):
+        both_sides_of_move_types = [
+            (MOVEMENT_UP, MOVEMENT_DOWN),
+            (MOVEMENT_DIAGONAL_LEFT_UP, MOVEMENT_DIAGONAL_RIGHT_DOWN),
+            (MOVEMENT_DIAGONAL_RIGHT_UP, MOVEMENT_DIAGONAL_LEFT_DOWN),
+            (MOVEMENT_SIDEWAYS_LEFT, MOVEMENT_SIDEWAYS_RIGHT)
+        ]
+        for move_types in both_sides_of_move_types:
+            if self._previous_move_type == move_types[0]:
+                return move_types[1]
+            elif self._previous_move_type == move_types[1]:
+                return move_types[0]
