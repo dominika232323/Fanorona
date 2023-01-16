@@ -110,8 +110,7 @@ class PlayersTurns(QDialog):
         if self.move.hit.if_can_hit_by_approach_and_by_withdrawal(self._pawn_cords, self._empty_cords):
             self._group_by_withdrawal = self.move.hit.which_hits_by_withdrawal()[(self._pawn_cords, self._empty_cords)]
             self._group_by_approach = self.move.hit.which_hits_by_approach()[(self._pawn_cords, self._empty_cords)]
-            self._highlight_pawns(self._group_by_withdrawal)
-            self._highlight_pawns(self._group_by_approach)
+            self._highlight_pawns(self._group_by_withdrawal+self._group_by_approach)
 
             pawns_to_capture = self._group_by_approach + self._group_by_withdrawal
             for pawn in pawns_to_capture:
