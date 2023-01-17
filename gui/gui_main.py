@@ -1,3 +1,5 @@
+from random import choice
+
 from PySide2.QtCore import QSize, QEventLoop
 from PySide2.QtWidgets import QApplication, QMainWindow, QPushButton, QDialog
 from gui.game import Game
@@ -102,14 +104,8 @@ class FanoronaWindow(QMainWindow):
         window.exec_()
         self._pawn_cords, self._empty_cords, self._choice = window.return_cords()
         move = Move(self._pawns, pawn_color)
-        self._if_move_was_capturing(move)
+        self._if_move_was_capturing(move, self._pawn_cords, self._empty_cords)
         self._make_players_move(move)
-
-    def _if_move_was_capturing(self, move):
-        if move.was_move_capturing(self._pawn_cords, self._empty_cords):
-            self._capturing_move = True
-        else:
-            self._capturing_move = False
 
     def _make_players_move(self, move):
         pawns_after_move = move.move_maker(self._pawn_cords, self._empty_cords, self._choice)
@@ -125,46 +121,56 @@ class FanoronaWindow(QMainWindow):
 
     def _computer_random(self, pawn_color):
         pawn_cords, empty_cords = Game.get_random_pawn_and_empty_cords(self._pawns, pawn_color)
-        choice = Game.get_random_move_choice(self._pawns, pawn_color, pawn_cords, empty_cords)
+        move_choice = Game.get_random_move_choice(self._pawns, pawn_color, pawn_cords, empty_cords)
         move = Move(self._pawns, pawn_color)
+        self._if_move_was_capturing(move, pawn_cords, empty_cords)
 
-        pawns_after_move = move.move_maker(pawn_cords, empty_cords, choice)
+        pawns_after_move = move.move_maker(pawn_cords, empty_cords, move_choice)
         self._pawns.set_actual_pawns(pawns_after_move)
         self._set_pawns_on_board()
 
-        # combo = Combo(self._pawns, pawn_color, pawn_cords, empty_cords)
-        # while combo.possible_combo():
-        #     move_combo = Move(self._pawns, pawn_color)
-        #     combo_empty_cords = choice(combo.find_empty_for_combo())
-        #     pawns_after_move = move_combo.move_maker(combo.new_pawn, combo_empty_cords)
-        #     self._pawns.set_actual_pawns(pawns_after_move)
-        #     self._set_pawns_on_board()
-        #     combo = Combo(self._pawns, pawn_color, combo.new_pawn, combo_empty_cords)
+        if self._capturing_move:
+            self._computer_random_combo(move, pawn_cords, empty_cords)
+
+    def _computer_random_combo(self, move, pawn_cords, empty_cords):
+        combo = Combo(self._pawns, move.turn, pawn_cords, empty_cords)
+        while combo.possible_combo():
+            empty_cords = choice(combo.find_empty_for_combo())
+            move_choice = Game.get_random_move_choice(self._pawns, move.turn, combo.new_pawn, empty_cords)
+
+            pawns_after_move = move.move_maker(combo.new_pawn, empty_cords, move_choice)
+            self._pawns.set_actual_pawns(pawns_after_move)
+            self._set_pawns_on_board()
+            combo = Combo(self._pawns, move.turn, combo.new_pawn, empty_cords)
 
     def _computer_best(self, pawn_color):
         pawn_cords, empty_cords = Game.get_best_pawns_and_empty_cords(self._pawns, pawn_color)
+        move_choice = Game.find_best_choice(self._pawns, pawn_color, pawn_cords, empty_cords)
         move = Move(self._pawns, pawn_color)
+        self._if_move_was_capturing(move, pawn_cords, empty_cords)
 
-        pawns_after_move = move.move_maker(pawn_cords, empty_cords)
+        pawns_after_move = move.move_maker(pawn_cords, empty_cords, move_choice)
         self._pawns.set_actual_pawns(pawns_after_move)
         self._set_pawns_on_board()
 
-        combo = Combo(self._pawns, pawn_color, pawn_cords, empty_cords)
+        if self._capturing_move:
+            self._computer_best_combo(move, pawn_cords, empty_cords)
+
+    def _computer_best_combo(self, move, pawn_cords, empty_cords):
+        combo = Combo(self._pawns, move.turn, pawn_cords, empty_cords)
         while combo.possible_combo():
-            move_combo = Move(self._pawns, pawn_color)
-            hit_combo = Hit(self._pawns, pawn_color)
+            empty_cords = Game.get_best_empty_for_combo(move.hit, combo, combo.new_pawn)
+            move_choice = Game.find_best_choice(self._pawns, move.turn, pawn_cords, empty_cords)
 
-            combo_empty_cords_by_withdrawal, len_by_withdrawal = Game.find_best_empty_for_combo(pawn_cords, combo.find_empty_for_combo(), hit_combo.which_hits_by_withdrawal())
-            combo_empty_cords_by_approach, len_by_approach = Game.find_best_empty_for_combo(pawn_cords, combo.find_empty_for_combo(), hit_combo.which_hits_by_approach())
-            if len_by_withdrawal >= len_by_approach:
-                combo_empty_cords = combo_empty_cords_by_withdrawal
-            else:
-                combo_empty_cords = combo_empty_cords_by_approach
-
-            pawns_after_move = move_combo.move_maker(combo.new_pawn, combo_empty_cords)
+            pawns_after_move = move.move_maker(combo.new_pawn, empty_cords, move_choice)
             self._pawns.set_actual_pawns(pawns_after_move)
             self._set_pawns_on_board()
-            combo = Combo(self._pawns, pawn_color, combo.new_pawn, combo_empty_cords)
+            combo = Combo(self._pawns, move.turn, combo.new_pawn, empty_cords)
+
+    def _if_move_was_capturing(self, move, pawn_cords, empty_cords):
+        if move.was_move_capturing(pawn_cords, empty_cords):
+            self._capturing_move = True
+        self._capturing_move = False
 
     def _game_over(self):
         self.ui.stack.setCurrentIndex(2)
@@ -173,11 +179,11 @@ class FanoronaWindow(QMainWindow):
 
 
 
-def gui_main():
-    app = QApplication()
-    window = FanoronaWindow()
-    window.show()
-    return app.exec_()
-
-
-gui_main()
+# def gui_main():
+#     app = QApplication()
+#     window = FanoronaWindow()
+#     window.show()
+#     return app.exec_()
+#
+#
+# gui_main()
