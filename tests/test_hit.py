@@ -196,7 +196,7 @@ def test_which_can_hit_by_approach():
     pawns.set_actual_pawns(new_pawns)
 
     move = Hit(pawns, SECOND_COLOR)
-    expected = {(0, 5), (0, 6), (0, 8), (1, 0), (1, 1), (1, 2), (3, 3)}
+    expected = [(1, 2), (1, 1), (0, 6), (3, 3), (0, 5), (1, 0), (0, 8)]
     assert move.which_can_hit_by_approach() == expected
 
 
@@ -230,7 +230,7 @@ def test_which_can_hit():
     pawns.set_actual_pawns(new_pawns)
 
     move = Hit(pawns, SECOND_COLOR)
-    expected = {(0, 5), (0, 6), (0, 8), (1, 0), (1, 1), (1, 2), (2, 7), (3, 3)}
+    expected = [(1, 2), (2, 7), (1, 1), (0, 6), (3, 3), (0, 5), (1, 0), (0, 8)]
     assert move.which_can_hit() == expected
 
 

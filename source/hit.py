@@ -71,25 +71,29 @@ class Hit(Turn):
         """
         :return: dictionary where keys are pawns which can move and values are lists of empty spaces around them
         """
-        which = self.which_can_move()
+        moving_pawns = self.which_can_move()
         where = {}
 
-        for indexes in which:
+        for pawn in moving_pawns:
             where_for_pawn = []
+            """
+            ((Movement.{move_type} returns True or False), the difference in the first coordinate of the pawn and the
+            empty space, the difference in the second coordinate of the pawn and the empty space)
+            """
             tab_of_movements = [
-                (Movement.diagonal_movement_to_left_up(self.pawns(), indexes[0], indexes[1], EMPTY_COLOR), -1, -1),
-                (Movement.up_movement(self.pawns(), indexes[0], indexes[1], EMPTY_COLOR), -1, 0),
-                (Movement.diagonal_movement_to_right_up(self.pawns(), indexes[0], indexes[1], EMPTY_COLOR), -1, 1),
-                (Movement.sideways_movement_to_right(self.pawns(), indexes[0], indexes[1], EMPTY_COLOR), 0, 1),
-                (Movement.diagonal_movement_to_right_down(self.pawns(), indexes[0], indexes[1], EMPTY_COLOR), 1, 1),
-                (Movement.down_movement(self.pawns(), indexes[0], indexes[1], EMPTY_COLOR), 1, 0),
-                (Movement.diagonal_movement_to_left_down(self.pawns(), indexes[0], indexes[1], EMPTY_COLOR), 1, -1),
-                (Movement.sideways_movement_to_left(self.pawns(), indexes[0], indexes[1], EMPTY_COLOR), 0, -1),
+                (Movement.diagonal_movement_to_left_up(self.pawns(), pawn[0], pawn[1], EMPTY_COLOR), -1, -1),
+                (Movement.up_movement(self.pawns(), pawn[0], pawn[1], EMPTY_COLOR), -1, 0),
+                (Movement.diagonal_movement_to_right_up(self.pawns(), pawn[0], pawn[1], EMPTY_COLOR), -1, 1),
+                (Movement.sideways_movement_to_right(self.pawns(), pawn[0], pawn[1], EMPTY_COLOR), 0, 1),
+                (Movement.diagonal_movement_to_right_down(self.pawns(), pawn[0], pawn[1], EMPTY_COLOR), 1, 1),
+                (Movement.down_movement(self.pawns(), pawn[0], pawn[1], EMPTY_COLOR), 1, 0),
+                (Movement.diagonal_movement_to_left_down(self.pawns(), pawn[0], pawn[1], EMPTY_COLOR), 1, -1),
+                (Movement.sideways_movement_to_left(self.pawns(), pawn[0], pawn[1], EMPTY_COLOR), 0, -1),
             ]
             for movement in tab_of_movements:
                 if movement[0]:
-                    where_for_pawn.append((indexes[0] + movement[1], indexes[1] + movement[2]))
-            where[indexes] = where_for_pawn
+                    where_for_pawn.append((pawn[0] + movement[1], pawn[1] + movement[2]))
+            where[pawn] = where_for_pawn
 
         return where
 
@@ -106,7 +110,7 @@ class Hit(Turn):
         for element in which_approach:
             which.append(element)
 
-        return [] if not which else set(which)
+        return [] if not which else list(set(which))
 
     def which_can_hit_by_approach(self):
         """
@@ -120,7 +124,7 @@ class Hit(Turn):
                 if self._check_by_approach(pawn, empty, pawn) is not None:
                     which.append(self._check_by_approach(pawn, empty, pawn))
 
-        return [] if not which else set(which)
+        return [] if not which else list(set(which))
 
     def _check_by_approach(self, pawn, empty, what_append):
         """
