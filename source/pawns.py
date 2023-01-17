@@ -134,10 +134,7 @@ class Pawns:
         """
         first_color_count, second_color_count = self.count_pawns()
 
-        if first_color_count == 0 or second_color_count == 0:
-            return True
-        else:
-            return False
+        return first_color_count == 0 or second_color_count == 0
 
     def count_pawns(self):
         """
