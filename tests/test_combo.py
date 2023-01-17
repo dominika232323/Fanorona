@@ -50,6 +50,20 @@ def test_possible_combo_return_true():
     assert combo.possible_combo() is True
 
 
+def test_possible_combo_2():
+    pawns = Pawns(Board())
+    new_pawns = [
+        [SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR],
+        [SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, EMPTY_COLOR, EMPTY_COLOR, SECOND_COLOR, SECOND_COLOR],
+        [SECOND_COLOR, FIRST_COLOR, SECOND_COLOR, FIRST_COLOR, FIRST_COLOR, SECOND_COLOR, EMPTY_COLOR, SECOND_COLOR, FIRST_COLOR],
+        [FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, EMPTY_COLOR, FIRST_COLOR, FIRST_COLOR, EMPTY_COLOR, FIRST_COLOR, FIRST_COLOR],
+        [FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, EMPTY_COLOR, FIRST_COLOR, FIRST_COLOR]
+    ]
+    pawns.set_actual_pawns(new_pawns)
+    combo = Combo(pawns, SECOND_COLOR, (1, 6), (0, 6))
+    assert combo.possible_combo() is True
+
+
 def test_possible_combo_cannot_hit():
     pawns = Pawns(Board())
     new_pawns = [
@@ -82,6 +96,20 @@ def test_possible_combo_repeated_move_type():
 
 
 def test_find_empty_for_combo():
+    pawns = Pawns(Board())
+    new_pawns = [
+        [SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR],
+        [SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, EMPTY_COLOR, EMPTY_COLOR, SECOND_COLOR, SECOND_COLOR],
+        [SECOND_COLOR, FIRST_COLOR, SECOND_COLOR, FIRST_COLOR, FIRST_COLOR, SECOND_COLOR, EMPTY_COLOR, SECOND_COLOR, FIRST_COLOR],
+        [FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, EMPTY_COLOR, FIRST_COLOR, FIRST_COLOR, EMPTY_COLOR, FIRST_COLOR, FIRST_COLOR],
+        [FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, EMPTY_COLOR, FIRST_COLOR, FIRST_COLOR]
+    ]
+    pawns.set_actual_pawns(new_pawns)
+    combo = Combo(pawns, SECOND_COLOR, (1, 6), (0, 6))
+    assert combo.find_empty_for_combo() == [(1, 5)]
+
+
+def test_find_empty_for_combo_2():
     pawns = Pawns(Board())
     new_pawns = [
         [SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, EMPTY_COLOR, EMPTY_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR],
