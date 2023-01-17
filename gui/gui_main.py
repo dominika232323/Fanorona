@@ -170,20 +170,10 @@ class FanoronaWindow(QMainWindow):
     def _if_move_was_capturing(self, move, pawn_cords, empty_cords):
         if move.was_move_capturing(pawn_cords, empty_cords):
             self._capturing_move = True
-        self._capturing_move = False
+        else:
+            self._capturing_move = False
 
     def _game_over(self):
         self.ui.stack.setCurrentIndex(2)
         self.ui.labelWinner.setText(self._pawns.winner_message())
         self.ui.NewGame.clicked.connect(self._setup_game)
-
-
-
-# def gui_main():
-#     app = QApplication()
-#     window = FanoronaWindow()
-#     window.show()
-#     return app.exec_()
-#
-#
-# gui_main()
