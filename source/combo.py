@@ -103,6 +103,9 @@ class Combo(Turn):
         return empties
 
     def _other_side_of_previous_move_type(self):
+        """
+        :return: move type with opposite direction to self._previous_move_type
+        """
         both_sides_of_move_types = [
             (MOVEMENT_UP, MOVEMENT_DOWN),
             (MOVEMENT_DIAGONAL_LEFT_UP, MOVEMENT_DIAGONAL_RIGHT_DOWN),
