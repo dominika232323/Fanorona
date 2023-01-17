@@ -1,3 +1,4 @@
+import time
 from random import choice
 
 from PySide2.QtCore import QSize, QEventLoop
@@ -120,6 +121,7 @@ class FanoronaWindow(QMainWindow):
             self._player_turn(pawn_color, combo.new_pawn)
 
     def _computer_random(self, pawn_color):
+        time.sleep(0.25)
         pawn_cords, empty_cords = Game.get_random_pawn_and_empty_cords(self._pawns, pawn_color)
         move_choice = Game.get_random_move_choice(self._pawns, pawn_color, pawn_cords, empty_cords)
         move = Move(self._pawns, pawn_color)
@@ -144,6 +146,7 @@ class FanoronaWindow(QMainWindow):
             combo = Combo(self._pawns, move.turn, combo.new_pawn, empty_cords)
 
     def _computer_best(self, pawn_color):
+        time.sleep(0.25)
         pawn_cords, empty_cords = Game.get_best_pawns_and_empty_cords(self._pawns, pawn_color)
         move_choice = Game.find_best_choice(self._pawns, pawn_color, pawn_cords, empty_cords)
         move = Move(self._pawns, pawn_color)
