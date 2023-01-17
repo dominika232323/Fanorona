@@ -24,7 +24,6 @@ class Board:
         self._validate(length, width)
         self._length = int(length)
         self._width = int(width)
-        pass
 
     @staticmethod
     def _validate(length, width):
