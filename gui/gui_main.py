@@ -42,44 +42,9 @@ class FanoronaWindow(QMainWindow):
 
     def _create_board(self):
         self.ui.stack.setCurrentIndex(1)
-        self._buttons_dict = {}
-        for row in range(0, self._width):
-            for column in range(0, self._length):
-                self._buttons_dict[(row, column)] = QPushButton()
-                self._buttons_dict[(row, column)].setMinimumSize(QSize(50, 50))
-                self.ui.boardGrid.addWidget(self._buttons_dict[(row, column)], row, column)
         self._board = Board(self._length, self._width)
         self._pawns = Pawns(self._board)
-        self._set_pawns_on_board()
         self._game()
-
-    def _set_pawns_on_board(self):
-        for row_index, row in enumerate(self._pawns.actual_pawns):
-            for index, pawn in enumerate(self._pawns.actual_pawns[row_index]):
-                self._buttons_dict[(row_index, index)].setStyleSheet(
-                    "QPushButton"
-                    "{"
-                    f"background-color : {pawn};"
-                    "}"
-                )
-                self._buttons_dict[(row_index, index)].setEnabled(True)
-
-    def _highlight_pawns(self, pawns_to_highlight):
-        for row_index, row in enumerate(self._pawns.actual_pawns):
-            for index, pawn in enumerate(self._pawns.actual_pawns[row_index]):
-                if (row_index, index) in pawns_to_highlight:
-                    self._buttons_dict[(row_index, index)].setStyleSheet(
-                        "QPushButton"
-                        "{"
-                        f"background-color : {pawn};"
-                        "border-style: outset;"
-                        "border-color : yellow;"
-                        "border-width: 5px;"
-                        "}"
-                    )
-                    self._buttons_dict[(row_index, index)].setEnabled(True)
-                else:
-                    self._buttons_dict[(row_index, index)].setEnabled(False)
 
     def _game(self):
         player_color = FIRST_COLOR if self._color == 1 else SECOND_COLOR
@@ -111,7 +76,6 @@ class FanoronaWindow(QMainWindow):
     def _make_players_move(self, move):
         pawns_after_move = move.move_maker(self._pawn_cords, self._empty_cords, self._choice)
         self._pawns.set_actual_pawns(pawns_after_move)
-        self._set_pawns_on_board()
         if self._capturing_move:
             self._player_combo(move.turn)
 
@@ -121,7 +85,7 @@ class FanoronaWindow(QMainWindow):
             self._player_turn(pawn_color, combo.new_pawn)
 
     def _computer_random(self, pawn_color):
-        time.sleep(0.25)
+        time.sleep(0.2)
         pawn_cords, empty_cords = Game.get_random_pawn_and_empty_cords(self._pawns, pawn_color)
         move_choice = Game.get_random_move_choice(self._pawns, pawn_color, pawn_cords, empty_cords)
         move = Move(self._pawns, pawn_color)
@@ -129,7 +93,6 @@ class FanoronaWindow(QMainWindow):
 
         pawns_after_move = move.move_maker(pawn_cords, empty_cords, move_choice)
         self._pawns.set_actual_pawns(pawns_after_move)
-        self._set_pawns_on_board()
 
         if self._capturing_move:
             self._computer_random_combo(move, pawn_cords, empty_cords)
@@ -142,11 +105,10 @@ class FanoronaWindow(QMainWindow):
 
             pawns_after_move = move.move_maker(combo.new_pawn, empty_cords, move_choice)
             self._pawns.set_actual_pawns(pawns_after_move)
-            self._set_pawns_on_board()
             combo = Combo(self._pawns, move.turn, combo.new_pawn, empty_cords)
 
     def _computer_best(self, pawn_color):
-        time.sleep(0.25)
+        time.sleep(0.2)
         pawn_cords, empty_cords = Game.get_best_pawns_and_empty_cords(self._pawns, pawn_color)
         move_choice = Game.find_best_choice(self._pawns, pawn_color, pawn_cords, empty_cords)
         move = Move(self._pawns, pawn_color)
@@ -154,7 +116,6 @@ class FanoronaWindow(QMainWindow):
 
         pawns_after_move = move.move_maker(pawn_cords, empty_cords, move_choice)
         self._pawns.set_actual_pawns(pawns_after_move)
-        self._set_pawns_on_board()
 
         if self._capturing_move:
             self._computer_best_combo(move, pawn_cords, empty_cords)
@@ -167,7 +128,6 @@ class FanoronaWindow(QMainWindow):
 
             pawns_after_move = move.move_maker(combo.new_pawn, empty_cords, move_choice)
             self._pawns.set_actual_pawns(pawns_after_move)
-            self._set_pawns_on_board()
             combo = Combo(self._pawns, move.turn, combo.new_pawn, empty_cords)
 
     def _if_move_was_capturing(self, move, pawn_cords, empty_cords):
