@@ -23,6 +23,9 @@ class Hit(Turn):
     :type turn: string
     """
     def __init__(self, pawns, turn):
+        """
+        Creates an instance of Hit.
+        """
         super().__init__(pawns, turn)
         self._movement_types = [
             MOVEMENT_DIAGONAL_LEFT_UP,
