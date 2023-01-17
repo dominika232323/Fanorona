@@ -123,7 +123,7 @@ class FanoronaWindow(QMainWindow):
     def _computer_best_combo(self, move, pawn_cords, empty_cords):
         combo = Combo(self._pawns, move.turn, pawn_cords, empty_cords)
         while combo.possible_combo():
-            empty_cords = Game.get_best_empty_for_combo(move.hit, combo, combo.new_pawn)
+            empty_cords = Game.get_best_empty_for_combo(combo, combo.new_pawn)
             move_choice = Game.find_best_choice(self._pawns, move.turn, pawn_cords, empty_cords)
 
             pawns_after_move = move.move_maker(combo.new_pawn, empty_cords, move_choice)

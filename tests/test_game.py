@@ -200,6 +200,5 @@ def test_get_best_empty_for_combo():
         [FIRST_COLOR, FIRST_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR]
     ]
     pawns.set_actual_pawns(new_pawns)
-    hit = Hit(pawns, SECOND_COLOR)
     combo = Combo(pawns, SECOND_COLOR, (3, 3), (3, 4))
-    assert Game.get_best_empty_for_combo(hit, combo, (3, 4)) == (2, 4)
+    assert Game.get_best_empty_for_combo(combo, (3, 4)) == (2, 4)
