@@ -32,7 +32,7 @@ class FanoronaWindow(QMainWindow):
     def _setup_game(self):
         self.ui.stack.setCurrentIndex(0)
         self.ui.playButton.clicked.connect(self._get_values)
-        self._play_game = True
+        # self._play_game = True
 
     def _get_values(self):
         self._length = int(self.ui.boardLength.value())
@@ -51,7 +51,7 @@ class FanoronaWindow(QMainWindow):
         player_color = FIRST_COLOR if self._color == 1 else SECOND_COLOR
         self._first_player, self._second_player = Game.order_of_players(player_color, self._opponent)
 
-        while self._pawns.check_for_winner() is False and self._play_game is True:
+        while self._pawns.check_for_winner() is False: #and self._play_game is True:
             self._make_turn(self._first_player, FIRST_COLOR)
             if self._pawns.check_for_winner() is False:
                 self._make_turn(self._second_player, SECOND_COLOR)
@@ -77,8 +77,9 @@ class FanoronaWindow(QMainWindow):
     def _make_players_move(self, move):
         pawns_after_move = move.move_maker(self._pawn_cords, self._empty_cords, self._choice)
         self._pawns.set_actual_pawns(pawns_after_move)
-        if self._capturing_move:
-            self._player_combo(move.turn)
+        if self._pawns.check_for_winner() is False:
+            if self._capturing_move:
+                self._player_combo(move.turn)
 
     def _player_combo(self, pawn_color):
         combo = Combo(self._pawns, pawn_color, self._pawn_cords, self._empty_cords)
@@ -95,8 +96,9 @@ class FanoronaWindow(QMainWindow):
         pawns_after_move = move.move_maker(pawn_cords, empty_cords, move_choice)
         self._pawns.set_actual_pawns(pawns_after_move)
 
-        if self._capturing_move:
-            self._computer_random_combo(move, pawn_cords, empty_cords)
+        if self._pawns.check_for_winner() is False:
+            if self._capturing_move:
+                self._computer_random_combo(move, pawn_cords, empty_cords)
 
     def _computer_random_combo(self, move, pawn_cords, empty_cords):
         combo = Combo(self._pawns, move.turn, pawn_cords, empty_cords)
@@ -118,8 +120,9 @@ class FanoronaWindow(QMainWindow):
         pawns_after_move = move.move_maker(pawn_cords, empty_cords, move_choice)
         self._pawns.set_actual_pawns(pawns_after_move)
 
-        if self._capturing_move:
-            self._computer_best_combo(move, pawn_cords, empty_cords)
+        if self._pawns.check_for_winner() is False:
+            if self._capturing_move:
+                self._computer_best_combo(move, pawn_cords, empty_cords)
 
     def _computer_best_combo(self, move, pawn_cords, empty_cords):
         combo = Combo(self._pawns, move.turn, pawn_cords, empty_cords)
@@ -140,5 +143,5 @@ class FanoronaWindow(QMainWindow):
     def _game_over(self):
         self.ui.stack.setCurrentIndex(2)
         self.ui.labelWinner.setText(self._pawns.winner_message())
-        self.ui.NewGame.clicked.connect(self._setup_game)
-        self._play_game = False
+        # self.ui.NewGame.clicked.connect(self._setup_game)
+        # self._play_game = False
