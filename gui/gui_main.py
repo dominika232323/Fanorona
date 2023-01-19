@@ -11,7 +11,11 @@ from source.configuration import (
     SECOND_COLOR,
     OPPONENT_PLAYER,
     OPPONENT_COMPUTER_RANDOM,
-    OPPONENT_COMPUTER_BEST
+    OPPONENT_COMPUTER_BEST,
+    MIN_BOARD_WIDTH,
+    MIN_BOARD_LENGTH,
+    MAX_BOARD_WIDTH,
+    MAX_BOARD_LENGTH
 )
 from source.hit import Hit
 from source.move import Move
@@ -26,6 +30,10 @@ class FanoronaWindow(QMainWindow):
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
         self.ui.stack.setCurrentIndex(0)
+        self.ui.boardWidth.setMinimum(MIN_BOARD_WIDTH)
+        self.ui.boardWidth.setMaximum(MAX_BOARD_WIDTH)
+        self.ui.boardLength.setMinimum(MIN_BOARD_LENGTH)
+        self.ui.boardLength.setMaximum(MAX_BOARD_LENGTH)
         self._setup_game()
 
     def _setup_game(self):
