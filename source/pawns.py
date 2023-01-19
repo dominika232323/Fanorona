@@ -21,7 +21,7 @@ class Pawns:
         self._validate(board)
         self._board_length = board.length
         self._board_width = board.width
-        self.set_starting_pawns()
+        self._set_starting_pawns()
 
     @staticmethod
     def _validate(board):
@@ -87,7 +87,7 @@ class Pawns:
             row.append(FIRST_COLOR)
         return row
 
-    def set_starting_pawns(self):
+    def _set_starting_pawns(self):
         """
         Sets pawns for the start of the game of Fanorona.
         """
