@@ -1,5 +1,5 @@
 from source.board import Board
-from source.configuration import (
+from source.constants import (
     FIRST_COLOR,
     SECOND_COLOR,
     EMPTY_COLOR,

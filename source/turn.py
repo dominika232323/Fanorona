@@ -1,4 +1,4 @@
-from source.configuration import (
+from source.constants import (
     FIRST_COLOR,
     SECOND_COLOR
 )

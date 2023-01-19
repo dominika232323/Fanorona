@@ -1,4 +1,4 @@
-from source.configuration import (
+from source.constants import (
     MOVEMENT_UP,
     MOVEMENT_DIAGONAL_RIGHT_UP,
     MOVEMENT_SIDEWAYS_RIGHT,
@@ -145,8 +145,8 @@ class Hit(Turn):
             Movement.sideways_movement_to_left(self.pawns(), empty[0], empty[1], self.pawn_to_hit())
         ]
 
-        for type, approach in zip(self._movement_types, movement_by_approach):
-            if type == move_type and approach:
+        for movement_type, approach in zip(self._movement_types, movement_by_approach):
+            if movement_type == move_type and approach:
                 return what_append
         return None
 

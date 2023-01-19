@@ -6,7 +6,7 @@ from gui.game import Game
 from gui.players_turns import PlayersTurns
 from source.board import Board
 from source.combo import Combo
-from source.configuration import (
+from source.constants import (
     FIRST_COLOR,
     SECOND_COLOR,
     OPPONENT_PLAYER,

@@ -1,4 +1,4 @@
-from source.configuration import (
+from source.constants import (
     EMPTY_COLOR,
     CHOICE_WITHDRAWAL,
     CHOICE_APPROACH

@@ -1,6 +1,6 @@
 from source.board import Board
 from source.pawns import Pawns, PawnsError
-from source.configuration import (
+from source.constants import (
     FIRST_COLOR,
     SECOND_COLOR,
     EMPTY_COLOR, SECOND_COLOR_WINNER

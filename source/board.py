@@ -1,4 +1,4 @@
-from source.configuration import (
+from source.constants import (
     MIN_BOARD_LENGTH,
     MIN_BOARD_WIDTH,
     DEFAULTS_BOARD_LENGTH,
@@ -11,10 +11,10 @@ from source.configuration import (
 class Board:
     """
     Class Board. Contains attributes:
-    :param length: board's length, defaults to DEFAULTS_BOARD_LENGTH from configuration
+    :param length: board's length, defaults to DEFAULTS_BOARD_LENGTH from constants
     :type length: int
 
-    :param width: board's width, defaults to DEFAULTS_BOARD_LENGTH from configuration
+    :param width: board's width, defaults to DEFAULTS_BOARD_LENGTH from constants
     :type width: int
     """
     def __init__(self, length=DEFAULTS_BOARD_LENGTH, width=DEFAULTS_BOARD_WIDTH):
@@ -30,10 +30,10 @@ class Board:
         """
         :param length: board's length
         :param width: board's width
-        :raise: BoardSizeError if length is an even number, less than MIN_BOARD_LENGTH from configuration, greater
-        than MAX_BOARD_LENGTH from configuration or has an invalid type
-        :raise: BoardSizeError if width is an even number, or less than MIN_BOARD_WIDTH from configuration or greater
-        than MAX_BOARD_WIDTH from configuration or has an invalid type.
+        :raise: BoardSizeError if length is an even number, less than MIN_BOARD_LENGTH from constants, greater
+        than MAX_BOARD_LENGTH from constants or has an invalid type
+        :raise: BoardSizeError if width is an even number, or less than MIN_BOARD_WIDTH from constants or greater
+        than MAX_BOARD_WIDTH from constants or has an invalid type.
         """
         try:
             if int(length) != float(length):

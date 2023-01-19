@@ -4,7 +4,7 @@ from source.board import Board
 from source.move import Move
 from source.pawns import Pawns
 from ui_player_turn import Ui_DialogWIndow
-from source.configuration import (
+from source.constants import (
     CHOICE_WITHDRAWAL,
     CHOICE_APPROACH
 )

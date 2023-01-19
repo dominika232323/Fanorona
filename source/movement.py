@@ -1,4 +1,4 @@
-from source.configuration import (
+from source.constants import (
     MOVEMENT_UP,
     MOVEMENT_DIAGONAL_RIGHT_UP,
     MOVEMENT_SIDEWAYS_RIGHT,
