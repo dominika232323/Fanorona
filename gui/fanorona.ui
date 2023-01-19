@@ -335,7 +335,7 @@
      </widget>
     </widget>
     <widget class="QWidget" name="page_3">
-     <widget class="QWidget" name="">
+     <widget class="QWidget" name="layoutWidget">
       <property name="geometry">
        <rect>
         <x>110</x>
@@ -345,24 +345,13 @@
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_4">
-       <item>
+       <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
         <widget class="QLabel" name="labelWinner">
          <property name="styleSheet">
           <string notr="true">font: 36pt &quot;Sans Serif&quot;;</string>
          </property>
          <property name="text">
           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:36pt;&quot;&gt;X won!&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="NewGame">
-         <property name="styleSheet">
-          <string notr="true">background-color: rgb(226, 226, 226);
-font: 18pt &quot;Sans Serif&quot;;</string>
-         </property>
-         <property name="text">
-          <string>Start another game</string>
          </property>
         </widget>
        </item>

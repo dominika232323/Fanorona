@@ -11,12 +11,6 @@
 from PySide2.QtCore import *
 from PySide2.QtGui import *
 from PySide2.QtWidgets import *
-from source.configuration import (
-        MIN_BOARD_WIDTH,
-        MIN_BOARD_LENGTH,
-        MAX_BOARD_WIDTH,
-        MAX_BOARD_LENGTH
-)
 
 
 class Ui_MainWindow(object):
@@ -54,8 +48,8 @@ class Ui_MainWindow(object):
         self.boardWidth = QSpinBox(self.page)
         self.boardWidth.setObjectName(u"boardWidth")
         self.boardWidth.setStyleSheet(u"background-color: rgb(226, 226, 226)")
-        self.boardWidth.setMinimum(MIN_BOARD_WIDTH)
-        self.boardWidth.setMaximum(MAX_BOARD_WIDTH)
+        self.boardWidth.setMinimum(3)
+        self.boardWidth.setMaximum(15)
         self.boardWidth.setSingleStep(2)
 
         self.verticalLayout_2.addWidget(self.boardWidth)
@@ -77,8 +71,8 @@ class Ui_MainWindow(object):
         self.boardLength.setStyleSheet(u"background-color: rgb(226, 226, 226)")
         self.boardLength.setInputMethodHints(Qt.ImhDigitsOnly)
         self.boardLength.setKeyboardTracking(True)
-        self.boardLength.setMinimum(MIN_BOARD_LENGTH)
-        self.boardLength.setMaximum(MAX_BOARD_LENGTH)
+        self.boardLength.setMinimum(3)
+        self.boardLength.setMaximum(15)
         self.boardLength.setSingleStep(2)
 
         self.verticalLayout.addWidget(self.boardLength)
@@ -193,24 +187,17 @@ class Ui_MainWindow(object):
         self.stack.addWidget(self.page_2)
         self.page_3 = QWidget()
         self.page_3.setObjectName(u"page_3")
-        self.widget = QWidget(self.page_3)
-        self.widget.setObjectName(u"widget")
-        self.widget.setGeometry(QRect(110, 220, 831, 221))
-        self.verticalLayout_4 = QVBoxLayout(self.widget)
+        self.layoutWidget = QWidget(self.page_3)
+        self.layoutWidget.setObjectName(u"layoutWidget")
+        self.layoutWidget.setGeometry(QRect(110, 220, 831, 221))
+        self.verticalLayout_4 = QVBoxLayout(self.layoutWidget)
         self.verticalLayout_4.setObjectName(u"verticalLayout_4")
         self.verticalLayout_4.setContentsMargins(0, 0, 0, 0)
-        self.labelWinner = QLabel(self.widget)
+        self.labelWinner = QLabel(self.layoutWidget)
         self.labelWinner.setObjectName(u"labelWinner")
         self.labelWinner.setStyleSheet(u"font: 36pt \"Sans Serif\";")
 
-        self.verticalLayout_4.addWidget(self.labelWinner)
-
-        self.NewGame = QPushButton(self.widget)
-        self.NewGame.setObjectName(u"NewGame")
-        self.NewGame.setStyleSheet(u"background-color: rgb(226, 226, 226);\n"
-"font: 18pt \"Sans Serif\";")
-
-        self.verticalLayout_4.addWidget(self.NewGame)
+        self.verticalLayout_4.addWidget(self.labelWinner, 0, Qt.AlignHCenter|Qt.AlignVCenter)
 
         self.stack.addWidget(self.page_3)
         MainWindow.setCentralWidget(self.centralwidget)
@@ -244,6 +231,5 @@ class Ui_MainWindow(object):
         self.labelChooseColor.setText(QCoreApplication.translate("MainWindow", u"Choose the color of your pawns", None))
         self.playButton.setText(QCoreApplication.translate("MainWindow", u"Play", None))
         self.labelWinner.setText(QCoreApplication.translate("MainWindow", u"<html><head/><body><p align=\"center\"><span style=\" font-size:36pt;\">X won!</span></p></body></html>", None))
-        self.NewGame.setText(QCoreApplication.translate("MainWindow", u"Start another game", None))
     # retranslateUi
 

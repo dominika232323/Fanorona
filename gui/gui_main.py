@@ -1,6 +1,5 @@
 import time
 from random import choice
-
 from PySide2.QtCore import QSize, QEventLoop
 from PySide2.QtWidgets import QApplication, QMainWindow, QPushButton, QDialog
 from gui.game import Game
@@ -32,7 +31,6 @@ class FanoronaWindow(QMainWindow):
     def _setup_game(self):
         self.ui.stack.setCurrentIndex(0)
         self.ui.playButton.clicked.connect(self._get_values)
-        # self._play_game = True
 
     def _get_values(self):
         self._length = int(self.ui.boardLength.value())
@@ -51,7 +49,7 @@ class FanoronaWindow(QMainWindow):
         player_color = FIRST_COLOR if self._color == 1 else SECOND_COLOR
         self._first_player, self._second_player = Game.order_of_players(player_color, self._opponent)
 
-        while self._pawns.check_for_winner() is False: #and self._play_game is True:
+        while self._pawns.check_for_winner() is False:
             self._make_turn(self._first_player, FIRST_COLOR)
             if self._pawns.check_for_winner() is False:
                 self._make_turn(self._second_player, SECOND_COLOR)
@@ -143,5 +141,3 @@ class FanoronaWindow(QMainWindow):
     def _game_over(self):
         self.ui.stack.setCurrentIndex(2)
         self.ui.labelWinner.setText(self._pawns.winner_message())
-        # self.ui.NewGame.clicked.connect(self._setup_game)
-        # self._play_game = False
