@@ -17,7 +17,7 @@ def test_create_board_defaults():
     assert board.width == 5
 
 
-def test_create_board_convertable_string():
+def test_create_board_convertible_string():
     board = Board('7', '7')
     assert board.length == 7
     assert board.width == 7
@@ -45,4 +45,4 @@ def test_create_board_even_numbers():
 
 def test_create_board_invalid_string():
     with pytest.raises(BoardSizeError):
-        Board('fvgbhnj', 'dfgh')
+        Board('cat', 'dog')

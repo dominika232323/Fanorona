@@ -1,7 +1,5 @@
-from source.hit import Hit
 from source.move import Move
 from source.movement import Movement
-from source.turn import Turn
 from source.constants import (
     MOVEMENT_UP,
     MOVEMENT_DOWN,
