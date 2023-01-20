@@ -16,7 +16,7 @@ from source.constants import (
 
 class Combo:
     """
-    Class Board. Inherits from the class Turn. Contains attributes:
+    Class Combo. Contains attributes:
     :param move: an instance of class Move
     :type move: an instance of class Move
 
