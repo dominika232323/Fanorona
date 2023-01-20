@@ -259,83 +259,55 @@ class Hit(Turn):
             for empty in hitting_pawns[pawn]:
                 hits = []
                 move_type = Movement.recognize_move(pawn, empty)
-                for i in range(0, self.width() + 1):
-                    movement_types = {
-                        MOVEMENT_DIAGONAL_LEFT_UP: Movement.diagonal_movement_to_right_down(self.pawns(), pawn[0] + i, pawn[1] + i, self.pawn_to_hit()),
-                        MOVEMENT_UP: Movement.down_movement(self.pawns(), pawn[0] + i, pawn[1], self.pawn_to_hit()),
-                        MOVEMENT_DIAGONAL_RIGHT_UP: Movement.diagonal_movement_to_left_down(self.pawns(), pawn[0] + i, pawn[1] - i, self.pawn_to_hit()),
-                        MOVEMENT_SIDEWAYS_RIGHT: Movement.sideways_movement_to_left(self.pawns(), pawn[0], pawn[1] - i, self.pawn_to_hit()),
-                        MOVEMENT_DIAGONAL_RIGHT_DOWN: Movement.diagonal_movement_to_left_up(self.pawns(), pawn[0] - i, pawn[1] - i, self.pawn_to_hit()),
-                        MOVEMENT_DOWN: Movement.up_movement(self.pawns(), pawn[0] - i, pawn[1], self.pawn_to_hit()),
-                        MOVEMENT_DIAGONAL_LEFT_DOWN: Movement.diagonal_movement_to_right_up(self.pawns(), pawn[0] - i, pawn[1] + i, self.pawn_to_hit()),
-                        MOVEMENT_SIDEWAYS_LEFT: Movement.sideways_movement_to_right(self.pawns(), pawn[0], pawn[1] + i, self.pawn_to_hit())
-                    }
-                    delta_to_append = {
-                        MOVEMENT_DIAGONAL_LEFT_UP: (i+1, 1+1),
-                        MOVEMENT_UP: (i+1, 0),
-                        MOVEMENT_DIAGONAL_RIGHT_UP: (i+1, -i-1),
-                        MOVEMENT_SIDEWAYS_RIGHT: (0, -i-1),
-                        MOVEMENT_DIAGONAL_RIGHT_DOWN: (-i-1, -i-1),
-                        MOVEMENT_DOWN: (-i-1, 0),
-                        MOVEMENT_DIAGONAL_LEFT_DOWN: (-i-1, i+1),
-                        MOVEMENT_SIDEWAYS_LEFT: (0, i+1)
-                    }
-                    if movement_types.get(move_type):
-                        delta_first_cords = delta_to_append.get(move_type)[0]
-                        delta_second_cords = delta_to_append.get(move_type)[1]
-                        hits.append((pawn[0]+delta_first_cords, pawn[1]+delta_second_cords))
-                    else:
-                        break
+                if move_type == MOVEMENT_DIAGONAL_LEFT_UP:
+                    for i in range(0, self.width() + 1):
+                        if Movement.diagonal_movement_to_right_down(self.pawns(), pawn[0] + i, pawn[1] + i, self.pawn_to_hit()):
+                            hits.append((pawn[0] + i + 1, pawn[1] + i + 1))
+                        else:
+                            break
+                elif move_type == MOVEMENT_UP:
+                    for i in range(0, self.width() + 1):
+                        if Movement.down_movement(self.pawns(), pawn[0] + i, pawn[1], self.pawn_to_hit()):
+                            hits.append((pawn[0] + i + 1, pawn[1]))
+                        else:
+                            break
+                elif move_type == MOVEMENT_DIAGONAL_RIGHT_UP:
+                    for i in range(0, self.width() + 1):
+                        if Movement.diagonal_movement_to_left_down(self.pawns(), pawn[0] + i, pawn[1] - i, self.pawn_to_hit()):
+                            hits.append((pawn[0] + i + 1, pawn[1] - i - 1))
+                        else:
+                            break
+                elif move_type == MOVEMENT_SIDEWAYS_RIGHT:
+                    for i in range(0, self.length() + 1):
+                        if Movement.sideways_movement_to_left(self.pawns(), pawn[0], pawn[1] - i, self.pawn_to_hit()):
+                            hits.append((pawn[0], pawn[1] - i - 1))
+                        else:
+                            break
+                elif move_type == MOVEMENT_DIAGONAL_RIGHT_DOWN:
+                    for i in range(0, self.width() + 1):
+                        if Movement.diagonal_movement_to_left_up(self.pawns(), pawn[0] - i, pawn[1] - i, self.pawn_to_hit()):
+                            hits.append((pawn[0] - i - 1, pawn[1] - i - 1))
+                        else:
+                            break
+                elif move_type == MOVEMENT_DOWN:
+                    for i in range(0, self.width() + 1):
+                        if Movement.up_movement(self.pawns(), pawn[0] - i, pawn[1], self.pawn_to_hit()):
+                            hits.append((pawn[0] - i - 1, pawn[1]))
+                        else:
+                            break
+                elif move_type == MOVEMENT_DIAGONAL_LEFT_DOWN:
+                    for i in range(0, self.width() + 1):
+                        if Movement.diagonal_movement_to_right_up(self.pawns(), pawn[0] - i, pawn[1] + i, self.pawn_to_hit()):
+                            hits.append((pawn[0] - i - 1, pawn[1] + i + 1))
+                        else:
+                            break
+                elif move_type == MOVEMENT_SIDEWAYS_LEFT:
+                    for i in range(0, self.length() + 1):
+                        if Movement.sideways_movement_to_right(self.pawns(), pawn[0], pawn[1] + i, self.pawn_to_hit()):
+                            hits.append((pawn[0], pawn[1] + i + 1))
+                        else:
+                            break
                 which_hits[(pawn, empty)] = hits
-                # if move_type == MOVEMENT_DIAGONAL_LEFT_UP:
-                #     for i in range(0, self.width() + 1):
-                #         if Movement.diagonal_movement_to_right_down(self.pawns(), pawn[0] + i, pawn[1] + i, self.pawn_to_hit()):
-                #             hits.append((pawn[0] + i + 1, pawn[1] + i + 1))
-                #         else:
-                #             break
-                # elif move_type == MOVEMENT_UP:
-                #     for i in range(0, self.width() + 1):
-                #         if Movement.down_movement(self.pawns(), pawn[0] + i, pawn[1], self.pawn_to_hit()):
-                #             hits.append((pawn[0] + i + 1, pawn[1]))
-                #         else:
-                #             break
-                # elif move_type == MOVEMENT_DIAGONAL_RIGHT_UP:
-                #     for i in range(0, self.width() + 1):
-                #         if Movement.diagonal_movement_to_left_down(self.pawns(), pawn[0] + i, pawn[1] - i, self.pawn_to_hit()):
-                #             hits.append((pawn[0] + i + 1, pawn[1] - i - 1))
-                #         else:
-                #             break
-                # elif move_type == MOVEMENT_SIDEWAYS_RIGHT:
-                #     for i in range(0, self.width() + 1):
-                #         if Movement.sideways_movement_to_left(self.pawns(), pawn[0], pawn[1] - i, self.pawn_to_hit()):
-                #             hits.append((pawn[0], pawn[1] - i - 1))
-                #         else:
-                #             break
-                # elif move_type == MOVEMENT_DIAGONAL_RIGHT_DOWN:
-                #     for i in range(0, self.width() + 1):
-                #         if Movement.diagonal_movement_to_left_up(self.pawns(), pawn[0] - i, pawn[1] - i, self.pawn_to_hit()):
-                #             hits.append((pawn[0] - i - 1, pawn[1] - i - 1))
-                #         else:
-                #             break
-                # elif move_type == MOVEMENT_DOWN:
-                #     for i in range(0, self.width() + 1):
-                #         if Movement.up_movement(self.pawns(), pawn[0] - i, pawn[1], self.pawn_to_hit()):
-                #             hits.append((pawn[0] - i - 1, pawn[1]))
-                #         else:
-                #             break
-                # elif move_type == MOVEMENT_DIAGONAL_LEFT_DOWN:
-                #     for i in range(0, self.width() + 1):
-                #         if Movement.diagonal_movement_to_right_up(self.pawns(), pawn[0] - i, pawn[1] + i, self.pawn_to_hit()):
-                #             hits.append((pawn[0] - i - 1, pawn[1] + i + 1))
-                #         else:
-                #             break
-                # elif move_type == MOVEMENT_SIDEWAYS_LEFT:
-                #     for i in range(0, self.width() + 1):
-                #         if Movement.sideways_movement_to_right(self.pawns(), pawn[0], pawn[1] + i, self.pawn_to_hit()):
-                #             hits.append((pawn[0], pawn[1] + i + 1))
-                #         else:
-                #             break
-                # which_hits[(pawn, empty)] = hits
         return which_hits
 
     def which_hits_by_approach(self):
@@ -369,7 +341,7 @@ class Hit(Turn):
                         else:
                             break
                 elif move_type == MOVEMENT_SIDEWAYS_RIGHT:
-                    for i in range(0, self.width() + 1):
+                    for i in range(0, self.length() + 1):
                         if Movement.sideways_movement_to_right(self.pawns(), empty[0], empty[1] + i, self.pawn_to_hit()):
                             hits.append((empty[0], empty[1] + i + 1))
                         else:
@@ -393,7 +365,7 @@ class Hit(Turn):
                         else:
                             break
                 elif move_type == MOVEMENT_SIDEWAYS_LEFT:
-                    for i in range(0, self.width() + 1):
+                    for i in range(0, self.length() + 1):
                         if Movement.sideways_movement_to_left(self.pawns(), empty[0], empty[1] - i, self.pawn_to_hit()):
                             hits.append((empty[0], empty[1] - i - 1))
                         else:

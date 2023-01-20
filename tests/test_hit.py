@@ -489,6 +489,20 @@ def test_which_hits_by_withdrawal():
     assert move.which_hits_by_withdrawal() == expected
 
 
+def test_which_hits_by_withdrawal_sideways():
+    pawns = Pawns(Board(7, 3))
+    new_pawns = [
+        [EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR],
+        [EMPTY_COLOR, SECOND_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR],
+        [EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR]
+    ]
+    pawns.set_actual_pawns(new_pawns)
+
+    hit = Hit(pawns, SECOND_COLOR)
+    expected = {((1, 1), (1, 0)): [(1, 2), (1, 3), (1, 4), (1, 5), (1, 6)]}
+    assert hit.which_hits_by_withdrawal() == expected
+
+
 def test_which_hits_by_withdrawal_without_hits():
     pawns = Pawns(Board())
     new_pawns = [
@@ -542,6 +556,20 @@ def test_which_hits_by_approach():
         ((3, 3), (3, 4)): [(3, 5), (3, 6), (3, 7), (3, 8)]
         }
     assert move.which_hits_by_approach() == expected
+
+
+def test_which_hits_by_approach_sideways():
+    pawns = Pawns(Board(7, 3))
+    new_pawns = [
+        [EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR],
+        [SECOND_COLOR, EMPTY_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR],
+        [EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR]
+    ]
+    pawns.set_actual_pawns(new_pawns)
+
+    hit = Hit(pawns, SECOND_COLOR)
+    expected = {((1, 0), (1, 1)): [(1, 2), (1, 3), (1, 4), (1, 5), (1, 6)]}
+    assert hit.which_hits_by_approach() == expected
 
 
 def test_which_hits_by_approach_without_hits():
