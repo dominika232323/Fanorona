@@ -1,7 +1,6 @@
 import time
 from random import choice
-from PySide2.QtCore import QSize, QEventLoop
-from PySide2.QtWidgets import QApplication, QMainWindow, QPushButton, QDialog
+from PySide2.QtWidgets import QMainWindow
 from gui.game import Game
 from gui.players_turns import PlayersTurns
 from source.board import Board
@@ -26,7 +25,7 @@ from ui_fanorona import Ui_MainWindow
 
 class FanoronaWindow(QMainWindow):
     """
-    Class FanoronaWindow.
+    Class FanoronaWindow. Inherits from the class QMainWindow.
     """
     def __init__(self, parent=None):
         """
@@ -54,7 +53,7 @@ class FanoronaWindow(QMainWindow):
 
     def _setup_game(self):
         """
-        Sets game of Fanorona.
+        Sets game of Fanorona. After clicking a Play Button gets user-selected values.
         """
         self.ui.stack.setCurrentIndex(0)
         self.ui.playButton.clicked.connect(self._get_values)
@@ -80,7 +79,7 @@ class FanoronaWindow(QMainWindow):
 
     def _game(self):
         """
-        Playes the game of Fanorona. Initiates game over.
+        Plays the game of Fanorona. Initiates game over.
         """
         player_color = FIRST_COLOR if self._color == 1 else SECOND_COLOR
         self._first_player, self._second_player = Game.order_of_players(player_color, self._opponent)
