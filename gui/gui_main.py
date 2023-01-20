@@ -36,10 +36,20 @@ class FanoronaWindow(QMainWindow):
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
         self.ui.stack.setCurrentIndex(0)
+
         self.ui.boardWidth.setMinimum(MIN_BOARD_WIDTH)
         self.ui.boardWidth.setMaximum(MAX_BOARD_WIDTH)
         self.ui.boardLength.setMinimum(MIN_BOARD_LENGTH)
         self.ui.boardLength.setMaximum(MAX_BOARD_LENGTH)
+
+        line_length = self.ui.boardLength.lineEdit()
+        line_length.setReadOnly(True)
+        line_width = self.ui.boardWidth.lineEdit()
+        line_width.setReadOnly(True)
+        line_opponent = self.ui.ChooseOpponent.lineEdit()
+        line_opponent.setReadOnly(True)
+        line_color = self.ui.spinBoxChooseColor.lineEdit()
+        line_color.setReadOnly(True)
         self._setup_game()
 
     def _setup_game(self):
