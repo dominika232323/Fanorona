@@ -14,14 +14,11 @@ from source.constants import (
 )
 
 
-class Combo(Turn):
+class Combo:
     """
     Class Board. Inherits from the class Turn. Contains attributes:
-    :param pawns: two-dimensional list of pawns set on the board
-    :type pawns: list
-
-    :param turn: holds whose turn it is, first or second player
-    :type turn: string
+    :param move: an instance of class Move
+    :type move: an instance of class Move
 
     :param previous_pawn: pawn's co-ordinates from previous move (before move)
     :type previous_pawn: tuple
@@ -29,18 +26,58 @@ class Combo(Turn):
     :param previous_empty: empty space's co-ordinates from previous move (before move)
     :type previous_empty: tuple
     """
-    def __init__(self, pawns, turn, previous_pawn, previous_empty):
+    def __init__(self, move, previous_pawn, previous_empty):
         """
         Creates an instance of Combo.
         """
-        super().__init__(pawns, turn)
+        self._validate(move, previous_pawn, previous_empty)
         self._previous_pawn = previous_pawn
         self._previous_empty = previous_empty
         self._previous_move_type = Movement.recognize_move(previous_pawn, previous_empty)
         self._other_side_of_previous = self._other_side_of_previous_move_type()
-        self.hit = Hit(pawns, turn)
-        self.move = Move(pawns, turn)
+        self.move = move
         self._new_pawn = previous_empty
+
+    @staticmethod
+    def _validate(move, previous_pawn, previous_empty):
+        """
+        :param move: an instance of class Move
+        :param previous_pawn: co-ordinates of a pawn in previous move
+        :param previous_empty: co-ordinates of an empty space in previous move
+        :raise: TypeError if given move is not an instance of class Move
+        :raise: TypeError if pawn co-ordinates are not a tuple, or it's length isn't equal 2
+        :raise: TypeError if empty space co-ordinates are not a tuple, or it's length isn't equal 2
+        :raise: ValueError if given pawn cords are out of range
+        :raise: ValueError if given empty space cords are out of range
+        """
+        if not isinstance(move, Move):
+            raise TypeError('Given move is not an instance of class Move')
+        if type(previous_pawn) != tuple or len(previous_pawn) != 2:
+            raise TypeError('Invalid pawn cords')
+        if type(previous_empty) != tuple or len(previous_empty) != 2:
+            raise TypeError('Invalid empty space cords')
+        if previous_pawn[0] < 0 or previous_pawn[0] >= move.width:
+            raise ValueError('First pawn cord out of range')
+        if previous_pawn[1] < 0 or previous_pawn[1] >= move.length:
+            raise ValueError('Second pawn cord out of range')
+        if previous_empty[0] < 0 or previous_empty[0] >= move.width:
+            raise ValueError('First empty space cord out of range')
+        if previous_empty[1] < 0 or previous_empty[1] >= move.length:
+            raise ValueError('Second empty space cord out of range')
+
+    @property
+    def pawns(self):
+        """
+        :return: placement of the pawns on the board
+        """
+        return self.move.pawns
+
+    @property
+    def turn(self):
+        """
+        :return: whose turn is it, first or second player
+        """
+        return self.move.turn
 
     @property
     def previous_pawn(self):
@@ -83,7 +120,7 @@ class Combo(Turn):
         :return: False if the pawn doesn't have any hits
         :return: True if there is an empty space around the pawn to make combo
         """
-        if self._new_pawn not in self.hit.which_can_hit():
+        if self._new_pawn not in self.move.hit.which_can_hit():
             return False
         if self.find_empty_for_combo():
             return True
@@ -94,9 +131,9 @@ class Combo(Turn):
         :return: list of empty spaces where the pawn can move to make combo
         """
         empties = []
-        if self._new_pawn not in self.hit.which_can_hit():
+        if self._new_pawn not in self.move.hit.which_can_hit():
             return []
-        for empty_space in self.hit.where_can_hit()[self._new_pawn]:
+        for empty_space in self.move.hit.where_can_hit()[self._new_pawn]:
             if Movement.recognize_move(self._new_pawn, empty_space) != self._previous_move_type and \
                     Movement.recognize_move(self._new_pawn, empty_space) != self._other_side_of_previous:
                 empties.append(empty_space)

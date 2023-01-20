@@ -124,10 +124,10 @@ class Game:
         """
         empties = combo.find_empty_for_combo()
         combo_withdrawal, len_withdrawal = Game.find_best_empty_for_combo_by(
-            pawn_cords, empties, combo.hit.which_hits_by_withdrawal()
+            pawn_cords, empties, combo.move.hit.which_hits_by_withdrawal()
         )
         combo_approach, len_approach = Game.find_best_empty_for_combo_by(
-            pawn_cords, empties, combo.hit.which_hits_by_approach()
+            pawn_cords, empties, combo.move.hit.which_hits_by_approach()
         )
         if len_withdrawal >= len_approach:
             return combo_withdrawal

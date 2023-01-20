@@ -1,3 +1,4 @@
+from source.hit import Hit
 from source.move import Move, MoveError
 from source.board import Board
 from source.pawns import Pawns
@@ -15,7 +16,7 @@ import pytest
 
 
 def test_create_move():
-    move = Move(Pawns(Board()), FIRST_COLOR)
+    move = Move(Hit(Pawns(Board()), FIRST_COLOR))
     assert move.pawns == [
         [SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR],
         [SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR],
@@ -29,15 +30,9 @@ def test_create_move():
     assert move.width == 5
 
 
-def test_create_move_invalid_pawns():
-    pawns = 'sdfghjk'
+def test_create_move_invalid_hit():
     with pytest.raises(TypeError):
-        Move(pawns, FIRST_COLOR)
-
-
-def test_create_move_invalid_turn():
-    with pytest.raises(ValueError):
-        Move(Pawns(Board()), 'fghj')
+        Move('hit')
 
 
 # ---------------------------------------- copy_pawns()
@@ -54,7 +49,7 @@ def test_copy_pawns():
     ]
     pawns.set_actual_pawns(new_pawns)
 
-    move = Move(pawns, SECOND_COLOR)
+    move = Move(Hit(pawns, SECOND_COLOR))
     assert move.copy_pawns() == [
         [SECOND_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, SECOND_COLOR, EMPTY_COLOR],
         [SECOND_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, SECOND_COLOR, EMPTY_COLOR],
@@ -85,7 +80,7 @@ def test_move_without_hits():
     ]
     pawns.set_actual_pawns(new_pawns)
 
-    move = Move(pawns, FIRST_COLOR)
+    move = Move(Hit(pawns, FIRST_COLOR))
     expected = [
         [SECOND_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, SECOND_COLOR, EMPTY_COLOR],
         [SECOND_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, SECOND_COLOR, EMPTY_COLOR],
@@ -117,7 +112,7 @@ def test_move_with_hits_kill_pawns_by_withdrawal():
     ]
     pawns.set_actual_pawns(new_pawns)
 
-    move = Move(pawns, SECOND_COLOR)
+    move = Move(Hit(pawns, SECOND_COLOR))
     expected = [
         [SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, EMPTY_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR],
         [SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, EMPTY_COLOR, FIRST_COLOR, EMPTY_COLOR, EMPTY_COLOR, SECOND_COLOR, EMPTY_COLOR],
@@ -146,7 +141,7 @@ def test_move_with_hits_kill_pawns_by_withdrawal_2():
     ]
     pawns.set_actual_pawns(new_pawns)
 
-    move = Move(pawns, SECOND_COLOR)
+    move = Move(Hit(pawns, SECOND_COLOR))
     expected = [
         [SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, EMPTY_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR],
         [SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, EMPTY_COLOR, FIRST_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR],
@@ -175,7 +170,7 @@ def test_move_with_hits_kill_pawns_by_approach():
     ]
     pawns.set_actual_pawns(new_pawns)
 
-    move = Move(pawns, SECOND_COLOR)
+    move = Move(Hit(pawns, SECOND_COLOR))
     expected = [
         [SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, EMPTY_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, EMPTY_COLOR],
         [SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, EMPTY_COLOR, FIRST_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, SECOND_COLOR],
@@ -207,7 +202,7 @@ def test_move_with_hits_1():
     ]
     pawns.set_actual_pawns(new_pawns)
 
-    move = Move(pawns, SECOND_COLOR)
+    move = Move(Hit(pawns, SECOND_COLOR))
     expected = [
         [SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, EMPTY_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR],
         [SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, EMPTY_COLOR, FIRST_COLOR, EMPTY_COLOR, EMPTY_COLOR, SECOND_COLOR, EMPTY_COLOR],
@@ -229,7 +224,7 @@ def test_move_with_hits_2():
     ]
     pawns.set_actual_pawns(new_pawns)
 
-    move = Move(pawns, SECOND_COLOR)
+    move = Move(Hit(pawns, SECOND_COLOR))
     expected = [
         [SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, EMPTY_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, EMPTY_COLOR],
         [SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, EMPTY_COLOR, FIRST_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, SECOND_COLOR],
@@ -251,7 +246,7 @@ def test_move_with_hits_choice_approach():
     ]
     pawns.set_actual_pawns(new_pawns)
 
-    move = Move(pawns, SECOND_COLOR)
+    move = Move(Hit(pawns, SECOND_COLOR))
     expected = [
         [SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, EMPTY_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR],
         [SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, EMPTY_COLOR, FIRST_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR],
@@ -276,7 +271,7 @@ def test_move_maker_with_hits():
     ]
     pawns.set_actual_pawns(new_pawns)
 
-    move = Move(pawns, SECOND_COLOR)
+    move = Move(Hit(pawns, SECOND_COLOR))
     expected = [
         [SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, EMPTY_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, SECOND_COLOR],
         [SECOND_COLOR, SECOND_COLOR, SECOND_COLOR, EMPTY_COLOR, FIRST_COLOR, EMPTY_COLOR, EMPTY_COLOR, SECOND_COLOR, EMPTY_COLOR],
@@ -298,7 +293,7 @@ def test_move_maker_without_hits():
     ]
     pawns.set_actual_pawns(new_pawns)
 
-    move = Move(pawns, FIRST_COLOR)
+    move = Move(Hit(pawns, FIRST_COLOR))
     expected = [
         [SECOND_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, SECOND_COLOR, EMPTY_COLOR],
         [SECOND_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, SECOND_COLOR, EMPTY_COLOR],
@@ -320,7 +315,7 @@ def test_move_maker_pawn_without_moves():
     ]
     pawns.set_actual_pawns(new_pawns)
 
-    move = Move(pawns, SECOND_COLOR)
+    move = Move(Hit(pawns, SECOND_COLOR))
     with pytest.raises(MoveError):
         move.move_maker((0, 1), (1, 3), None)
 
@@ -336,7 +331,7 @@ def test_move_maker_not_empty_space():
     ]
     pawns.set_actual_pawns(new_pawns)
 
-    move = Move(pawns, SECOND_COLOR)
+    move = Move(Hit(pawns, SECOND_COLOR))
     with pytest.raises(MoveError):
         move.move_maker((0, 3), (0, 2), None)
 
@@ -352,7 +347,7 @@ def test_move_maker_pawn_without_hits():
     ]
     pawns.set_actual_pawns(new_pawns)
 
-    move = Move(pawns, SECOND_COLOR)
+    move = Move(Hit(pawns, SECOND_COLOR))
     with pytest.raises(MoveError):
         move.move_maker((0, 3), (1, 3), None)
 
@@ -368,7 +363,7 @@ def test_move_maker_not_empty_space_to_hit():
     ]
     pawns.set_actual_pawns(new_pawns)
 
-    move = Move(pawns, SECOND_COLOR)
+    move = Move(Hit(pawns, SECOND_COLOR))
     with pytest.raises(MoveError):
         move.move_maker((3, 3), (3, 2), None)
 
@@ -387,7 +382,7 @@ def test_was_move_capturing_true():
     ]
     pawns.set_actual_pawns(new_pawns)
 
-    move = Move(pawns, SECOND_COLOR)
+    move = Move(Hit(pawns, SECOND_COLOR))
     assert move.was_move_capturing((1, 2), (1, 3)) is True
 
 
@@ -402,5 +397,5 @@ def test_was_move_capturing_false():
     ]
     pawns.set_actual_pawns(new_pawns)
 
-    move = Move(pawns, FIRST_COLOR)
+    move = Move(Hit(pawns, FIRST_COLOR))
     assert move.was_move_capturing((4, 1), (3, 1)) is False

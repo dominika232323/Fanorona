@@ -12,6 +12,7 @@ from source.constants import (
     CHOICE_WITHDRAWAL
 )
 from source.hit import Hit
+from source.move import Move
 from source.pawns import Pawns
 
 
@@ -183,7 +184,7 @@ def test_find_best_empty_for_combo():
     ]
     pawns.set_actual_pawns(new_pawns)
     hit = Hit(pawns, SECOND_COLOR)
-    combo = Combo(pawns, SECOND_COLOR, (3, 3), (3, 4))
+    combo = Combo(Move(hit), (3, 3), (3, 4))
     assert Game.find_best_empty_for_combo_by((3, 4), combo.find_empty_for_combo(), hit.which_hits_by_approach()) == ((2, 4), 1)
 
 
@@ -200,5 +201,5 @@ def test_get_best_empty_for_combo():
         [FIRST_COLOR, FIRST_COLOR, EMPTY_COLOR, EMPTY_COLOR, EMPTY_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR, FIRST_COLOR]
     ]
     pawns.set_actual_pawns(new_pawns)
-    combo = Combo(pawns, SECOND_COLOR, (3, 3), (3, 4))
+    combo = Combo(Move(Hit(pawns, SECOND_COLOR)), (3, 3), (3, 4))
     assert Game.get_best_empty_for_combo(combo, (3, 4)) == (2, 4)

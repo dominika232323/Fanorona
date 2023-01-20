@@ -9,17 +9,24 @@ from source.hit import Hit
 class Move:
     """
     Class Move. Contains attributes:
-    :param pawns: two-dimensional list of pawns set on the board
-    :type pawns: list
-
-    :param turn: holds whose turn it is, first or second player
-    :type turn: string
+    :param hit: an instance of class Hit
+    :type hit: an instance of class Hit
     """
-    def __init__(self, pawns, turn):
+    def __init__(self, hit):
         """
         Creates an instance of Move.
         """
-        self.hit = Hit(pawns, turn)
+        self._validate(hit)
+        self.hit = hit
+
+    @staticmethod
+    def _validate(hit):
+        """
+        :param hit: an instance of class Hit
+        :raise: TypeError if given hit is not an instance of class Hit
+        """
+        if not isinstance(hit, Hit):
+            raise TypeError('Given hit is not an instance of class Hit.')
 
     @property
     def pawns(self):

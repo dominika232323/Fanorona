@@ -76,7 +76,7 @@ class FanoronaWindow(QMainWindow):
         window = PlayersTurns(Turn(self._pawns, pawn_color), previous_pawn_cords)
         window.exec_()
         self._pawn_cords, self._empty_cords, self._choice = window.return_cords()
-        move = Move(self._pawns, pawn_color)
+        move = Move(Hit(self._pawns, pawn_color))
         self._if_move_was_capturing(move, self._pawn_cords, self._empty_cords)
         self._make_players_move(move)
 
@@ -88,7 +88,7 @@ class FanoronaWindow(QMainWindow):
                 self._player_combo(move.turn)
 
     def _player_combo(self, pawn_color):
-        combo = Combo(self._pawns, pawn_color, self._pawn_cords, self._empty_cords)
+        combo = Combo(Move(Hit(self._pawns, pawn_color)), self._pawn_cords, self._empty_cords)
         if combo.possible_combo():
             self._player_turn(pawn_color, combo.new_pawn)
 
@@ -96,7 +96,7 @@ class FanoronaWindow(QMainWindow):
         time.sleep(0.2)
         pawn_cords, empty_cords = Game.get_random_pawn_and_empty_cords(self._pawns, pawn_color)
         move_choice = Game.get_random_move_choice(self._pawns, pawn_color, pawn_cords, empty_cords)
-        move = Move(self._pawns, pawn_color)
+        move = Move(Hit(self._pawns, pawn_color))
         self._if_move_was_capturing(move, pawn_cords, empty_cords)
 
         pawns_after_move = move.move_maker(pawn_cords, empty_cords, move_choice)
@@ -107,20 +107,20 @@ class FanoronaWindow(QMainWindow):
                 self._computer_random_combo(move, pawn_cords, empty_cords)
 
     def _computer_random_combo(self, move, pawn_cords, empty_cords):
-        combo = Combo(self._pawns, move.turn, pawn_cords, empty_cords)
+        combo = Combo(move, pawn_cords, empty_cords)
         while combo.possible_combo():
             empty_cords = choice(combo.find_empty_for_combo())
             move_choice = Game.get_random_move_choice(self._pawns, move.turn, combo.new_pawn, empty_cords)
 
             pawns_after_move = move.move_maker(combo.new_pawn, empty_cords, move_choice)
             self._pawns.set_actual_pawns(pawns_after_move)
-            combo = Combo(self._pawns, move.turn, combo.new_pawn, empty_cords)
+            # combo = Combo(self._pawns, move.turn, combo.new_pawn, empty_cords)
 
     def _computer_best(self, pawn_color):
         time.sleep(0.2)
         pawn_cords, empty_cords = Game.get_best_pawns_and_empty_cords(self._pawns, pawn_color)
         move_choice = Game.find_best_choice(self._pawns, pawn_color, pawn_cords, empty_cords)
-        move = Move(self._pawns, pawn_color)
+        move = Move(Hit(self._pawns, pawn_color))
         self._if_move_was_capturing(move, pawn_cords, empty_cords)
 
         pawns_after_move = move.move_maker(pawn_cords, empty_cords, move_choice)
@@ -131,14 +131,14 @@ class FanoronaWindow(QMainWindow):
                 self._computer_best_combo(move, pawn_cords, empty_cords)
 
     def _computer_best_combo(self, move, pawn_cords, empty_cords):
-        combo = Combo(self._pawns, move.turn, pawn_cords, empty_cords)
+        combo = Combo(move, pawn_cords, empty_cords)
         while combo.possible_combo():
             empty_cords = Game.get_best_empty_for_combo(combo, combo.new_pawn)
             move_choice = Game.find_best_choice(self._pawns, move.turn, pawn_cords, empty_cords)
 
             pawns_after_move = move.move_maker(combo.new_pawn, empty_cords, move_choice)
             self._pawns.set_actual_pawns(pawns_after_move)
-            combo = Combo(self._pawns, move.turn, combo.new_pawn, empty_cords)
+            # combo = Combo(self._pawns, move.turn, combo.new_pawn, empty_cords)
 
     def _if_move_was_capturing(self, move, pawn_cords, empty_cords):
         if move.was_move_capturing(pawn_cords, empty_cords):

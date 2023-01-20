@@ -1,6 +1,7 @@
 from PySide2.QtCore import QSize
 from PySide2.QtWidgets import QDialog, QPushButton
 from source.board import Board
+from source.hit import Hit
 from source.move import Move
 from source.pawns import Pawns
 from ui_player_turn import Ui_DialogWIndow
@@ -66,7 +67,7 @@ class PlayersTurns(QDialog):
                     self._buttons_dict[(row_index, index)].setEnabled(False)
 
     def _player_turn(self):
-        self.move = Move(self._pawns, self._turn)
+        self.move = Move(Hit(self._pawns, self._turn))
 
         if self._pawn_cords_for_combo is None:
             if self.move.hit.which_can_hit():
