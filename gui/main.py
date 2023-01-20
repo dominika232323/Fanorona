@@ -3,6 +3,9 @@ from gui.gui_main import FanoronaWindow
 
 
 def main():
+    """
+    Initiates the game of Fanorona.
+    """
     app = QApplication()
     window = FanoronaWindow()
     window.show()
